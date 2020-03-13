@@ -1,0 +1,9 @@
+.idea/
+*.iml
+/npm-debug.log
+/APP_HOME_IS_UNDEFINED
+/node_modules
+*.log
+**/.DS_Store
+**/target
+/extension-web/node/
