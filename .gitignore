@@ -7,3 +7,4 @@
 **/.DS_Store
 **/target
 /extension-web/node/
+/extension-web/src/main/resources/static
