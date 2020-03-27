@@ -35,7 +35,7 @@ export default {
   'POST /api/login/account': (req, res) => {
     const { password, userName, type } = req.body;
 
-    if (password === 'spi' && userName === 'admin') {
+    if (password === 'spi' && userName === '15700718397') {
       res.send({
         status: 'ok',
         type,
@@ -44,7 +44,7 @@ export default {
       return;
     }
 
-    if (password === 'spi' && userName === 'user') {
+    if (password === 'spi' && userName === '15700718396') {
       res.send({
         status: 'ok',
         type,

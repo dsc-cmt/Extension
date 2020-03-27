@@ -29,6 +29,8 @@ public class WebFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
         HttpServletRequest request = (HttpServletRequest) req;
 
+        // todo 登录过滤
+
         if(CorsUtils.isCorsRequest(request)) {
             response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
             response.setHeader("Access-Control-Allow-Credentials", "true");

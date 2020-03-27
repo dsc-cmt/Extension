@@ -1,24 +1,16 @@
-import { queryCurrent, query as queryUsers } from '@/services/user';
+import {queryUser } from '@/services/user';
 const UserModel = {
   namespace: 'user',
   state: {
     currentUser: {},
   },
   effects: {
-    //查询所有用户
-    *fetch(_, { call, put }) {
-      const response = yield call(queryUsers);
-      yield put({
-        type: 'save',
-        payload: response,
-      });
-    },
     //查询当前用户
-    *fetchCurrent(_, { call, put }) {
-      const response = yield call(queryCurrent);
+    *fetchCurrent(_, { call, put, select }) {
+      const response = yield call(queryUser);
       yield put({
         type: 'saveCurrentUser',
-        payload: response,
+        payload: response.data,
       });
     },
   },

@@ -3,17 +3,16 @@ package com.cmt.extension.admin.model.type;
 import lombok.Getter;
 
 /**
- * @author tuzhenxian
- * @date 19-10-28
+ * @author xieyong
+ * @date 2020/3/26
+ * @Description:
  */
 @Getter
-public enum RoleType {
-    ADMIN("admin"),
-    USER("user"),
-    ;
+public enum LoginStatusEnum {
+    OK("ok");
     private String desc;
 
-    RoleType(String desc) {
+    LoginStatusEnum(String desc) {
         this.desc = desc;
     }
 }

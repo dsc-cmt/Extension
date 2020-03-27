@@ -1,7 +1,9 @@
 import React, {Component} from 'react'
-import {Table, Button, Divider, Popconfirm,Select} from 'antd';
-import UserCreateForm from "./SearchForm";
-import CustomResult from "../../components/CustomResult";
+import {Table, Button, Divider, Popconfirm, message} from 'antd';
+import {getValidOptions, getAuthorizedUsers, createAuthorizedUser, updateAuthorizedUser, deleteAuthorizedUser} from '@/services/staff';
+import StaffCreateForm from "./StaffCreateForm";
+import {connect} from "react-redux";
+
 
 class User extends Component {
   state = {
@@ -12,20 +14,30 @@ class User extends Component {
     msg: "",
     formData: [],
     options:[],
+    currentUser:{},
+    toShow: false,
   }
 
   constructor(props){
-    super(props)
-    //this.initData()
+    super(props);
+    this.initData()
   }
 
-  initData=()=>{
-    Request.get("getValidOptions").then(this.handleOptionResponse)
-    Request.get("authorizedUsers").then(this.handleConfigResponse)
+  componentDidMount() {
+    const { currentUser } = this.props;
+    this.setState({currentUser});
   }
+
+  initData= async () => {
+    let validOptionsResponse = await getValidOptions();
+    let authorizedUsersResponse = await getAuthorizedUsers();
+    this.handleOptionResponse(validOptionsResponse);
+    this.handleConfigResponse(authorizedUsersResponse);
+  }
+
   handleOptionResponse = (response) => {
-    if (response.data.success) {
-      let options=response.data.data.map(n=>{
+    if (response && response.success) {
+      let options=response.data.map(n=>{
         return {
           label:n,
           value:n
@@ -38,8 +50,8 @@ class User extends Component {
   }
 
   handleConfigResponse = (response) => {
-    if (response.data.success) {
-      let temp = response.data.data.map((value, index) => {
+    if (response && response.success) {
+      let temp = response.data.map((value, index) => {
         return {
           ...value,
           "key": index
@@ -51,100 +63,76 @@ class User extends Component {
     }
   }
 
-  handleResult = (response) => {
-    let msg = response.data.msg;
-    if (response.data.success) {
-      Request.get("authorizedUsers").then(this.handleConfigResponse)
-      this.setState({
-        successResultVisible: true,
-      })
-    } else {
-      this.setState({
-        failResultVisible: true,
-        msg: msg,
-      })
+  checkAuth = () => {
+    let {currentUser} = this.state;
+    if(currentUser && currentUser.currentAuthority === 'admin'){
+      return true;
     }
+    return false;
   }
 
-  showModal = (row) => {
-    if(this.state.options.length>0){
-      this.setState({formVisible: true, row: row})
+  showModal = () => {
+    if(this.checkAuth()){
+      this.setState({toShow: true, formVisible: true, row: {}})
       return
     }
-    alert("只有管理员可以新增用户！")
-  }
-
-  checkAuth=(app)=>{
-    let auth=false
-    this.state.options.forEach(
-      o=>{
-        if(o.label===app){
-          auth=true
-        }
-      }
-    )
-    return auth
+    message.info("您不是管理员无法新增员工");
   }
 
   clickEdit = (row) => {
-    if(this.checkAuth(row.authorizedApps)){
-      this.setState({formVisible: true, row: row})
+    if(this.checkAuth()){
+      this.setState({toShow:true, formVisible: true, row: row})
       return
     }
-    alert("您不是该应用管理员，无法修改！")
+    message.info("您不是管理员无法编辑员工");
+  }
+
+  deleteRequest = async (record) => {
+    if (this.checkAuth()) {
+      let response = await deleteAuthorizedUser(record);
+      this.handleResult(response);
+      return
+    }
+    message.info("您不是管理员无法删除员工");
   }
 
   handleCancel = () => {
-    this.setState({formVisible: false, row: {}});
+    this.setState({toShow: false, formVisible: false, row: {}});
   }
 
-  handleCreate = (row) => {
-    const {form} = this.formRef.props;
-    form.validateFields((err, values) => {
-      if (err) {
-        return;
+  handleCreate = async (values) => {
+    const {row} = this.state;
+    let data = null;
+    let response = null;
+    if (JSON.stringify(row) === "{}") {
+      data = {
+        ...values,
       }
-      form.resetFields();
-      this.setState({formVisible: false});
-      if (JSON.stringify(row) === "{}") {
-        let params={
-          ...values,
-        }
-        Request.post("/createAuthorizedUser", params).then(this.handleResult);
-      } else {
-        let params={
-          ...row,
-          ...values,
-        }
-        Request.post("/updateAuthorizedUser", params).then(this.handleResult);
+      response = await createAuthorizedUser(data);
+    } else {
+      let data = {
+        ...row,
+        ...values,
       }
-    })
-  }
-
-  saveFormRef = formRef => {
-    this.formRef = formRef;
-  }
-
-  handleConfirmResult = () => {
-    this.setState({
-      failResultVisible: false,
-      successResultVisible: false,
-      msg: "",
-    })
-  }
-
-
-  deleteRequest = (record) => {
-    if(this.state.options.indexOf(record.authorizedApps)){
-      Request.post("/deleteAuthorizedUser",record).then(this.handleResult)
-      return
+      response = await updateAuthorizedUser(data);
     }
-    alert("只有应用管理员可以删除！")
+    this.handleResult(response);
+  }
+
+  handleResult = async (response) => {
+    if (response.success) {
+      this.setState({formVisible: false, row: {}});
+      let authorizedUsersResponse = await getAuthorizedUsers();
+      this.handleConfigResponse(authorizedUsersResponse);
+    } else {
+      message.error(response.msg);
+    }
   }
 
 
 
   render() {
+    const {formVisible, row, options, formData, toShow} = this.state;
     const columns = [
       {
         title: '用户',
@@ -188,7 +176,6 @@ class User extends Component {
                         <Popconfirm
                           title="删除这条用户配置?"
                           onConfirm={() => this.deleteRequest(record)}
-                          onCancel={this.deleteCancel}
                           okText="确认"
                           cancelText="取消"
                         >
@@ -201,29 +188,26 @@ class User extends Component {
 
     return (
       <div align={"left"}>
-        <Button type="primary" onClick={() => this.showModal({})}>
+        <Button type="primary" onClick={() => this.showModal()}>
           新增授权用户
         </Button>
-        <UserCreateForm
-          wrappedComponentRef={this.saveFormRef}
-          visible={this.state.formVisible}
-          onCancel={this.handleCancel}
-          onCreate={() => {
-            this.handleCreate(this.state.row)
-          }}
-          row={this.state.row}
-          options={this.state.options}
-        />
-        <CustomResult successResultVisible={this.state.successResultVisible}
-                      failResultVisible={this.state.failResultVisible}
-                      handleConfirmResult={this.handleConfirmResult}
-                      msg={this.state.msg}/>
+        {
+          toShow ? <StaffCreateForm
+            visible={formVisible}
+            onCancel={this.handleCancel}
+            onCreate={this.handleCreate}
+            row={row}
+            options={options}
+          /> : null
+        }
 
-        <Table dataSource={this.state.formData} columns={columns} key={"id"}/>
+        <Table dataSource={formData} columns={columns} rowKey={"id"}/>
       </div>
     )
 
   }
 }
 
-export default User
+export default connect(({ user }) => ({
+  currentUser: user.currentUser,
+}))(User);

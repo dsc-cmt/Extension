@@ -118,28 +118,13 @@ public class SpiConfigService {
     }
 
     /**
-     * 获取所有有效namespace 包括visitor及admin
+     * 获取所有有权限namespace
      *
      * @param mobile
      * @return
      */
     public List<String> getValidNamespaces(String mobile) {
-        Map<String, List<String>> userApps = userService.getAuthorizedAppsByMobile(mobile);
-        return userApps.values().stream().flatMap(Collection::stream).collect(Collectors.toList());
-    }
-
-    /**
-     * 根据手机号获取权限为admin的namespace
-     *
-     * @param mobile
-     * @return
-     */
-    public List<String> getAuthNamespaces(String mobile) {
-        Map<String, List<String>> userApps = userService.getAuthorizedAppsByMobile(mobile);
-        if (CollectionUtils.isEmpty(userApps.get(RoleType.ADMIN.getDesc()))) {
-            return new ArrayList<>();
-        }
-        return userApps.get(RoleType.ADMIN.getDesc());
+        return userService.getAuthorizedAppsByMobile(mobile);
     }
 
     /**
@@ -214,9 +199,11 @@ public class SpiConfigService {
      * @return
      */
     public List<String> getValidOptions(String mobile) {
-        if (userService.isSuperAdmin()) {
+        //判断是否是管理员
+        if (userService.isSuperAdmin(mobile)) {
             return getAllNamespaces();
         }
-        return getAuthNamespaces(mobile);
+        //TODO 查询此员工下的所有namespace
+        return null;
     }
 }

@@ -22,6 +22,7 @@
         <module>extension-bootstrap</module>
         <module>extension-demo</module>
         <module>extension-web</module>
+        <module>release-note</module>
     </modules>
 
     <properties>

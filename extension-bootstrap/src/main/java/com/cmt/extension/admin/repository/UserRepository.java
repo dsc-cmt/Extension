@@ -12,6 +12,16 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
+
+
+    /**
+     *
+     * @param mobile
+     * @param password
+     * @return
+     */
+    User findByUserMobileAndPassword(String mobile, String password);
+
     /**
      * @param sysFlag
      * @return
@@ -23,5 +33,5 @@ public interface UserRepository extends CrudRepository<User, Long> {
      * @param sysFlag
      * @return
      */
-    List<User> findByUserMobileAndSysFlag(String mobile, int sysFlag);
+    User findByUserMobileAndSysFlag(String mobile, Integer sysFlag);
 }

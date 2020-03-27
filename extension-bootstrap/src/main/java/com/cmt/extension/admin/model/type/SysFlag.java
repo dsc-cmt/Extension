@@ -9,9 +9,9 @@ import lombok.Getter;
 @Getter
 public enum SysFlag {
     VALID(1),INVALID(0);
-    private int code;
+    private Integer code;
 
-    SysFlag(int code) {
+    SysFlag(Integer code) {
         this.code = code;
     }
 }

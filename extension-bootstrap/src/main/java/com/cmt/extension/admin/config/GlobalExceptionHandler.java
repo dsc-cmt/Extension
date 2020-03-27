@@ -1,4 +1,4 @@
-package com.cmt.extension.admin.service;
+package com.cmt.extension.admin.config;
 
 import javax.servlet.http.HttpServletRequest;
 

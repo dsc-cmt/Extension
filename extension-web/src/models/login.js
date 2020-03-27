@@ -11,13 +11,15 @@ const Model = {
   effects: {
     //登录
     *login({ payload }, { call, put }) {
-      const response = yield call(fakeAccountLogin, payload);
+      let response = yield call(fakeAccountLogin, payload);
+      let userInfo = response.data;
       yield put({
         type: 'changeLoginStatus',
-        payload: response,
+        payload: userInfo,
       }); // Login successfully
 
-      if (response.status === 'ok') {
+      //todo
+      if (userInfo.status === 'ok') {
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
         let { redirect } = params;
@@ -58,7 +60,7 @@ const Model = {
   reducers: {
     changeLoginStatus(state, { payload }) {
       setAuthority(payload.currentAuthority);
-      return { ...state, status: payload.status, type: payload.type };
+      return { ...state, status: payload.status};
     },
   },
 };

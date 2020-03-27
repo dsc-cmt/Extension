@@ -5,6 +5,7 @@ import com.cmt.extension.admin.model.type.SysFlag;
 import com.cmt.extension.admin.model.BusinessException;
 import com.cmt.extension.admin.model.Result;
 import com.cmt.extension.admin.model.vo.SpiConfigVO;
+import com.cmt.extension.admin.model.vo.UserInfoVO;
 import com.cmt.extension.admin.model.vo.UserVO;
 import com.cmt.extension.admin.service.SpiConfigService;
 import com.cmt.extension.admin.service.UserService;
@@ -59,7 +60,7 @@ public class SpiController {
      */
     @PostMapping("/admin/createConfig")
     public Result addConfig(@RequestBody @Validated(SpiConfigVO.AddOrUpdateValidate.class) SpiConfigVO configVO) {
-        if (!userService.isAdmin(configVO.getMobile(), configVO.getAppId())) {
+        if (!userService.hasNamespaceAuth(configVO.getMobile(), configVO.getAppId())) {
             throw BusinessException.fail("没有权限，请联系管理员");
         }
         spiConfigService.addConfig(configVO.buildConfigDTO());
@@ -74,7 +75,7 @@ public class SpiController {
      */
     @PostMapping("/admin/updateConfig")
     public Result updateConfig(@RequestBody @Validated(SpiConfigVO.AddOrUpdateValidate.class) SpiConfigVO configVO) {
-        if (!userService.isAdmin(configVO.getMobile(), configVO.getAppId())) {
+        if (!userService.hasNamespaceAuth(configVO.getMobile(), configVO.getAppId())) {
             throw BusinessException.fail("没有权限，请联系管理员");
         }
         spiConfigService.updateConfig(configVO.buildConfigDTO());
@@ -89,7 +90,7 @@ public class SpiController {
      */
     @DeleteMapping("/admin/config")
     public Result deleteConfig(@Validated(SpiConfigVO.DeleteValidate.class) SpiConfigVO configVO) {
-        if (!userService.isAdmin(configVO.getMobile(), configVO.getAppId())) {
+        if (!userService.hasNamespaceAuth(configVO.getMobile(), configVO.getAppId())) {
             throw BusinessException.fail("没有权限，请联系管理员");
         }
         spiConfigService.deleteConfig(configVO.buildConfigDTO());
@@ -126,16 +127,14 @@ public class SpiController {
      */
     @GetMapping("/admin/validNamespaces")
     public Result getValidNamespaces(HttpServletRequest request) {
-        //todo 保存用户信息到session
-        UserVO userVO = (UserVO)request.getSession().getAttribute(Constants.USER_IDENTITY);
-        return Result.success(spiConfigService.getValidNamespaces(userVO.getUserMobile()));
+        UserInfoVO userInfoVO = (UserInfoVO)request.getSession().getAttribute(Constants.USER_IDENTITY);
+        return Result.success(spiConfigService.getValidNamespaces(userInfoVO.getMobile()));
     }
 
-    @GetMapping("/admin/getValidOptions")
+    @GetMapping("/admin/validOptions")
     public Result getValidOptions(HttpServletRequest request){
-        //todo 保存用户信息到session
-        UserVO userVO = (UserVO)request.getSession().getAttribute(Constants.USER_IDENTITY);
-        return Result.success(spiConfigService.getValidOptions(userVO.getUserMobile()));
+        UserInfoVO userInfoVO = (UserInfoVO)request.getSession().getAttribute(Constants.USER_IDENTITY);
+        return Result.success(spiConfigService.getValidOptions(userInfoVO.getMobile()));
     }
 
     /**
@@ -150,64 +149,14 @@ public class SpiController {
     }
 
     /**
-     * 新增授权用户
-     *
-     * @param user
-     * @return
-     */
-    @PostMapping("/admin/createAuthorizedUser")
-    public Result createAuthorizedUser(@RequestBody UserVO user, HttpServletRequest request) {
-        UserVO userVO = (UserVO)request.getSession().getAttribute(Constants.USER_IDENTITY);
-        user.setCreator(userVO.getUserName());
-        user.setModifier(userVO.getUserName());
-        user.setModifierMobile(userVO.getUserMobile());
-        userService.checkAuth(user.getModifierMobile(),user.getAuthorizedApps(),request);
-        user.setDateCreate(new Date());
-        user.setDateModified(new Date());
-        return Result.success(userService.saveAuthorizedUser(user.buildUser(SysFlag.VALID.getCode())));
-    }
-
-    /**
      * 获取授权用户
      *
      * @param
      * @return
      */
     @GetMapping("/admin/authorizedUsers")
-    public Result getAuthorizedUsers() {
+    public Result<List<UserVO>> getAuthorizedUsers() {
         return Result.success(userService.getAuthorizedUsers());
-    }
-
-    /**
-     * 更新授权用户
-     *
-     * @param user
-     * @return
-     */
-    @PostMapping("/admin/updateAuthorizedUser")
-    public Result updateAuthorizedUser(@RequestBody UserVO user, HttpServletRequest request) {
-        UserVO userVO = (UserVO)request.getSession().getAttribute(Constants.USER_IDENTITY);
-        user.setModifier(userVO.getUserName());
-        user.setModifierMobile(userVO.getUserMobile());
-        userService.checkAuth(user.getModifierMobile(),user.getAuthorizedApps(),request);
-        user.setDateModified(new Date());
-        return Result.success(userService.saveAuthorizedUser(user.buildUser(SysFlag.VALID.getCode())));
-    }
-
-    /**
-     * 删除授权用户
-     *
-     * @param user
-     * @return
-     */
-    @PostMapping("/admin/deleteAuthorizedUser")
-    public Result deleteAuthorizedUser(@RequestBody UserVO user, HttpServletRequest request) {
-        user.setModifier(user.getUserName());
-        user.setModifierMobile(user.getUserMobile());
-        userService.checkAuth(user.getModifierMobile(),user.getAuthorizedApps(),request);
-        user.setDateModified(new Date());
-        userService.deleteAuthorizedUser(user.getId());
-        return Result.success();
     }
 
     /**

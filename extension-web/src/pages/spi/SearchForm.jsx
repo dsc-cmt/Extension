@@ -82,5 +82,5 @@ class SearchForm extends Component{
   }
 }
 
-export default Form.create()(SearchForm);
+export default SearchForm;
 

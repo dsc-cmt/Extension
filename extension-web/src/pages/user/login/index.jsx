@@ -39,18 +39,18 @@ const Login = props => {
           )}
 
           <UserName
-            name="userName"
-            placeholder="用户名: admin or user"
+            name="mobile"
+            placeholder="手机号: "
             rules={[
               {
                 required: true,
-                message: '请输入用户名!',
+                message: '请输入手机号!',
               },
             ]}
           />
           <Password
             name="password"
-            placeholder="密码: spi"
+            placeholder="密码："
             rules={[
               {
                 required: true,

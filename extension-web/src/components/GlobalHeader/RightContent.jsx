@@ -10,6 +10,8 @@ const ENVTagColor = {
   test: 'green',
   pre: '#87d068',
 };
+const { REACT_APP_ENV } = process.env;
+
 
 const GlobalHeaderRight = props => {
   const { theme, layout } = props;
