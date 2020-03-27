@@ -17,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
  * @date 19-10-25
  */
 @Service
+@Transactional(rollbackFor = {Exception.class})
 public class UserService {
 
     @Autowired

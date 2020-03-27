@@ -1,4 +1,4 @@
-import { Tooltip, Tag } from 'antd';
+import {Tooltip, Tag, message} from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import React from 'react';
 import { connect } from 'dva';
@@ -26,7 +26,7 @@ const GlobalHeaderRight = props => {
       <Tooltip title="使用文档">
         <a
           target="_blank"
-          onClick={() => {alert("文档维护中...")}}
+          onClick={() => {message.info("文档维护中...")}}
           rel="noopener noreferrer"
           className={styles.action}
         >

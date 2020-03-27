@@ -1,30 +1,43 @@
 import React, {Component} from 'react'
-import {Button, Table} from "antd";
-import AppCreateForm from "./SearchForm";
-import CustomResult from "../../components/CustomResult";
+import {Button, message, Table} from "antd";
+import AppCreateForm from "./ApplicationCreateForm";
+import {getApplications, addApplications} from "@/services/application"
+import {connect} from "react-redux";
 
 class AppManager extends Component {
   state = {
     visible: false,
-    successResultVisible: false,
-    failResultVisible: false,
-    msg: "",
-    formData: []
+    formData: [],
+    currentUser: null
   }
 
   constructor(props) {
     super(props)
-    //this.initData()
+    this.initData()
   }
 
-  initData = () => {
-    Request.get("namespacesDetail").then(this.handleNamespacesDetailResponse)
+  componentDidMount() {
+    const { currentUser } = this.props;
+    this.setState({currentUser});
+  }
+
+  initData = async () => {
+    let response = await getApplications();
+    this.handleNamespacesDetailResponse(response);
+  }
+
+  disable = () => {
+    let {currentUser} = this.state;
+    if(currentUser && currentUser.currentAuthority === 'admin'){
+      return false;
+    }
+    return true;
   }
 
   handleNamespacesDetailResponse = (response) => {
-    if (response.data.success) {
+    if (response.success) {
       this.setState({
-        formData: response.data.data
+        formData: response.data
       });
     }
   }
@@ -34,16 +47,9 @@ class AppManager extends Component {
       visible: true
     })
   }
-  handleCreate = () => {
-    const {form} = this.formRef.props;
-    form.validateFields((err, values) => {
-      if (err) {
-        return;
-      }
-      form.resetFields()
-      this.setState({visible: false})
-      Request.get("addNamespace", {namespace: values.namespace}).then(this.handleResult)
-    })
+  handleCreate = async (values) => {
+    let response = await addApplications(values.namespace);
+    this.handleResult(response);
   }
 
   handleCancel = () => {
@@ -51,33 +57,17 @@ class AppManager extends Component {
   }
 
   handleResult = (response) => {
-    let msg = response.data.msg;
-    if (response.data.success) {
-      Request.get("namespacesDetail").then(this.handleNamespacesDetailResponse)
-      this.setState({
-        successResultVisible: true,
-      })
+    let msg = response.msg;
+    if (response.success) {
+      this.setState({visible: false});
+      this.initData();
     } else {
-      this.setState({
-        failResultVisible: true,
-        msg: msg,
-      })
+      message.error(msg);
     }
   }
 
-  saveFormRef = formRef => {
-    this.formRef = formRef;
-  }
-
-  handleConfirmResult = () => {
-    this.setState({
-      failResultVisible: false,
-      successResultVisible: false,
-      msg: "",
-    });
-  };
-
   render() {
+
     const columns = [
       {
         title: '应用名称',
@@ -97,22 +87,14 @@ class AppManager extends Component {
     ]
     return (
       <div align={"left"}>
-{/*
-        todo 权限控制
-*/}
-        <Button type="primary" onClick={this.handleClick} disabled={window.disabled}>
+        <Button type="primary" onClick={this.handleClick} disabled={this.disable()}>
           新增SPI应用
         </Button>
         <AppCreateForm
-          wrappedComponentRef={this.saveFormRef}
           visible={this.state.visible}
           onCancel={this.handleCancel}
           onCreate={this.handleCreate}
         />
-        <CustomResult successResultVisible={this.state.successResultVisible}
-                      failResultVisible={this.state.failResultVisible}
-                      handleConfirmResult={this.handleConfirmResult}
-                      msg={this.state.msg}/>
         <Table dataSource={this.state.formData} columns={columns} rowKey={"namespace"}/>
       </div>
 
@@ -120,4 +102,6 @@ class AppManager extends Component {
   }
 }
 
-export default AppManager
+export default connect(({ user }) => ({
+  currentUser: user.currentUser,
+}))(AppManager);

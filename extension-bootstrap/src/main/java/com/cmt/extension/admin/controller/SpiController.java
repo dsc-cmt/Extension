@@ -98,18 +98,6 @@ public class SpiController {
     }
 
     /**
-     * 新增一个namespace(应用)
-     *
-     * @param namespace
-     * @return
-     */
-    @GetMapping("/admin/addNamespace")
-    public Result addNamespace(String namespace) {
-        spiConfigService.addNamespace(namespace);
-        return Result.success();
-    }
-
-    /**
      * 获取所有namespace（应用）名称
      *
      * @param
@@ -136,18 +124,6 @@ public class SpiController {
         UserInfoVO userInfoVO = (UserInfoVO)request.getSession().getAttribute(Constants.USER_IDENTITY);
         return Result.success(spiConfigService.getValidOptions(userInfoVO.getMobile()));
     }
-
-    /**
-     * 已创建应用信息
-     *
-     * @param
-     * @return
-     */
-    @GetMapping("/admin/namespacesDetail")
-    public Result getNamespacesDetail() {
-        return Result.success(spiConfigService.getNamespacesDetail());
-    }
-
     /**
      * 获取授权用户
      *
