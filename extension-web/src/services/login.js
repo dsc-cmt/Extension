@@ -5,3 +5,9 @@ export async function fakeAccountLogin(params) {
     params: params,
   });
 }
+
+export async function logout() {
+  return request('/api/account/action/logout', {
+    method: 'GET',
+  });
+}

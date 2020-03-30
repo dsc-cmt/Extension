@@ -1,8 +1,9 @@
 import { stringify } from 'querystring';
 import { router } from 'umi';
-import { fakeAccountLogin } from '@/services/login';
+import { fakeAccountLogin, logout } from '@/services/login';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
+import {message} from "antd";
 const Model = {
   namespace: 'login',
   state: {
@@ -18,7 +19,6 @@ const Model = {
         payload: userInfo,
       }); // Login successfully
 
-      //todo
       if (userInfo.status === 'ok') {
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
@@ -44,9 +44,15 @@ const Model = {
     },
 
     //退出应用
-    logout() {
-      const { redirect } = getPageQuery(); // Note: There may be security issues, please note
-
+    *logout({ payload }, { call, put }) {
+      const { redirect } = getPageQuery();
+      let response = yield call(logout, payload);
+      if(!response.success){
+        message.error("退出应用失败");
+      }
+      yield put({
+        type: 'resetLoginStatus',
+      }); // Login successfully
       if (window.location.pathname !== '/user/login' && !redirect) {
         router.replace({
           pathname: '/user/login',
@@ -61,6 +67,11 @@ const Model = {
     changeLoginStatus(state, { payload }) {
       setAuthority(payload.currentAuthority);
       return { ...state, status: payload.status};
+    },
+
+    resetLoginStatus(state, { payload }) {
+      setAuthority(undefined);
+      return { status:undefined};
     },
   },
 };

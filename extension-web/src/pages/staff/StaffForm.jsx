@@ -2,7 +2,7 @@ import React from "react";
 import {Form, Modal, Input, Select, Radio} from 'antd';
 const { Option } = Select;
 
-const StaffCreateForm = ({ visible, onCancel, onCreate, row, options }) =>{
+const StaffForm = ({ visible, onCancel, onCreate, row, options }) =>{
   const [form] = Form.useForm();
   const authorizedApps = row.authorizedApps != null ? row.authorizedApps.split(",") : undefined;
 
@@ -94,4 +94,4 @@ const StaffCreateForm = ({ visible, onCancel, onCreate, row, options }) =>{
     </Modal>
   )
 };
-export default StaffCreateForm;
+export default StaffForm;

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Button, message, Table} from "antd";
-import AppCreateForm from "./ApplicationCreateForm";
+import AppCreateForm from "./ApplicationForm";
 import {getApplications, addApplications} from "@/services/application"
 import {connect} from "react-redux";
 

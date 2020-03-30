@@ -42,4 +42,11 @@ public class LoginController {
         return  Result.success(LoginInfoDTO.buildLoginInfoDTO(user));
     }
 
+    @GetMapping("/account/action/logout")
+    public Result logout(HttpServletRequest request){
+        request.getSession().removeAttribute(Constants.USER_IDENTITY);
+        return  Result.success();
+    }
+
+
 }

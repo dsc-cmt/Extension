@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Table, Button, Divider, Popconfirm, message} from 'antd';
 import {getValidOptions, getAuthorizedUsers, createAuthorizedUser, updateAuthorizedUser, deleteAuthorizedUser} from '@/services/staff';
-import StaffCreateForm from "./StaffCreateForm";
+import StaffForm from "./StaffForm";
 import {connect} from "react-redux";
 
 
@@ -192,7 +192,7 @@ class User extends Component {
           新增授权用户
         </Button>
         {
-          showModal ? <StaffCreateForm
+          showModal ? <StaffForm
             visible={formVisible}
             onCancel={this.handleCancel}
             onCreate={this.handleCreate}

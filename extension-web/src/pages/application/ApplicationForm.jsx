@@ -1,7 +1,7 @@
 import React from "react";
 import {Form, Modal, Input,} from 'antd';
 
-const ApplicationCreateForm = ({visible, onCancel, onCreate}) =>{
+const ApplicationForm = ({visible, onCancel, onCreate}) =>{
     const [form] = Form.useForm();
 
     return (
@@ -48,4 +48,4 @@ const ApplicationCreateForm = ({visible, onCancel, onCreate}) =>{
     )
 }
 
-export default ApplicationCreateForm;
+export default ApplicationForm;
