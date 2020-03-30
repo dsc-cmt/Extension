@@ -35,7 +35,7 @@ public class StaffController {
      * @param
      * @return
      */
-    @GetMapping("/staff/authorizedUsers")
+    @GetMapping("/authorization_users")
     public Result<List<UserVO>> getAuthorizedUsers() {
         return Result.success(userService.getAuthorizedUsers());
     }
@@ -46,16 +46,16 @@ public class StaffController {
      * @param user
      * @return
      */
-    @PostMapping("/staff/createAuthorizedUser")
+    @PostMapping("/authorization_users")
     public Result createAuthorizedUser(@RequestBody UserVO user, HttpServletRequest request) {
-        UserInfoVO userInfoVO = (UserInfoVO)request.getSession().getAttribute(Constants.USER_IDENTITY);
+        UserInfoVO userInfoVO = (UserInfoVO) request.getSession().getAttribute(Constants.USER_IDENTITY);
         user.setCreator(userInfoVO.getUserName());
         user.setModifier(userInfoVO.getUserName());
         user.setModifierMobile(userInfoVO.getMobile());
-        userService.checkAuth(user.getModifierMobile(),user.getAuthorizedApps());
+        userService.checkAuth(user.getModifierMobile(), user.getAuthorizedApps());
         User oldUser = userService.getValidUserByMobile(user.getUserMobile());
-        if(oldUser != null){
-            throw new  BusinessException("手机号已存在");
+        if (oldUser != null) {
+            throw new BusinessException("手机号已存在");
         }
         user.setDateCreate(new Date());
         user.setDateModified(new Date());
@@ -69,15 +69,15 @@ public class StaffController {
      * @param user
      * @return
      */
-    @PatchMapping("/staff/updateAuthorizedUser")
+    @PatchMapping("/authorization_users")
     public Result updateAuthorizedUser(@RequestBody UserVO user, HttpServletRequest request) {
-        UserInfoVO userInfoVO = (UserInfoVO)request.getSession().getAttribute(Constants.USER_IDENTITY);
+        UserInfoVO userInfoVO = (UserInfoVO) request.getSession().getAttribute(Constants.USER_IDENTITY);
         user.setModifier(userInfoVO.getUserName());
         user.setModifierMobile(userInfoVO.getMobile());
-        userService.checkAuth(user.getModifierMobile(),user.getAuthorizedApps());
+        userService.checkAuth(user.getModifierMobile(), user.getAuthorizedApps());
         User oldUser = userService.getValidUserByMobile(user.getUserMobile());
-        if(oldUser != null && !oldUser.getId().equals(user.getId())){
-            throw new  BusinessException("手机号已存在");
+        if (oldUser != null && !oldUser.getId().equals(user.getId())) {
+            throw new BusinessException("手机号已存在");
         }
         user.setDateModified(new Date());
         userService.saveAuthorizedUser(user.buildUser(SysFlag.VALID.getCode()));
@@ -90,12 +90,12 @@ public class StaffController {
      * @param user
      * @return
      */
-    @PatchMapping("/staff/deleteAuthorizedUser")
+    @DeleteMapping("/authorization_users")
     public Result deleteAuthorizedUser(@RequestBody UserVO user, HttpServletRequest request) {
-        UserInfoVO userInfoVO = (UserInfoVO)request.getSession().getAttribute(Constants.USER_IDENTITY);
+        UserInfoVO userInfoVO = (UserInfoVO) request.getSession().getAttribute(Constants.USER_IDENTITY);
         user.setModifier(userInfoVO.getUserName());
         user.setModifierMobile(userInfoVO.getMobile());
-        userService.checkAuth(user.getModifierMobile(),user.getAuthorizedApps());
+        userService.checkAuth(user.getModifierMobile(), user.getAuthorizedApps());
         user.setDateModified(new Date());
         userService.deleteAuthorizedUser(user.getId());
         return Result.success();

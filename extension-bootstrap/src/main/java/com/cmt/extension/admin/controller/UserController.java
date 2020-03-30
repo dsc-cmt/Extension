@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class UserController {
 
-    @GetMapping("/user")
+    @GetMapping("/users")
     public Result<UserInfoVO> getUserInfo(HttpServletRequest request){
         UserInfoVO userInfoVO = (UserInfoVO)request.getSession().getAttribute(Constants.USER_IDENTITY);
         return Result.success(userInfoVO);

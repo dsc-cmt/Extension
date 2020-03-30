@@ -20,10 +20,8 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2020/3/25
  * @Description:
  */
-@CrossOrigin(allowCredentials = "true", maxAge = 3600, origins = "*")
 @RestController
 @Slf4j
-@RequestMapping("/login")
 public class LoginController {
 
     @Autowired
@@ -36,7 +34,7 @@ public class LoginController {
      * @param password
      * @return
      */
-    @GetMapping("/account")
+    @GetMapping("/account/action/login")
     public Result<LoginInfoDTO> login(HttpServletRequest request, String mobile, String password){
         User user = userService.login(mobile, password);
         UserInfoVO userInfoVO = UserInfoVO.buildUserDTO(user);
