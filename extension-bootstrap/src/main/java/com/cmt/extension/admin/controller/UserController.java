@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2020/3/26
  * @Description:
  */
-@CrossOrigin(allowCredentials = "true", maxAge = 3600, origins = "*")
 @RestController
 @Slf4j
 public class UserController {

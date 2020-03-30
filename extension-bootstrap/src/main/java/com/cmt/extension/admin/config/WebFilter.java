@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.Objects;
+
+import com.cmt.extension.admin.model.Constants;
 import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsUtils;
 
@@ -19,6 +22,9 @@ import org.springframework.web.cors.CorsUtils;
  */
 @Component
 public class WebFilter implements Filter {
+
+    private final String loginUrl = "/account/action/login";
+
     @Override
     public void init(FilterConfig filterConfig)  {
 
@@ -28,8 +34,13 @@ public class WebFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) res;
         HttpServletRequest request = (HttpServletRequest) req;
+        String servletPath = request.getServletPath();
 
-        // todo 登录过滤
+        //登录过滤
+        if(Objects.isNull(request.getSession().getAttribute(Constants.USER_IDENTITY))
+                && !loginUrl.equals(servletPath)){
+            return;
+        }
 
         if(CorsUtils.isCorsRequest(request)) {
             response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));

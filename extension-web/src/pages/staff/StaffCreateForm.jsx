@@ -20,7 +20,6 @@ const StaffCreateForm = ({ visible, onCancel, onCreate, row, options }) =>{
       onOk={() =>{
         form.validateFields()
           .then(values => {
-            form.resetFields();
             values.authorizedApps = values.authorizedApps.join(",");
             onCreate(values);
           })

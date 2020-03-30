@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
  * @author tuzhenxian
  * @date 19-10-9
  */
-@CrossOrigin(allowCredentials = "true", maxAge = 3600, origins = "*")
 @RestController
 @Slf4j
 public class SpiController {

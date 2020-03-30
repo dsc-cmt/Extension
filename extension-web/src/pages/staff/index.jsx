@@ -15,7 +15,7 @@ class User extends Component {
     formData: [],
     options:[],
     currentUser:{},
-    toShow: false,
+    showModal: false,
   }
 
   constructor(props){
@@ -73,7 +73,7 @@ class User extends Component {
 
   showModal = () => {
     if(this.checkAuth()){
-      this.setState({toShow: true, formVisible: true, row: {}})
+      this.setState({showModal: true, formVisible: true, row: {}})
       return
     }
     message.info("您不是管理员无法新增员工");
@@ -81,7 +81,7 @@ class User extends Component {
 
   clickEdit = (row) => {
     if(this.checkAuth()){
-      this.setState({toShow:true, formVisible: true, row: row})
+      this.setState({showModal:true, formVisible: true, row: row})
       return
     }
     message.info("您不是管理员无法编辑员工");
@@ -97,7 +97,7 @@ class User extends Component {
   }
 
   handleCancel = () => {
-    this.setState({toShow: false, formVisible: false, row: {}});
+    this.setState({showModal: false, formVisible: false, row: {}});
   }
 
   handleCreate = async (values) => {
@@ -121,7 +121,7 @@ class User extends Component {
 
   handleResult = async (response) => {
     if (response.success) {
-      this.setState({formVisible: false, row: {}});
+      this.setState({showModal: false, formVisible: false, row: {}});
       let authorizedUsersResponse = await getAuthorizedUsers();
       this.handleConfigResponse(authorizedUsersResponse);
     } else {
@@ -132,7 +132,7 @@ class User extends Component {
 
 
   render() {
-    const {formVisible, row, options, formData, toShow} = this.state;
+    const {formVisible, row, options, formData, showModal} = this.state;
     const columns = [
       {
         title: '用户',
@@ -192,7 +192,7 @@ class User extends Component {
           新增授权用户
         </Button>
         {
-          toShow ? <StaffCreateForm
+          showModal ? <StaffCreateForm
             visible={formVisible}
             onCancel={this.handleCancel}
             onCreate={this.handleCreate}

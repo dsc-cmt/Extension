@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
  * @date 2020/3/27
  * @Description:
  */
-@CrossOrigin(allowCredentials = "true", maxAge = 3600, origins = "*")
 @RestController
 @Slf4j
 public class ApplicationController {
