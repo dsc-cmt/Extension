@@ -18,12 +18,7 @@ import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 @CrossOrigin(allowCredentials = "true", maxAge = 3600, origins = "*")
 @RestController
 @Slf4j
+@RequestMapping("/spi")
 public class SpiController {
     @Autowired
     private SpiConfigService spiConfigService;
@@ -41,15 +37,51 @@ public class SpiController {
     private UserService userService;
 
     /**
+     * 获取用户拥有admin权限的所有namespace(应用)名称
+     *
+     * @return
+     */
+    @GetMapping("/validNamespaces")
+    public Result getValidNamespaces(HttpServletRequest request) {
+        UserInfoVO userInfoVO = (UserInfoVO)request.getSession().getAttribute(Constants.USER_IDENTITY);
+        if(userService.isSuperAdmin(userInfoVO.getMobile())){
+            //获取所有的namespace
+            return Result.success(spiConfigService.getValidOptions(userInfoVO.getMobile()));
+        }
+        return Result.success(spiConfigService.getValidNamespaces(userInfoVO.getMobile()));
+    }
+
+    @GetMapping("/validOptions")
+    public Result getValidOptions(HttpServletRequest request){
+        UserInfoVO userInfoVO = (UserInfoVO)request.getSession().getAttribute(Constants.USER_IDENTITY);
+        return Result.success(spiConfigService.getValidOptions(userInfoVO.getMobile()));
+    }
+
+    /**
      * 获取一个namespace下所有配置信息
      *
      * @param namespace
      * @return
      */
-    @GetMapping("/admin/config")
+    @GetMapping("/config")
     public Result getConfigs(String namespace) {
         List<SpiConfigDTO> configList=spiConfigService.getConfigs(namespace);
         return Result.success(configList.stream().map(SpiConfigVO::buildByConfigDTO).collect(Collectors.toList()));
+    }
+
+    /**
+     * 删除一条配置
+     *
+     * @param configVO
+     * @return
+     */
+    @DeleteMapping("/config")
+    public Result deleteConfig(@Validated(SpiConfigVO.DeleteValidate.class) @RequestBody SpiConfigVO configVO) {
+        if (!userService.hasNamespaceAuth(configVO.getMobile(), configVO.getAppId())) {
+            throw BusinessException.fail("没有权限，请联系管理员");
+        }
+        spiConfigService.deleteConfig(configVO.buildConfigDTO());
+        return Result.success();
     }
 
     /**
@@ -58,7 +90,7 @@ public class SpiController {
      * @param configVO
      * @return
      */
-    @PostMapping("/admin/createConfig")
+    @PostMapping("/config")
     public Result addConfig(@RequestBody @Validated(SpiConfigVO.AddOrUpdateValidate.class) SpiConfigVO configVO) {
         if (!userService.hasNamespaceAuth(configVO.getMobile(), configVO.getAppId())) {
             throw BusinessException.fail("没有权限，请联系管理员");
@@ -73,7 +105,7 @@ public class SpiController {
      * @param configVO
      * @return
      */
-    @PostMapping("/admin/updateConfig")
+    @PatchMapping("/config")
     public Result updateConfig(@RequestBody @Validated(SpiConfigVO.AddOrUpdateValidate.class) SpiConfigVO configVO) {
         if (!userService.hasNamespaceAuth(configVO.getMobile(), configVO.getAppId())) {
             throw BusinessException.fail("没有权限，请联系管理员");
@@ -83,66 +115,23 @@ public class SpiController {
     }
 
     /**
-     * 删除一条配置
-     *
-     * @param configVO
-     * @return
-     */
-    @DeleteMapping("/admin/config")
-    public Result deleteConfig(@Validated(SpiConfigVO.DeleteValidate.class) SpiConfigVO configVO) {
-        if (!userService.hasNamespaceAuth(configVO.getMobile(), configVO.getAppId())) {
-            throw BusinessException.fail("没有权限，请联系管理员");
-        }
-        spiConfigService.deleteConfig(configVO.buildConfigDTO());
-        return Result.success();
-    }
-
-    /**
      * 获取所有namespace（应用）名称
      *
      * @param
      * @return
-     */
+     *//*
     @GetMapping("/admin/namespaces")
     public Result getNamespaces() {
         return Result.success(spiConfigService.getAllNamespaces());
-    }
-
-    /**
-     * 获取用户拥有admin权限的所有namespace(应用)名称
-     *
-     * @return
-     */
-    @GetMapping("/admin/validNamespaces")
-    public Result getValidNamespaces(HttpServletRequest request) {
-        UserInfoVO userInfoVO = (UserInfoVO)request.getSession().getAttribute(Constants.USER_IDENTITY);
-        return Result.success(spiConfigService.getValidNamespaces(userInfoVO.getMobile()));
-    }
-
-    @GetMapping("/admin/validOptions")
-    public Result getValidOptions(HttpServletRequest request){
-        UserInfoVO userInfoVO = (UserInfoVO)request.getSession().getAttribute(Constants.USER_IDENTITY);
-        return Result.success(spiConfigService.getValidOptions(userInfoVO.getMobile()));
-    }
-    /**
-     * 获取授权用户
-     *
-     * @param
-     * @return
-     */
-    @GetMapping("/admin/authorizedUsers")
-    public Result<List<UserVO>> getAuthorizedUsers() {
-        return Result.success(userService.getAuthorizedUsers());
-    }
-
+    }*/
     /**
      * 获取已授权的所有应用
      *
      * @param mobile
      * @return
-     */
+     *//*
     @GetMapping("/admin/authorizedApps")
     public Result getAuthorizedApps(String mobile) {
         return Result.success(userService.getAuthorizedAppsByMobile(mobile));
-    }
+    }*/
 }

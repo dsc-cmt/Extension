@@ -1,55 +1,62 @@
 import React, {Component} from 'react'
-import {
-  Divider, Table, Button, Select, Popconfirm,} from 'antd';
-import SpiCreateForm from './SearchForm';
-import CustomResult from "@/components/CustomResult/index";
+import {Divider, Table, Button, Select, Popconfirm, message,} from 'antd';
+import {getValidOptions, getValidNamespaces, getConfig, delConfig, addConfig, updateConfig} from "@/services/spi"
+import SpiForm from './SpiForm';
+import {connect} from "react-redux";
 
 
 class SPIApp extends Component {
   state = {
     formVisible: false,
-    failResultVisible: false,
-    successResultVisible: false,
     row: {},
-    msg: "",
     formData: [],
     namespace: "",
     menus:[],
-    authNamespaces:[]
+    authNamespaces:[],
+    currentUser: null,
+    modalShow: false,
   };
 
   constructor(props){
     super(props)
-    //this.initMenu()
+    this.initMenu()
   }
 
-  initMenu=()=>{
-    Request.get("getValidOptions").then(this.handleOptionResponse)
-    Request.get("validNamespaces").then(this.handleNamespaceResponse)
+  componentDidMount() {
+    const { currentUser } = this.props;
+    this.setState({currentUser});
+  }
+
+  initMenu= async () => {
+    let validResponse = await getValidOptions();
+    let validNameSpace = await getValidNamespaces();
+    this.handleOptionResponse(validResponse);
+    this.handleNamespaceResponse(validNameSpace);
   }
 
   handleOptionResponse = (response) => {
-    if (response.data.success) {
+    if (response.success) {
       this.setState({
-        authNamespaces:response.data.data
+        authNamespaces:response.data
       })
     }
   }
 
   handleNamespaceResponse=(response)=>{
-    if(response.data.success){
-      this.setState({menus:response.data.data})
+    if(response.success){
+      this.setState({menus:response.data})
     }
   }
 
-  handleNamespaceChange=(n)=>{
-    this.setState({namespace:n})
-    Request.get("config", {params:{namespace: n}}).then(this.handleConfigResponse);
+  handleNamespaceChange= async (n) => {
+    this.setState({namespace: n});
+    let response = await getConfig({namespace: n});
+    this.handleConfigResponse(response);
   }
 
   handleConfigResponse = (response) => {
-    if (response.data.success) {
-      let temp = response.data.data.map((value, index) => {
+    if (response.success) {
+      let temp = response.data.map((value, index) => {
         return {
           ...value,
           "key": index
@@ -61,33 +68,38 @@ class SPIApp extends Component {
     }
   }
 
-  handleResult = (response) => {
-    let msg = response.data.msg;
-    if (response.data.success) {
-      Request.get("config", {params:{namespace: this.state.namespace}}).then(this.handleConfigResponse);
-      this.setState({
-        successResultVisible: true,
-      })
+  handleResult = async (response) => {
+    let msg = response.msg;
+    if (response.success) {
+      message.success("操作成功");
+      this.setState({modalShow: false, formVisible: false});
+      let response = await getConfig({namespace: this.state.namespace});
+      this.handleConfigResponse(response);
     } else {
-      this.setState({
-        failResultVisible: true,
-        msg: msg,
-      })
+      message.error(msg);
     }
   }
 
+  checkAuth = () =>{
+    let {authNamespaces, namespace} = this.state;
+    if (authNamespaces.indexOf(namespace) < 0) {
+        message.error("没有该应用的管理权限！");
+        return false
+    }
+    return true;
+  }
 
-  deleteRequest = (record) => {
-    if (this.state.authNamespaces.indexOf(this.state.namespace)<0){
-      alert("没有该应用的管理权限！")
+  deleteRequest = async (record) => {
+    let {currentUser} = this.state;
+    if (!this.checkAuth()) {
       return
     }
-    let params={
+    let params = {
       ...record,
-      //todo
-      mobile:"15700718397",
+      mobile: currentUser.mobile,
     }
-    Request.delete("/config", {params: params}).then(this.handleResult)
+    let response = await delConfig(params);
+    this.handleResult(response);
   }
 
   deleteCancel = () => {
@@ -96,58 +108,38 @@ class SPIApp extends Component {
 
   showModal = (row) => {
     if (this.state.namespace == null||this.state.namespace ==="" ) {
-      alert('请先选择应用')
+      message.info("请先选择应用");
       return
     }
-    if (this.state.authNamespaces.indexOf(this.state.namespace)<0){
-      alert("没有该应用的管理权限！")
+    if (!this.checkAuth()) {
       return
     }
-
-    this.setState({formVisible: true, row: row});
+    this.setState({modalShow: true, formVisible: true, row: row});
   }
 
   handleCancel = () => {
-    this.setState({formVisible: false, row: {}});
+    this.setState({modalShow: false, formVisible: false, row: {}});
   };
 
-  handleCreate = (namespace, row) => {
-    const {form} = this.formRef.props;
-    form.validateFields((err, values) => {
-      if (err) {
-        return;
-      }
-      form.resetFields();
-      this.setState({formVisible: false});
-      //TODO
-      let userInfo= {userPhone: "15700718309"};
-      let params={
-        ...values,
-        mobile:userInfo.userPhone,
-      }
-
-      if (JSON.stringify(row) === "{}") {
-        Request.post("/createConfig", params).then(this.handleResult);
-      } else {
-        Request.post("/updateConfig", params).then(this.handleResult);
-      }
-    });
+  handleCreate = async (values) => {
+    let {row, currentUser} = this.state;
+    let data = {
+      ...values,
+      mobile: currentUser.mobile,
+    }
+    let response = null;
+    //新增
+    if (JSON.stringify(row) === "{}") {
+      response = await addConfig(data);
+    } else {
+      //编辑
+      response = await updateConfig(data);
+    }
+    this.handleResult(response);
   };
-
-  saveFormRef = formRef => {
-    this.formRef = formRef;
-  };
-
-  handleConfirmResult = () => {
-    this.setState({
-      failResultVisible: false,
-      successResultVisible: false,
-      msg: "",
-    });
-  };
-
 
   render() {
+    const {menus, formVisible, namespace, row, formData, modalShow} = this.state;
     const columns = [
       {
         title: 'spi接口',
@@ -210,35 +202,31 @@ class SPIApp extends Component {
       <div align={"left"}>
         <Select placeholder={"请选择应用"} style={{ width: 120 }} onChange={this.handleNamespaceChange}>
           {
-            this.state.menus.map(m=>{
+            menus.map(m=>{
               return (
-                <Select.Option value={m}>{m}</Select.Option>
+                <Select.Option key={m} value={m}>{m}</Select.Option>
               )
             })}
         </Select>
         <Button type="primary" onClick={() => this.showModal({})}>
           新增SPI实现
         </Button>
-        <SpiCreateForm
-          wrappedComponentRef={this.saveFormRef}
-          visible={this.state.formVisible}
-          onCancel={this.handleCancel}
-          onCreate={() => {
-            this.handleCreate(this.state.namespace, this.state.row)
-          }}
-          row={this.state.row}
-          namespace={this.state.namespace}
-        />
-        <CustomResult successResultVisible={this.state.successResultVisible}
-                      failResultVisible={this.state.failResultVisible}
-                      handleConfirmResult={this.handleConfirmResult}
-                      msg={this.state.msg}/>
-
-        <Table dataSource={this.state.formData} columns={columns}/>
+        {
+          modalShow ? <SpiForm
+            visible={formVisible}
+            onCancel={this.handleCancel}
+            onCreate={this.handleCreate}
+            row={row}
+            namespace={namespace}
+          /> : null
+        }
+        <Table dataSource={formData} columns={columns}/>
       </div>
     )
 
   }
 }
 
-export default SPIApp
+export default connect(({ user }) => ({
+  currentUser: user.currentUser,
+}))(SPIApp);

@@ -54,6 +54,7 @@ public class UserService {
 
     public List<String> getAuthorizedAppsByMobile(String mobile) {
         User users = userRepository.findByUserMobileAndSysFlag(mobile, SysFlag.VALID.getCode());
+
         return users != null && users.getAuthorizedApps() != null ? Splitter.on(",").omitEmptyStrings().splitToList(users.getAuthorizedApps()) : null;
     }
 
@@ -67,6 +68,9 @@ public class UserService {
     public boolean hasNamespaceAuth(String mobile, String namespace) {
         if(StringUtils.isAnyEmpty(mobile,namespace)) {
             throw BusinessException.fail("没有权限");
+        }
+        if(isSuperAdmin(mobile)){
+            return true;
         }
         User users = userRepository.findByUserMobileAndSysFlag(mobile, SysFlag.VALID.getCode());
         if(users == null || StringUtils.isBlank(users.getAuthorizedApps())){

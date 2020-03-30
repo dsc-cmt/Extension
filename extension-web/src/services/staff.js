@@ -1,7 +1,7 @@
 import request from '@/utils/request';
 
 export async function getValidOptions() {
-  return request('/api/admin/validOptions', {
+  return request('/api/spi/validOptions', {
     method: 'GET',
   });
 }
