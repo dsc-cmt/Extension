@@ -11,6 +11,6 @@ import com.cmt.extension.spi.IHelloService;
 @Extension(bizCode = "d",invokeMethod = SpiTypeEnum.LOCAL)
 public class LocalHelloServiceImpl implements IHelloService {
     public String hello() {
-        return "local";
+        return "helloD";
     }
 }

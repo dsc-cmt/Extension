@@ -15,7 +15,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class ProviderApplication {
 
     public static void main(String[] args) {
-//        com.alibaba.dubbo.container.Main.main(args);
         SpringApplication.run(ProviderApplication.class, args);
     }
 
