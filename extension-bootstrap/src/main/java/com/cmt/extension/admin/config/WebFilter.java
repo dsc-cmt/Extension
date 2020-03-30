@@ -23,8 +23,6 @@ import org.springframework.web.cors.CorsUtils;
 @Component
 public class WebFilter implements Filter {
 
-    private final String loginUrl = "/account/action/login";
-
     @Override
     public void init(FilterConfig filterConfig)  {
 
@@ -34,13 +32,6 @@ public class WebFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) res;
         HttpServletRequest request = (HttpServletRequest) req;
-        String servletPath = request.getServletPath();
-
-        //登录过滤
-        if(Objects.isNull(request.getSession().getAttribute(Constants.USER_IDENTITY))
-                && !loginUrl.equals(servletPath)){
-            return;
-        }
 
         if(CorsUtils.isCorsRequest(request)) {
             response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
