@@ -1,5 +1,8 @@
 export default {
   'menu.welcome': '欢迎',
+  'menu.spi': 'spi管理',
+  'menu.application': '应用管理',
+  'menu.staff':'员工管理',
   'menu.more-blocks': '更多区块',
   'menu.home': '首页',
   'menu.admin': '管理页',

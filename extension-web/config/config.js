@@ -96,19 +96,19 @@ export default {
               component: './Welcome',
             },
             {
-              name: 'spi管理',
+              name: 'spi',
               icon: 'ApiOutlined',
               path: '/spi',
               component: './spi',
             },
             {
-              name: '应用管理',
+              name: 'application',
               icon: 'AppstoreOutlined',
               path: '/application',
               component: './application',
             },
             {
-              name: '员工管理',
+              name: 'staff',
               icon: 'TeamOutlined',
               path: '/staff',
               component: './staff',
