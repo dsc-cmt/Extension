@@ -98,3 +98,18 @@ public class AHelloServiceImpl implements IHelloService{
 
 ## 示例
 见源码extension-demo项目
+使用步骤：
+1. 本地创建数据库，脚本见release-note项目
+2. 打包Extension项目，命令如下
+```  mvn clean package -DskipTests=true ```
+3. 启动extension-bootstrap项目
+    2.1 访问本地的http://localhost:8080/static/index.html
+    2.2 登录系统(管理员账号见t_user表)
+    2.3 打开应用管理界面去创建应用，应用名称设置为test
+    2.4 打开spi管理界面，为test应用创建spi,spi的接口名称为spi-interface项目下的IHelloService接口全路径(com.cmt.extension.spi.IHelloService)
+    SPI的bizCode属性见IHelloService接口所有实现类，按照与实现类上的@Extension注解的bizCode属性一致即可
+    ![](spi_config.jpg)
+4. 启动zookeeper。若本地未按照zookeeper可以启动zookeeper-server项目的内嵌zookeeper
+5. 启动provider项目
+6. 运行consumer项目下的ApplicationContextHolderTest类。
+7. 可以自定义接口，只要按照IHelloService一样的到spi管理页面添加一下即可。
