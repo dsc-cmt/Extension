@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @RestController
 @Slf4j
+@RequestMapping("/api")
 public class LoginController {
 
     @Autowired

@@ -65,12 +65,12 @@ const SpiForm = ({visible, onCancel, onCreate, row, namespace}) => {
           <Input disabled={edit}/>
         </Form.Item>
         <Form.Item
-          label="是否为默认实现(若选择是,当没有匹配的实现时将选择此实现!)"
+          label="是否为默认实现(目前不支持远程设置默认实现，仅支持本地设置默认实现)"
           name="isDefault"
           rules={[{required: true, message: '请选择是否为默认调用方式'}]}
         >
           <Select allowClear={true}>
-            <Select.Option key={"1"} value="1">是</Select.Option>
+            {/*<Select.Option key={"1"} value="1">是</Select.Option>*/}
             <Select.Option key={"0"} value="0">否</Select.Option>
           </Select>
         </Form.Item>

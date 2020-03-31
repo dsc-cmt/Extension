@@ -1,4 +1,4 @@
 import request from '@/utils/request';
 export async function queryUser() {
-  return request('/users');
+  return request('/api/users');
 }

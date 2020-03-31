@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @Slf4j
+@RequestMapping("/api")
 public class ApplicationController {
     @Autowired
     private SpiConfigService spiConfigService;

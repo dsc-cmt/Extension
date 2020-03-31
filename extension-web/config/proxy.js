@@ -7,30 +7,21 @@
  */
 export default {
   dev: {
-    '/api/': {
+    '/api': {
       target: 'http://localhost:8080',
       changeOrigin: true,
-      pathRewrite: {
-        '^/api': '',
-      },
     },
   },
   test: {
-    '/api/': {
-      target: 'your test url',
+    '/api': {
+      target: 'http://localhost:8080',
       changeOrigin: true,
-      pathRewrite: {
-        '^': '',
-      },
     },
   },
   pre: {
-    '/api/': {
-      target: 'your pre url',
+    '/api': {
+      target: 'http://localhost:8080',
       changeOrigin: true,
-      pathRewrite: {
-        '^': '',
-      },
     },
   },
 };

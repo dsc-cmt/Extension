@@ -14,7 +14,6 @@ public class LocalZooKeeperServer {
     public static void main(String[] args) throws Exception {
         Properties props = new Properties();
         props.setProperty("tickTime", "2000");
-        //需要
         props.setProperty("dataDir", new File(System.getProperty("java.io.tmpdir"), "zookeeper").getAbsolutePath());
         props.setProperty("clientPort", "2181");
         props.setProperty("initLimit", "10");
