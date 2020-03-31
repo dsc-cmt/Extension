@@ -9,7 +9,10 @@ coverage:
         threshold: 0.1%
 ## 忽略的文件
 ignore:
-  - "src/main/java/com.xy.datasource.spring.boot.starter.annotation/.*"
+  - "extension-bootstrap/*"
+  - "extension-demo/*"
+  - "extension-web/*"
+  - "release-note/*"
 comment:
   layout: "reach, diff, flags, files"
   behavior: default
