@@ -4,15 +4,16 @@ coverage:
     patch:
       default:
         ## 必须满足的最低覆盖率才能被视为success
-        target: 50%
+        target: 0%
         ## 最多允许覆盖率下降0.1%,才能视为success
-        threshold: 0.1%
+        threshold: 0%
 ## 忽略的文件
 ignore:
   - "extension-bootstrap/*"
   - "extension-demo/*"
   - "extension-web/*"
   - "release-note/*"
+  - "extension-core/*"
 comment:
   layout: "reach, diff, flags, files"
   behavior: default
