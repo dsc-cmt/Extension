@@ -32,19 +32,32 @@ public class ApplicationContextHolderTest {
     @Test
     public void testSpi(){
         BusinessContext.setBizCode("a");
-        System.out.println(testService.hello());
+        String result = testService.hello();
+        Assert.assertTrue("HelloA".equals(result));
+
         BusinessContext.setBizCode("b");
-        System.out.println(testService.hello());
+        result = testService.hello();
+        Assert.assertTrue("helloB".equals(result));
+
         BusinessContext.setBizCode("c");
-        System.out.println(testService.hello());
+        result = testService.hello();
+        Assert.assertTrue("helloC".equals(result));
+
         BusinessContext.setBizCode("d");
-        System.out.println(testService.hello());
+        result = testService.hello();
+        Assert.assertTrue("helloD".equals(result));
+
         BusinessContext.setBizCode("f");
-        System.out.println(testService.hello());
+        result = testService.hello();
+        Assert.assertTrue("helloF".equals(result));
+
         BusinessContext.setBizCode("default");
-        System.out.println(testService.hello());
+        result = testService.hello();
+        Assert.assertTrue("default hello".equals(result));
+
         BusinessContext.setBizCode("notexist");
-        System.out.println(testService.hello());
+        result = testService.hello();
+        Assert.assertTrue("default hello".equals(result));
     }
 
 

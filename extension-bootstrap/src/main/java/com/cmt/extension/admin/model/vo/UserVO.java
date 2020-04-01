@@ -20,7 +20,7 @@ public class UserVO {
      * 已授权应用
      */
     private String authorizedApps;
-
+    private String password;
     private Date dateCreate;
     private Date dateModified;
     private String creator;
@@ -33,6 +33,7 @@ public class UserVO {
         user.setUserName(this.userName);
         user.setUserMobile(this.userMobile);
         user.setRole(this.role);
+        user.setPassword(this.password);
         user.setAuthorizedApps(this.authorizedApps);
         user.setDateCreate(this.dateCreate);
         user.setDateModified(this.dateModified);
@@ -52,6 +53,7 @@ public class UserVO {
         vo.setDateCreate(user.getDateCreate());
         vo.setCreator(user.getCreator());
         vo.setModifier(user.getModifier());
+        vo.setPassword(user.getPassword());
         vo.setAuthorizedApps(user.getAuthorizedApps());
         return vo;
     }

@@ -9,12 +9,11 @@ import lombok.Getter;
 @Getter
 public enum RoleType {
     ADMIN("admin"),
-    VISITOR("visitor"),
+    USER("user"),
     ;
     private String desc;
 
     RoleType(String desc) {
         this.desc = desc;
     }
-
 }

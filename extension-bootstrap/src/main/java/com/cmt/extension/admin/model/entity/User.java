@@ -9,6 +9,8 @@ import javax.persistence.Table;
 import java.util.Date;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 /**
  * @author tuzhenxian
@@ -24,19 +26,21 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String userName;
+    private String password;
     private String userMobile;
     private String role;
     /**
      *已授权应用“,”分隔 不在其中的app只有查询权限
      */
     private String authorizedApps;
-    //general columns
+    @CreatedDate
     private Date dateCreate;
+    @LastModifiedDate
     private Date dateModified;
     private String creator;
     private String modifier;
     /**
      * 是否有效 可进行软删除
      */
-    private int sysFlag;
+    private Integer sysFlag;
 }
