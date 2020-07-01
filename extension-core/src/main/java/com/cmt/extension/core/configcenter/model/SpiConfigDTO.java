@@ -1,13 +1,11 @@
 package com.cmt.extension.core.configcenter.model;
 
-import lombok.Data;
 import org.springframework.util.StringUtils;
 
 /**
  * @author tuzhenxian
  * @date 19-10-11
  */
-@Data
 public class SpiConfigDTO {
     private static final String DEFAULT_SPILITOR = "_";
     /**
@@ -46,7 +44,7 @@ public class SpiConfigDTO {
         }
         String[] keySplits = key.split(DEFAULT_SPILITOR);
         String[] valueSplits = value.split(DEFAULT_SPILITOR);
-        if (keySplits.length != 2 || valueSplits.length <2) {
+        if (keySplits.length != 2 || valueSplits.length < 2) {
             return null;
         }
         dto.setAppId(appId);
@@ -54,7 +52,7 @@ public class SpiConfigDTO {
         dto.setSpiInterface(keySplits[1]);
         dto.setInvokeMethod(valueSplits[0]);
         dto.setExpireTime(Integer.valueOf(valueSplits[1]));
-        dto.setIsDefault(valueSplits.length<3?0:Integer.valueOf(valueSplits[2]));
+        dto.setIsDefault(valueSplits.length < 3 ? 0 : Integer.valueOf(valueSplits[2]));
 
         return dto;
     }
@@ -76,6 +74,62 @@ public class SpiConfigDTO {
      * @return value 格式：invokeMethod_expireTime
      */
     public String buildValue() {
-        return this.invokeMethod + DEFAULT_SPILITOR + this.expireTime +DEFAULT_SPILITOR+ this.isDefault;
+        return this.invokeMethod + DEFAULT_SPILITOR + this.expireTime + DEFAULT_SPILITOR + this.isDefault;
+    }
+
+    public String getSpiInterface() {
+        return spiInterface;
+    }
+
+    public void setSpiInterface(String spiInterface) {
+        this.spiInterface = spiInterface;
+    }
+
+    public String getBizCode() {
+        return bizCode;
+    }
+
+    public void setBizCode(String bizCode) {
+        this.bizCode = bizCode;
+    }
+
+    public String getInvokeMethod() {
+        return invokeMethod;
+    }
+
+    public void setInvokeMethod(String invokeMethod) {
+        this.invokeMethod = invokeMethod;
+    }
+
+    public String getAppId() {
+        return appId;
+    }
+
+    public void setAppId(String appId) {
+        this.appId = appId;
+    }
+
+    public Integer getExpireTime() {
+        return expireTime;
+    }
+
+    public void setExpireTime(Integer expireTime) {
+        this.expireTime = expireTime;
+    }
+
+    public Integer getIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(Integer isDefault) {
+        this.isDefault = isDefault;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

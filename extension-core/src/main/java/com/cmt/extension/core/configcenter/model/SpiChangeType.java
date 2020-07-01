@@ -1,32 +1,39 @@
 package com.cmt.extension.core.configcenter.model;
 
-import com.ctrip.framework.apollo.enums.PropertyChangeType;
-
-import java.util.Objects;
-import lombok.Getter;
+import org.apache.curator.framework.recipes.cache.PathChildrenCacheEvent;
 
 /**
  * @author tuzhenxian
  * @date 19-10-16
  */
-@Getter
 public enum SpiChangeType {
-    INIT(null),
-    ADDED(PropertyChangeType.ADDED),
-    DELETED(PropertyChangeType.DELETED),
-    MODIFIED(PropertyChangeType.MODIFIED);
+    /**
+     * 初始化
+     */
+    INIT,
+    /**
+     * 新增
+     */
+    ADDED,
+    /**
+     * 删除
+     */
+    DELETED,
+    /**
+     * 修改
+     */
+    MODIFIED;
 
-    SpiChangeType(PropertyChangeType apolloType) {
-        this.apolloType = apolloType;
-    }
-
-    private PropertyChangeType apolloType;
-
-    public static SpiChangeType matchType(PropertyChangeType apolloType){
-        for(SpiChangeType type:SpiChangeType.values()){
-            if (Objects.equals(apolloType,type.getApolloType())){
-                return type;
-            }
+    public static SpiChangeType matchZooKeeperType(PathChildrenCacheEvent.Type type) {
+        switch (type) {
+            case CHILD_ADDED:
+                return ADDED;
+            case CHILD_UPDATED:
+                return MODIFIED;
+            case CHILD_REMOVED:
+                return DELETED;
+            default:
+                break;
         }
         return null;
     }
