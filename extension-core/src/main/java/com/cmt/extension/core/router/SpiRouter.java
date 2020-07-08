@@ -13,11 +13,11 @@ public class SpiRouter {
 
     private static ConfigCenter configCenter = ConfigCenter.getInstance();
 
-    private static SpiRegistry spiRegistry = SpiRegistry.getInstance();
+    private static SpiRegistry spiRegistry = SpiRegistry.getRegistry();
 
     private static Boolean inited = false;
 
-    public static Object route(String spi, Object proxy, Method method, Object[] args) throws Throwable {
+    public static Object route(String spi, Method method, Object[] args) throws Throwable {
         Object impl = Optional.ofNullable(SpiContainer.get(spi, BusinessContext.getBizCode())).orElse(SpiContainer.get(spi, Extension.DEFAULT_BIZ_CODE));
         if (impl == null) {
             throw new RuntimeException("找不到spi实现类");

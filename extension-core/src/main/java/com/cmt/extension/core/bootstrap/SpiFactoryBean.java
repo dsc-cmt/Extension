@@ -21,7 +21,7 @@ public class SpiFactoryBean<T> implements FactoryBean<T> {
     @Override
     public T getObject() {
         // jdk动态代理类生成
-        InvocationHandler invocationHandler = (proxy, method, args) -> SpiRouter.route(spiInterface.getName(), proxy, method, args);
+        InvocationHandler invocationHandler = (proxy, method, args) -> SpiRouter.route(spiInterface.getName(), method, args);
         return spiInterface.cast(Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[]{spiInterface},
                 invocationHandler));
     }

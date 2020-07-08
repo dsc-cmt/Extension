@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS extension DEFAULT CHARACTER SET = utf8mb4;
+CREATE DATABASE IF NOT EXISTS spi_admin DEFAULT CHARACTER SET = utf8mb4;
 
-Use extension;
+Use spi_admin;
 -- ----------------------------
 -- Table structure for t_user
 -- ----------------------------
@@ -23,6 +23,6 @@ CREATE TABLE `t_user` (
 
 -- record
 BEGIN;
-INSERT INTO `t_user` VALUES (1, 'test,finance-supply-core,demo', '15700718397', '系统管理员', 'spi', '', '系统管理员', 'admin', 1);
-INSERT INTO `t_user` VALUES (2, 'finance-supply-core,test', '132454305341', '普通用户', 'spi', '', '系统管理员', 'user', 1);
+INSERT INTO `t_user` VALUES (1, 'test,finance-supply-core,demo', '15700718397', 'admin', 'admin', '', '系统管理员', 'admin', 1, now(), now());
+INSERT INTO `t_user` VALUES (2, 'finance-supply-core,test', '132454305341', '普通用户', 'spi', '', '系统管理员', 'user', 1, now(), now());
 COMMIT;

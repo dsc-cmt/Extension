@@ -15,7 +15,7 @@ public interface WrapperGenerator {
      * @param configDTO
      * @return
      */
-    Object genericWrapper(SpiConfigDTO configDTO);
+    Object generateWrapper(SpiConfigDTO configDTO);
 
     void destroyWrapper(SpiConfigDTO spiConfigDTO);
 }

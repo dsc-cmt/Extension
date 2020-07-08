@@ -20,7 +20,7 @@ import java.util.Objects;
 public class SpiRegistry implements SpiConfigChangeListener {
 
     @Getter
-    private final static SpiRegistry instance = new SpiRegistry();
+    private final static SpiRegistry registry = new SpiRegistry();
 
     private WrapperGeneratorComposite composite = new WrapperGeneratorComposite();
 
@@ -33,7 +33,7 @@ public class SpiRegistry implements SpiConfigChangeListener {
         if (Objects.isNull(configDTO)) {
             return;
         }
-        Object wrapper = instance.composite.genericWrapper(configDTO);
+        Object wrapper = registry.composite.generateWrapper(configDTO);
         SpiContainer.put(configDTO.getSpiInterface(), configDTO.getBizCode(), wrapper);
     }
 
@@ -45,7 +45,7 @@ public class SpiRegistry implements SpiConfigChangeListener {
         if (Objects.isNull(configDTO)) {
             return;
         }
-        instance.composite.destroyWrapper(configDTO);
+        registry.composite.destroyWrapper(configDTO);
         SpiContainer.remove(configDTO.getSpiInterface(), configDTO.getBizCode());
     }
 
