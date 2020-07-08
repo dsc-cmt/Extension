@@ -12,6 +12,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.AnnotationUtils;
 
 /**
+ * 本地实现类Generator
  */
 public class LocalWrapperGenerator implements WrapperGenerator {
 
@@ -33,14 +34,14 @@ public class LocalWrapperGenerator implements WrapperGenerator {
      * @return
      */
     @Override
-    public Object genericWrapper(SpiConfigDTO configDTO) {
+    public Object generateWrapper(SpiConfigDTO configDTO) {
         ApplicationContext applicationContext = ApplicationContextHolder.getApplicationContext();
         try {
             String[] names = applicationContext.getBeanNamesForType(ClassUtils.getClass(configDTO.getSpiInterface()));
             for(String name : names){
                 Object bean = applicationContext.getBean(name);
-                Extension extension;
-                if((extension = AnnotationUtils.findAnnotation(AopUtils.getTargetClass(bean), Extension.class))!=null && extension.bizCode().equals(configDTO.getBizCode())){
+                Extension extension = AnnotationUtils.findAnnotation(AopUtils.getTargetClass(bean), Extension.class);
+                if(extension !=null && extension.bizCode().equals(configDTO.getBizCode())){
                     return bean;
                 }
             }

@@ -37,6 +37,15 @@ public class SpiConfiguration {
                 BusinessContext.setBizCode("c");
                 result = service.hello();
                 System.out.println(result);
+                BusinessContext.setBizCode("d");
+                result = service.hello();
+                System.out.println(result);
+                BusinessContext.setBizCode("e");
+                result = service.hello();
+                System.out.println(result);
+                BusinessContext.setBizCode("f");
+                result = service.hello();
+                System.out.println(result);
             }
         };
     }

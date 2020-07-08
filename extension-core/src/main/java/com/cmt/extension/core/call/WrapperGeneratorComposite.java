@@ -55,10 +55,10 @@ public class WrapperGeneratorComposite implements WrapperGenerator {
     }
 
     @Override
-    public Object genericWrapper(SpiConfigDTO configDTO) {
+    public Object generateWrapper(SpiConfigDTO configDTO) {
         for (WrapperGenerator generator : generators) {
             if (generator.support(configDTO)) {
-                return generator.genericWrapper(configDTO);
+                return generator.generateWrapper(configDTO);
             }
         }
         throw new SpiException("不支持的协议: " + configDTO.getInvokeMethod());
