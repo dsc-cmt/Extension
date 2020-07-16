@@ -2,7 +2,7 @@ package com.cmt.extension.core.call.local;
 
 import com.cmt.extension.core.call.WrapperGenerator;
 import com.cmt.extension.core.common.SpiException;
-import com.cmt.extension.core.common.SpiTypeEnum;
+import com.cmt.extension.core.common.ExtesionTypeEnum;
 import com.cmt.extension.core.utils.ApplicationContextHolder;
 import com.cmt.extension.core.annotation.Extension;
 import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
@@ -25,7 +25,7 @@ public class LocalWrapperGenerator implements WrapperGenerator {
 
     @Override
     public boolean support(SpiConfigDTO configDTO) {
-        return SpiTypeEnum.LOCAL.toString().equalsIgnoreCase(configDTO.getInvokeMethod());
+        return ExtesionTypeEnum.LOCAL.toString().equalsIgnoreCase(configDTO.getInvokeMethod());
     }
 
     /**

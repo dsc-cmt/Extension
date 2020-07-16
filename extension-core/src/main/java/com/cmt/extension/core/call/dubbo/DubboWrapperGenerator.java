@@ -22,7 +22,7 @@ import com.alibaba.dubbo.config.utils.ReferenceConfigCache;
 import com.alibaba.dubbo.rpc.service.GenericService;
 import com.cmt.extension.core.call.WrapperGenerator;
 import com.cmt.extension.core.common.SpiException;
-import com.cmt.extension.core.common.SpiTypeEnum;
+import com.cmt.extension.core.common.ExtesionTypeEnum;
 import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
 import com.cmt.extension.core.utils.ApplicationContextHolder;
 import com.cmt.extension.core.utils.DubboConfigUtils;
@@ -48,7 +48,7 @@ public class DubboWrapperGenerator implements WrapperGenerator {
 
     @Override
     public boolean support(SpiConfigDTO configDTO) {
-        return SpiTypeEnum.DUBBO.name().equalsIgnoreCase(configDTO.getInvokeMethod());
+        return ExtesionTypeEnum.DUBBO.name().equalsIgnoreCase(configDTO.getInvokeMethod());
     }
 
     /**

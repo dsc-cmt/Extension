@@ -32,7 +32,7 @@ const ApplicationForm = ({visible, onCancel, onCreate}) =>{
         >
           <Form.Item
             label="应用名称"
-            name="namespace"
+            name="appName"
             rules={[
               {required: true, message: '请输入应用名称'},
               {
