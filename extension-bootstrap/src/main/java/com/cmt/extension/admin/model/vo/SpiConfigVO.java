@@ -1,10 +1,10 @@
 package com.cmt.extension.admin.model.vo;
 
-import javax.validation.constraints.NotNull;
-
 import com.cmt.extension.admin.model.type.YesOrNoEnum;
 import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
 import lombok.Data;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * @author tuzhenxian
@@ -30,10 +30,10 @@ public class SpiConfigVO {
     @NotNull(message = "调用方式不可为空",groups = {AddOrUpdateValidate.class})
     private String invokeMethod;
     /**
-     * 应用id
+     * 应用名
      */
-    @NotNull(message = "appId不可为空",groups = {AddOrUpdateValidate.class,DeleteValidate.class})
-    private String appId;
+    @NotNull(message = "appName不可为空",groups = {AddOrUpdateValidate.class,DeleteValidate.class})
+    private String appName;
 
     /**
      * 超时时间 (ms) 默认10s
@@ -59,7 +59,7 @@ public class SpiConfigVO {
         dto.setInvokeMethod(this.invokeMethod);
         dto.setBizCode(this.bizCode);
         dto.setSpiInterface(this.spiInterface);
-        dto.setAppId(this.appId);
+        dto.setAppName(this.appName);
         dto.setIsDefault(this.isDefault);
         dto.setComment(this.comment);
         return dto;
@@ -73,7 +73,7 @@ public class SpiConfigVO {
         vo.setExpireTime(dto.getExpireTime());
         vo.setIsDefault(dto.getIsDefault());
         vo.setIsDefaultDesc(YesOrNoEnum.getDescByCode(dto.getIsDefault()));
-        vo.setAppId(dto.getAppId());
+        vo.setAppName(dto.getAppName());
 
         return vo;
     }

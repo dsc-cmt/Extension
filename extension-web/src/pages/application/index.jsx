@@ -48,7 +48,8 @@ class AppManager extends Component {
     })
   }
   handleCreate = async (values) => {
-    let response = await addApplications(values.namespace);
+    debugger
+    let response = await addApplications(values.appName);
     this.handleResult(response);
   }
 

@@ -23,10 +23,21 @@ public class SpiConfigDTO {
      * 目前支持 本地、dubbo
      */
     private String invokeMethod;
+
     /**
-     * 应用id
+     * 应用ID
      */
-    private String appId;
+    private Long appId;
+
+    /**
+     * 应用名
+     */
+    private String appName;
+
+    /**
+     * 扩展点id
+     */
+    private Long extensionId;
 
     /**
      * 超时事件 (ms)
@@ -39,7 +50,7 @@ public class SpiConfigDTO {
 
     private String comment;
 
-    public static SpiConfigDTO buildConfigDTO(String key, String value, String appId) {
+    public static SpiConfigDTO buildConfigDTO(String key, String value, String appName) {
         SpiConfigDTO dto = new SpiConfigDTO();
         if (StringUtils.isEmpty(key) || StringUtils.isEmpty(value)) {
             return null;
@@ -49,7 +60,7 @@ public class SpiConfigDTO {
         if (keySplits.length != 2 || valueSplits.length <2) {
             return null;
         }
-        dto.setAppId(appId);
+        dto.setAppName(appName);
         dto.setBizCode(keySplits[0]);
         dto.setSpiInterface(keySplits[1]);
         dto.setInvokeMethod(valueSplits[0]);

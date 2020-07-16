@@ -99,8 +99,8 @@ public class ApolloConfigService {
         //暂存系统变量
         String oldApolloMeta= System.getProperty("apollo.meta");
         String oldAppId=System.getProperty("app.id");
-        System.setProperty("apollo.meta", metaServer);
-        System.setProperty("app.id", "spi-admin");
+        System.setProperty("apollo.configService", metaServer);
+        System.setProperty("app.id", "spi-demo");
         log.info("[spi]:获取SPI扩展点配置,namespace:{} , env:{}", namespace, env);
         //避免覆盖项目原生 apollo中ConfigManager的配置
         config =new DefaultConfig(namespace, new LocalFileConfigRepository(namespace, new RemoteConfigRepository(namespace)));

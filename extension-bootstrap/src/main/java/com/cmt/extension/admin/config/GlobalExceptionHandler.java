@@ -2,7 +2,6 @@ package com.cmt.extension.admin.config;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.ctrip.framework.apollo.openapi.client.exception.ApolloOpenApiException;
 import com.cmt.extension.admin.model.BusinessException;
 import com.cmt.extension.admin.model.Result;
 
@@ -41,16 +40,5 @@ public class GlobalExceptionHandler {
     public Result handleBusinessException(HttpServletRequest req, BusinessException e) {
         log.error("", e);
         return Result.fail(e.getMessage());
-    }
-
-    @ExceptionHandler(Exception.class)
-    @ResponseBody
-    public Result handleGlobalException(HttpServletRequest request, Exception e) {
-        log.error("", e);
-        if (e.getCause() instanceof ApolloOpenApiException) {
-            ApolloOpenApiException ae = (ApolloOpenApiException) e.getCause();
-            return Result.fail(ae.getMessage());
-        }
-        return Result.fail("系统异常");
     }
 }

@@ -18,7 +18,7 @@ import org.springframework.data.annotation.LastModifiedDate;
  */
 
 @Entity
-@Table(name = "t_user")
+@Table(name = "extension_user")
 @Data
 @DynamicUpdate
 public class User {
