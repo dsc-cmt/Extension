@@ -59,7 +59,7 @@ public class SpiConfigVO {
         dto.setInvokeMethod(this.invokeMethod);
         dto.setBizCode(this.bizCode);
         dto.setSpiInterface(this.spiInterface);
-        dto.setAppId(this.appId);
+        dto.setAppName(this.appId);
         dto.setIsDefault(this.isDefault);
         dto.setComment(this.comment);
         return dto;
@@ -73,7 +73,7 @@ public class SpiConfigVO {
         vo.setExpireTime(dto.getExpireTime());
         vo.setIsDefault(dto.getIsDefault());
         vo.setIsDefaultDesc(YesOrNoEnum.getDescByCode(dto.getIsDefault()));
-        vo.setAppId(dto.getAppId());
+        vo.setAppId(dto.getAppName());
 
         return vo;
     }

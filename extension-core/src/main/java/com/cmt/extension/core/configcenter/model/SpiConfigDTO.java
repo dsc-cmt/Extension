@@ -26,7 +26,7 @@ public class SpiConfigDTO {
     /**
      * 应用id
      */
-    private String appId;
+    private String appName;
 
     /**
      * 超时事件 (ms)
@@ -49,7 +49,7 @@ public class SpiConfigDTO {
         if (keySplits.length != 2 || valueSplits.length <2) {
             return null;
         }
-        dto.setAppId(appId);
+        dto.setAppName(appId);
         dto.setBizCode(keySplits[0]);
         dto.setSpiInterface(keySplits[1]);
         dto.setInvokeMethod(valueSplits[0]);

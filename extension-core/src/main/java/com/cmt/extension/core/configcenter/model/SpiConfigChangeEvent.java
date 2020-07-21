@@ -1,7 +1,5 @@
 package com.cmt.extension.core.configcenter.model;
 
-import com.ctrip.framework.apollo.enums.PropertyChangeType;
-
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,9 +20,5 @@ public class SpiConfigChangeEvent {
     public static class SpiConfigChangeDTO{
         private SpiConfigDTO config;
         private SpiChangeType changeType;
-
-        public static SpiConfigChangeDTO build(SpiConfigDTO configDTO, PropertyChangeType changeType) {
-            return new SpiConfigChangeDTO(configDTO,SpiChangeType.matchType(changeType));
-        }
     }
 }

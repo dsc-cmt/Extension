@@ -1,7 +1,6 @@
 package com.cmt.extension.admin.service;
 
 import com.cmt.extension.admin.model.BusinessException;
-import com.cmt.extension.admin.model.type.RoleType;
 import com.cmt.extension.admin.model.vo.NamespaceCreateVO;
 import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
 import com.ctrip.framework.apollo.openapi.client.ApolloOpenApiClient;
@@ -12,10 +11,8 @@ import com.ctrip.framework.apollo.openapi.dto.OpenNamespaceDTO;
 import com.google.common.collect.Sets;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -54,9 +51,9 @@ public class SpiConfigService {
      */
     public void addConfig(SpiConfigDTO configDTO) {
         //新增属性
-        client.createItem(appId, env, cluster, configDTO.getAppId(), buildOpenItemDTO(configDTO));
+        client.createItem(appId, env, cluster, configDTO.getAppName(), buildOpenItemDTO(configDTO));
         //发布
-        publish(configDTO.getAppId());
+        publish(configDTO.getAppName());
     }
 
     /**
@@ -67,9 +64,9 @@ public class SpiConfigService {
      */
     public void updateConfig(SpiConfigDTO configDTO) {
         //更新属性
-        client.updateItem(appId, env, cluster, configDTO.getAppId(), buildOpenItemDTO(configDTO));
+        client.updateItem(appId, env, cluster, configDTO.getAppName(), buildOpenItemDTO(configDTO));
         //发布
-        publish(configDTO.getAppId());
+        publish(configDTO.getAppName());
     }
 
     /**
@@ -79,9 +76,9 @@ public class SpiConfigService {
      * @return
      */
     public void deleteConfig(SpiConfigDTO configDTO) {
-        client.removeItem(appId, env, cluster, configDTO.getAppId(), configDTO.buildKey(), administrator);
+        client.removeItem(appId, env, cluster, configDTO.getAppName(), configDTO.buildKey(), administrator);
         //发布
-        publish(configDTO.getAppId());
+        publish(configDTO.getAppName());
     }
 
     /**
