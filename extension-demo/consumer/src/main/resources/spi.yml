@@ -1,0 +1,25 @@
+applications:
+  - appName: test
+    spis:
+      - spiInterface: com.cmt.extension.spi.IHelloService
+        extensions:
+          - bizCode: d
+            invokeMethod: local
+            expireTime: 5000
+            isDefault: true
+          - bizCode: f
+            invokeMethod: local
+            expireTime: 5000
+            isDefault: false
+          - bizCode: a
+            invokeMethod: dubbo
+            expireTime: 5000
+            isDefault: false
+          - bizCode: b
+            invokeMethod: dubbo
+            expireTime: 5000
+            isDefault: false
+          - bizCode: c
+            invokeMethod: dubbo
+            expireTime: 5000
+            isDefault: false
