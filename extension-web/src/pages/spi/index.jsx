@@ -1,8 +1,10 @@
 import React, {Component} from 'react'
-import {Divider, Table, Button, Select, Popconfirm, message,} from 'antd';
-import {getValidOptions, getValidNamespaces, getConfig, delConfig, addConfig, updateConfig} from "@/services/spi"
-import SpiForm from './SpiForm';
+import {Divider, Table, Button, Select, Popconfirm, message, Input,} from 'antd';
+import {getValidOptions, getValidNamespaces, getConfig, delConfig, addConfig, updateConfig,getSpis,addSpi} from "@/services/spi"
+import ConfigForm from './ConfigForm';
 import {connect} from "react-redux";
+import PlusOutlined from "@ant-design/icons/es/icons/PlusOutlined";
+import SpiForm from "./SpiForm";
 
 
 class SPIApp extends Component {
@@ -13,8 +15,11 @@ class SPIApp extends Component {
     namespace: "",
     menus:[],
     authNamespaces:[],
+    spis:[],
+    spiInterface:null,
     currentUser: null,
     modalShow: false,
+    spiFormVisible:false,
   };
 
   constructor(props){
@@ -37,7 +42,7 @@ class SPIApp extends Component {
   handleOptionResponse = (response) => {
     if (response.success) {
       this.setState({
-        authNamespaces:response.data
+        authNamespaces:response.data.map(d=>d.appName)
       })
     }
   }
@@ -48,10 +53,25 @@ class SPIApp extends Component {
     }
   }
 
-  handleNamespaceChange= async (n) => {
+  handleAppChange= async (n) => {
     this.setState({namespace: n});
-    let response = await getConfig({namespace: n});
+    let spiRes=await getSpis({appName:n});
+    this.handleSpiResponse(spiRes)
+  }
+
+  handleSpiChange = async (s)=>{
+    this.setState({spiInterface:s})
+    let response = await getConfig({appName: this.state.namespace,spiInterface:s});
     this.handleConfigResponse(response);
+  }
+
+  handleSpiResponse = (response) => {
+    if (response.success) {
+      this.setState({
+        spis: response.data,
+        spiInterface: null
+      })
+    }
   }
 
   handleConfigResponse = (response) => {
@@ -59,7 +79,7 @@ class SPIApp extends Component {
       let temp = response.data.map((value, index) => {
         return {
           ...value,
-          "key": index
+          "key": index,
         }
       })
       this.setState({
@@ -73,7 +93,7 @@ class SPIApp extends Component {
     if (response.success) {
       message.success("操作成功");
       this.setState({modalShow: false, formVisible: false});
-      let response = await getConfig({namespace: this.state.namespace});
+      let response = await getConfig({appName: this.state.namespace,spiInterface: this.state.spiInterface});
       this.handleConfigResponse(response);
     } else {
       message.error(msg);
@@ -96,7 +116,9 @@ class SPIApp extends Component {
     }
     let params = {
       ...record,
+      appName:this.state.namespace,
       mobile: currentUser.mobile,
+      spiInterface:this.state.spiInterface,
     }
     let response = await delConfig(params);
     this.handleResult(response);
@@ -111,6 +133,10 @@ class SPIApp extends Component {
       message.info("请先选择应用");
       return
     }
+    if (this.state.spiInterface == null||this.state.spiInterface ==="" ) {
+      message.info("请先选择扩展点");
+      return
+    }
     if (!this.checkAuth()) {
       return
     }
@@ -121,10 +147,23 @@ class SPIApp extends Component {
     this.setState({modalShow: false, formVisible: false, row: {}});
   };
 
+  handleSpiCreate = async (values) =>{
+    let response= await addSpi(values);
+    if (response.success) {
+      message.success("操作成功");
+      this.setState({spiFormVisible: false});
+      let spiRes=await getSpis({appName:this.state.namespace});
+      this.handleSpiResponse(spiRes)
+    } else {
+      message.error(response.msg);
+    }
+  }
+
   handleCreate = async (values) => {
     let {row, currentUser} = this.state;
     let data = {
       ...values,
+      extensionId:row.extensionId,
       mobile: currentUser.mobile,
     }
     let response = null;
@@ -138,35 +177,23 @@ class SPIApp extends Component {
     this.handleResult(response);
   };
 
+  showSpiForm = ()=>{
+    this.setState({
+      spiFormVisible:true
+    })
+  }
   render() {
-    const {menus, formVisible, namespace, row, formData, modalShow} = this.state;
+    const {menus, formVisible, namespace, row, formData, modalShow,spis} = this.state;
     const columns = [
       {
-        title: 'spi接口',
-        dataIndex: 'spiInterface',
-        key: 'spiInterface',
-        sorter: (a, b) => {
-          let stringA = a.spiInterface.toUpperCase(); // ignore upper and lowercase
-          let stringB = b.spiInterface.toUpperCase(); // ignore upper and lowercase
-          if (stringA < stringB) {
-            return -1;
-          }
-          if (stringA > stringB) {
-            return 1;
-          }
-          // names must be equal
-          return 0;
-        }
+        title: '业务标识',
+        dataIndex: 'bizCode',
+        key: 'bizCode',
       },
       {
         title: '调用方式',
         dataIndex: 'invokeMethod',
         key: 'invokeMethod',
-      },
-      {
-        title: '业务标识',
-        dataIndex: 'bizCode',
-        key: 'bizCode',
       },
       {
         title: '超时时间',
@@ -200,24 +227,54 @@ class SPIApp extends Component {
     ];
     return (
       <div align={"left"}>
-        <Select placeholder={"请选择应用"} style={{ width: 120 }} onChange={this.handleNamespaceChange}>
+        <Select placeholder={"请选择应用"} style={{ width: 120 }} onChange={this.handleAppChange}>
           {
             menus.map(m=>{
               return (
-                <Select.Option key={m} value={m}>{m}</Select.Option>
+                <Select.Option key={m.appName} value={m.appName}>{m.appName}</Select.Option>
               )
             })}
         </Select>
+
+        <Select placeholder={"请选择spi扩展点"} style={{ width: 280 }} onChange={this.handleSpiChange} value={this.state.spiInterface}
+                dropdownRender={menu => (
+                  <div>
+                    {menu}
+                    <Divider style={{ margin: '4px 0' }} />
+                    <div style={{ display: 'flex', flexWrap: 'nowrap', padding: 8 }}>
+                      <a
+                        style={{ flex: 'none', padding: '8px', display: 'block', cursor: 'pointer' }}
+                        onClick={this.showSpiForm}
+                      >
+                        <PlusOutlined /> 新增扩展点
+                      </a>
+                    </div>
+                  </div>
+                )}>
+          {
+            spis.map(spi=>{
+              return (
+                <Select.Option key={spi.spiInterface} value={spi.spiInterface}>{spi.spiInterface}</Select.Option>
+              )
+            })}
+        </Select>
+
         <Button type="primary" onClick={() => this.showModal({})}>
           新增SPI实现
         </Button>
+        <SpiForm visible={this.state.spiFormVisible}
+        onCancel={()=>{this.setState({spiFormVisible:false})}}
+                 onCreate={this.handleSpiCreate}
+                 appName={this.state.namespace}
+        />
         {
-          modalShow ? <SpiForm
+          modalShow ? <ConfigForm
             visible={formVisible}
             onCancel={this.handleCancel}
             onCreate={this.handleCreate}
             row={row}
             namespace={namespace}
+            spiInterface={this.state.spiInterface}
           /> : null
         }
         <Table dataSource={formData} columns={columns}/>

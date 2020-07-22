@@ -72,8 +72,8 @@ class AppManager extends Component {
     const columns = [
       {
         title: '应用名称',
-        dataIndex: 'namespace',
-        key: 'namespace',
+        dataIndex: 'appName',
+        key: 'appName',
       },
       {
         title: '创建人',
@@ -96,7 +96,7 @@ class AppManager extends Component {
           onCancel={this.handleCancel}
           onCreate={this.handleCreate}
         />
-        <Table dataSource={this.state.formData} columns={columns} rowKey={"namespace"}/>
+        <Table dataSource={this.state.formData} columns={columns} rowKey={"appName"}/>
       </div>
 
     )

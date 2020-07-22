@@ -1,13 +1,21 @@
 package com.cmt.extension.admin.model.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Version;
+
 import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
+
+import java.util.Date;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import javax.persistence.*;
-import java.util.Date;
 
 /**
  * SPI扩展点实现
@@ -18,12 +26,14 @@ import java.util.Date;
 @Table(name = "extension_extension")
 @Data
 @EntityListeners(AuditingEntityListener.class)
-public class ExtensionEntity {
+public class Extension {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /** 业务code **/
+    /**
+     * 业务code
+     **/
     private String bizCode;
 
     /**
@@ -32,10 +42,14 @@ public class ExtensionEntity {
      */
     private String invokeMethod;
 
-    /** 超时时间 (ms) 默认10s **/
+    /**
+     * 超时时间 (ms) 默认10s
+     **/
     private Integer expireTime;
 
-    /** 是否为默认 1是 0 否 **/
+    /**
+     * 是否为默认 1是 0 否
+     **/
     private Integer isDefault;
 
     @CreatedDate
@@ -44,12 +58,12 @@ public class ExtensionEntity {
     private Date dateModified;
 
     @ManyToOne
-    private SpiEntity spi;
+    private Spi spi;
     @Version
     private Integer version;
 
-    public static ExtensionEntity create(SpiConfigDTO configDTO) {
-        ExtensionEntity extension = new ExtensionEntity();
+    public static Extension create(SpiConfigDTO configDTO) {
+        Extension extension = new Extension();
         extension.setBizCode(configDTO.getBizCode());
         extension.setInvokeMethod(configDTO.getInvokeMethod());
         extension.setExpireTime(configDTO.getExpireTime());
@@ -63,5 +77,6 @@ public class ExtensionEntity {
         this.setInvokeMethod(configDTO.getInvokeMethod());
         this.setExpireTime(configDTO.getExpireTime());
         this.setIsDefault(configDTO.getIsDefault());
+        this.dateModified = new Date();
     }
 }

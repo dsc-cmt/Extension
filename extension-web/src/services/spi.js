@@ -40,3 +40,16 @@ export async function updateConfig(data) {
   });
 }
 
+export async function getSpis(param) {
+  return request('api/spis',{
+    method:'get',
+    params:param,
+  });
+}
+
+export async function addSpi(data){
+  return request('/api/spis', {
+    method: 'post',
+    data: data
+  });
+}

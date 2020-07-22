@@ -10,7 +10,7 @@ import spock.lang.Specification
 
 @SpringBootTest(classes = SpiAdminApplication)
 @Transactional
-@Rollback
+@Rollback(false)
 class AppRepositorySpec extends Specification {
     @Autowired
     private AppRepository appRepository

@@ -1,10 +1,11 @@
 package com.cmt.extension.admin.model.vo;
 
+import javax.validation.constraints.NotNull;
+
 import com.cmt.extension.admin.model.type.YesOrNoEnum;
 import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
-import lombok.Data;
 
-import javax.validation.constraints.NotNull;
+import lombok.Data;
 
 /**
  * @author tuzhenxian
@@ -16,23 +17,23 @@ public class SpiConfigVO {
     /**
      * spi接口
      */
-    @NotNull(message = "spi接口不可为空",groups = {AddOrUpdateValidate.class,DeleteValidate.class})
+    @NotNull(message = "spi接口不可为空", groups = {AddOrUpdateValidate.class,DeleteValidate.class})
     private String spiInterface;
     /**
      * 业务code
      */
-    @NotNull(message = "bizCode不可为空",groups = {AddOrUpdateValidate.class,DeleteValidate.class})
+    @NotNull(message = "bizCode不可为空", groups = {AddOrUpdateValidate.class})
     private String bizCode;
     /**
      * 调用方式
      * 目前支持 本地、dubbo
      */
-    @NotNull(message = "调用方式不可为空",groups = {AddOrUpdateValidate.class})
+    @NotNull(message = "调用方式不可为空", groups = {AddOrUpdateValidate.class})
     private String invokeMethod;
     /**
      * 应用名
      */
-    @NotNull(message = "appName不可为空",groups = {AddOrUpdateValidate.class,DeleteValidate.class})
+    @NotNull(message = "appName不可为空", groups = {AddOrUpdateValidate.class,DeleteValidate.class})
     private String appName;
 
     /**
@@ -40,7 +41,7 @@ public class SpiConfigVO {
      */
     private Integer expireTime;
     /**
-     *是否为默认 1是 0 否
+     * 是否为默认 1是 0 否
      */
     private Integer isDefault;
 
@@ -53,20 +54,11 @@ public class SpiConfigVO {
 
     private String mobile;
 
-    public SpiConfigDTO buildConfigDTO() {
-        SpiConfigDTO dto = new SpiConfigDTO();
-        dto.setExpireTime(this.expireTime==null?DEFAULT_EXPIRE_TIME:this.expireTime);
-        dto.setInvokeMethod(this.invokeMethod);
-        dto.setBizCode(this.bizCode);
-        dto.setSpiInterface(this.spiInterface);
-        dto.setAppName(this.appName);
-        dto.setIsDefault(this.isDefault);
-        dto.setComment(this.comment);
-        return dto;
-    }
+    @NotNull(message = "extensionId不可为空",groups = DeleteValidate.class)
+    private Long extensionId;
 
-    public static SpiConfigVO buildByConfigDTO(SpiConfigDTO dto){
-        SpiConfigVO vo=new SpiConfigVO();
+    public static SpiConfigVO buildByConfigDTO(SpiConfigDTO dto) {
+        SpiConfigVO vo = new SpiConfigVO();
         vo.setSpiInterface(dto.getSpiInterface());
         vo.setInvokeMethod(dto.getInvokeMethod());
         vo.setBizCode(dto.getBizCode());
@@ -74,12 +66,27 @@ public class SpiConfigVO {
         vo.setIsDefault(dto.getIsDefault());
         vo.setIsDefaultDesc(YesOrNoEnum.getDescByCode(dto.getIsDefault()));
         vo.setAppName(dto.getAppName());
-
+        vo.setExtensionId(dto.getExtensionId());
         return vo;
     }
 
-    public interface AddOrUpdateValidate{}
+    public SpiConfigDTO buildConfigDTO() {
+        SpiConfigDTO dto = new SpiConfigDTO();
+        dto.setExpireTime(this.expireTime == null ? DEFAULT_EXPIRE_TIME : this.expireTime);
+        dto.setInvokeMethod(this.invokeMethod);
+        dto.setBizCode(this.bizCode);
+        dto.setSpiInterface(this.spiInterface);
+        dto.setAppName(this.appName);
+        dto.setIsDefault(this.isDefault);
+        dto.setComment(this.comment);
+        dto.setExtensionId(this.extensionId);
+        return dto;
+    }
 
-    public interface DeleteValidate{}
+    public interface AddOrUpdateValidate {
+    }
+
+    public interface DeleteValidate {
+    }
 
 }

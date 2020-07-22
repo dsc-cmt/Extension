@@ -44,8 +44,8 @@ CREATE TABLE `extension_spi` (
 
 CREATE TABLE `extension_extension` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `app_id` bigint(20) NOT NULL,
-  `bizcode` varchar(50) NOT NULL,
+  `spi_id` bigint(20) NOT NULL,
+  `biz_code` varchar(50) NOT NULL,
   `invoke_method` varchar(50) NOT NULL,
   `is_default` tinyint(4) NOT NULL DEFAULT '1' COMMENT '是否默认 1默认 0非默认',
   `expire_time` INT DEFAULT NULL,

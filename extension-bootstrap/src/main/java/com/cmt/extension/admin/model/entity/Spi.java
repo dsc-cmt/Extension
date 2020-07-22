@@ -22,6 +22,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.util.Assert;
 
 /**
  * SPI
@@ -33,7 +34,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Data
 @DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
-public class SpiEntity {
+public class Spi {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -51,11 +52,11 @@ public class SpiEntity {
     /**
      * SPI扩展点实现
      **/
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "spi")
-    private List<ExtensionEntity> extensionList = new ArrayList<>();
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "spi", orphanRemoval = true)
+    private List<Extension> extensions = new ArrayList<>();
 
     @ManyToOne
-    private AppEntity app;
+    private App app;
 
     @CreatedDate
     private Date dateCreate;
@@ -64,35 +65,40 @@ public class SpiEntity {
     @Version
     private Integer version;
 
-    public static SpiEntity create(SpiConfigDTO configDTO) {
-        SpiEntity spiEntity = new SpiEntity();
-//        spiEntity.setAppId(configDTO.getAppId());
-        spiEntity.setSpiInterface(configDTO.getSpiInterface());
-
-        List<ExtensionEntity> extensionList = new ArrayList<>();
-        extensionList.add(ExtensionEntity.create(configDTO));
-        spiEntity.setExtensionList(extensionList);
-
-        return spiEntity;
+    public static Spi create(String spiInterface, String desc) {
+        Spi spi = new Spi();
+        spi.setSpiInterface(spiInterface);
+        spi.setDescription(desc);
+        return spi;
     }
 
     public void updateExtension(SpiConfigDTO configDTO) {
-        for (ExtensionEntity e : extensionList) {
+        for (Extension e : extensions) {
             if (e.getId().equals(configDTO.getExtensionId())) {
                 e.update(configDTO);
+                this.dateModified = new Date();
                 break;
             }
         }
     }
 
     public void deleteExtension(Long extensionId) {
-        Iterator<ExtensionEntity> iter = extensionList.iterator();
+        Assert.notNull(extensionId, "extension id不可为空");
+        Iterator<Extension> iter = extensions.iterator();
         while (iter.hasNext()) {
-            ExtensionEntity e = iter.next();
+            Extension e = iter.next();
             if (e.getId().equals(extensionId)) {
                 iter.remove();
+                this.dateModified = new Date();
                 break;
             }
         }
+    }
+
+    public void addExtension(SpiConfigDTO config) {
+        Extension extension = Extension.create(config);
+        extension.setSpi(this);
+        extensions.add(extension);
+        this.dateModified = new Date();
     }
 }

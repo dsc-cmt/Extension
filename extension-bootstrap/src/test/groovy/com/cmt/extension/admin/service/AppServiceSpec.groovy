@@ -11,20 +11,20 @@ import spock.lang.Specification
 @SpringBootTest(classes = SpiAdminApplication)
 @Transactional
 @Rollback
-class ConfigServiceSpec extends Specification {
+class AppServiceSpec extends Specification {
     @Autowired
-    private ConfigService configService
+    private AppService appService
 
     def "getAllApps"() {
         when:
-            List<AppDTO> list = configService.getAllApps()
+            List<AppDTO> list = appService.getAllApps()
         then:
             list.size() > 0
     }
 
     def "addApp"() {
         when:
-            Long id = configService.addApp("test-app1", 1L)
+            Long id = appService.addApp("test-app1", 1L)
         then:
             println id
             id > 0
