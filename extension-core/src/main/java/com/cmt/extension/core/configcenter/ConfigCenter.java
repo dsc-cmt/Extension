@@ -1,6 +1,5 @@
 package com.cmt.extension.core.configcenter;
 
-import com.ctrip.framework.apollo.model.ConfigChange;
 import com.google.common.collect.Lists;
 import com.cmt.extension.core.configcenter.model.SpiChangeType;
 import com.cmt.extension.core.configcenter.model.SpiConfigChangeEvent;
@@ -23,7 +22,7 @@ import org.springframework.util.CollectionUtils;
 public class ConfigCenter {
     private static final ConfigCenter INSTANCE = new ConfigCenter();
 
-    private ApolloConfigService apolloConfigService = ApolloConfigService.getInstance();
+    private final ConfigService configService=new LocalConfigServiceImpl();
     /**
      * SPI 配置缓存
      */
@@ -92,33 +91,10 @@ public class ConfigCenter {
         fireConfigChangeEvent(new SpiConfigChangeEvent(configChanges));
     }
 
-    public void init(String namespace) {
-        if(inited) {
-            return;
-        }
-        Map<String, SpiConfigDTO> configMap = apolloConfigService.syncConfig(namespace);
+    public void init(String appName) {
+        Map<String, SpiConfigDTO> configMap = configService.loadConfig(appName);
         //缓存到configCenter
         initConfig(configMap);
-        ApolloConfigService.getApolloConfig().addChangeListener(
-                changeEvent -> {
-                    //只监听自己应用的属性变化时间
-                    if (namespace.equals(changeEvent.getNamespace())) {
-                        log.info("Changes for namespace :{}", changeEvent.getNamespace());
-                        List<SpiConfigChangeDTO> configChanges = new ArrayList<>();
-                        for (String key : changeEvent.changedKeys()) {
-                            ConfigChange change = changeEvent.getChange(key);
-                            log.info("Found change - key:{}, oldValue:{}, newValue:{}, changeType: {}", change.getPropertyName(), change.getOldValue(), change.getNewValue(), change.getChangeType());
-                            SpiConfigDTO configDTO = SpiConfigDTO.buildConfigDTO(change.getPropertyName(), change.getNewValue(), change.getNamespace());
-                            if (configDTO != null) {
-                                SpiConfigChangeDTO dto = SpiConfigChangeDTO.build(configDTO, change.getChangeType());
-                                configChanges.add(dto);
-                            }
-                        }
-                        changeConfig(configChanges);
-                    }
-                }
-        );
-        inited = true;
     }
 
     public static ConfigCenter getInstance() {

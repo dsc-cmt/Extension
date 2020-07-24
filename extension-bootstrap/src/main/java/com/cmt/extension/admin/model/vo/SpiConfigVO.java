@@ -17,7 +17,7 @@ public class SpiConfigVO {
     /**
      * spi接口
      */
-    @NotNull(message = "spi接口不可为空", groups = {AddOrUpdateValidate.class,DeleteValidate.class})
+    @NotNull(message = "spi接口不可为空", groups = {AddOrUpdateValidate.class, DeleteValidate.class})
     private String spiInterface;
     /**
      * 业务code
@@ -33,7 +33,7 @@ public class SpiConfigVO {
     /**
      * 应用名
      */
-    @NotNull(message = "appName不可为空", groups = {AddOrUpdateValidate.class,DeleteValidate.class})
+    @NotNull(message = "appName不可为空", groups = {AddOrUpdateValidate.class, DeleteValidate.class})
     private String appName;
 
     /**
@@ -54,7 +54,7 @@ public class SpiConfigVO {
 
     private String mobile;
 
-    @NotNull(message = "extensionId不可为空",groups = DeleteValidate.class)
+    @NotNull(message = "extensionId不可为空", groups = DeleteValidate.class)
     private Long extensionId;
 
     public static SpiConfigVO buildByConfigDTO(SpiConfigDTO dto) {

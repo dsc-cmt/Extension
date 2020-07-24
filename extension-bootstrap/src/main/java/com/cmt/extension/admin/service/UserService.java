@@ -11,6 +11,7 @@ import com.cmt.extension.admin.repository.UserRepository;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.cmt.extension.core.configcenter.ConfigCenter;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import org.apache.commons.lang3.StringUtils;
@@ -102,5 +103,10 @@ public class UserService {
     }
     public User getValidUserByMobile(String mobile){
         return userRepository.findByUserMobileAndSysFlag(mobile, SysFlag.VALID.getCode());
+    }
+
+    public static void main(String args[]){
+        ConfigCenter configCenter=ConfigCenter.getInstance();
+        configCenter.init("mcgj");
     }
 }
