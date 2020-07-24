@@ -11,6 +11,9 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 import com.cmt.extension.admin.model.BusinessException;
+import com.cmt.extension.admin.model.Converter;
+import com.cmt.extension.core.configcenter.model.Application;
+import com.cmt.extension.core.configcenter.model.Spi;
 import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
 
 import java.util.ArrayList;
@@ -35,7 +38,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
-public class App {
+public class AppEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -56,49 +59,60 @@ public class App {
     private Date dateModified;
 
     @OneToMany(mappedBy = "app", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Spi> spis = new ArrayList<>();
+    private List<SpiEntity> spis = new ArrayList<>();
     @Version
     private Integer version;
 
-    public App(String appName, Long creatorId) {
+    public AppEntity(String appName, Long creatorId) {
         this.appName = appName;
         this.creatorId = creatorId;
     }
 
     public void addSpi(String spiInterface, String desc) {
-        List<String> spiInterfaces = spis.stream().map(Spi::getSpiInterface).collect(Collectors.toList());
+        List<String> spiInterfaces = spis.stream().map(SpiEntity::getSpiInterface).collect(Collectors.toList());
         if (spiInterfaces.contains(spiInterface)) {
             return;
         }
-        Spi newSpi = Spi.create(spiInterface, desc);
+        SpiEntity newSpi = SpiEntity.create(spiInterface, desc);
         newSpi.setApp(this);
         spis.add(newSpi);
     }
 
     public void addExtension(SpiConfigDTO config) {
-        Spi spi = getSpi(config.getSpiInterface());
+        SpiEntity spi = getSpi(config.getSpiInterface());
         spi.addExtension(config);
         this.dateModified = new Date();
     }
 
     public void updateExtension(SpiConfigDTO config) {
-        Spi spi = getSpi(config.getSpiInterface());
+        SpiEntity spi = getSpi(config.getSpiInterface());
         spi.updateExtension(config);
         this.dateModified = new Date();
     }
 
     public void deleteExtension(SpiConfigDTO configDTO) {
-        Spi spi = getSpi(configDTO.getSpiInterface());
+        SpiEntity spi = getSpi(configDTO.getSpiInterface());
         spi.deleteExtension(configDTO.getExtensionId());
         this.dateModified = new Date();
     }
 
-    private Spi getSpi(String spiInterface) {
-        for (Spi spi : spis) {
+    private SpiEntity getSpi(String spiInterface) {
+        for (SpiEntity spi : spis) {
             if (spi.getSpiInterface().equals(spiInterface)) {
                 return spi;
             }
         }
         throw BusinessException.fail("扩展点不存在");
+    }
+
+    public Application build() {
+        Application app = new Application();
+        app.setAppName(this.appName);
+        app.setVersion(this.version);
+        List<Spi> spis = this.spis.stream()
+                .map(Converter.INSTANCE::mapSpi)
+                .collect(Collectors.toList());
+        app.setSpis(spis);
+        return app;
     }
 }

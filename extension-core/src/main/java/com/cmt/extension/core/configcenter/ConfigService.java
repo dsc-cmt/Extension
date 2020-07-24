@@ -1,8 +1,6 @@
 package com.cmt.extension.core.configcenter;
 
-import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
-
-import java.util.Map;
+import com.cmt.extension.core.configcenter.model.Application;
 
 /**
  * @author tuzhenxian
@@ -10,10 +8,20 @@ import java.util.Map;
  */
 public interface ConfigService {
     /**
-     * 载入配置
+     * 初始化配置
      *
      * @param appName
      * @return
      */
-    Map<String, SpiConfigDTO> loadConfig(String appName);
+    Application init(String appName);
+
+    /**
+     * 定时刷新配置
+     *
+     * @param
+     * @return
+     */
+    default void periodicRefresh() {
+
+    }
 }

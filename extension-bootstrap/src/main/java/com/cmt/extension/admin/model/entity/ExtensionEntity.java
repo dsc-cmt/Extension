@@ -26,7 +26,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Table(name = "extension_extension")
 @Data
 @EntityListeners(AuditingEntityListener.class)
-public class Extension {
+public class ExtensionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -58,12 +58,12 @@ public class Extension {
     private Date dateModified;
 
     @ManyToOne
-    private Spi spi;
+    private SpiEntity spi;
     @Version
     private Integer version;
 
-    public static Extension create(SpiConfigDTO configDTO) {
-        Extension extension = new Extension();
+    public static ExtensionEntity create(SpiConfigDTO configDTO) {
+        ExtensionEntity extension = new ExtensionEntity();
         extension.setBizCode(configDTO.getBizCode());
         extension.setInvokeMethod(configDTO.getInvokeMethod());
         extension.setExpireTime(configDTO.getExpireTime());

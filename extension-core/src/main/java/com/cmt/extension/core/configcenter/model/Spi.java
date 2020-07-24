@@ -12,6 +12,15 @@ import java.util.List;
 public class Spi {
     private String spiInterface;
     private List<Extension> extensions;
+    private Integer version;
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
 
     public String getSpiInterface() {
         return spiInterface;
@@ -35,7 +44,7 @@ public class Spi {
             return configs;
         }
         return extensions.stream()
-                .map(e -> e.build(appName,spiInterface))
+                .map(e -> e.build(appName, spiInterface))
                 .collect(toList());
     }
 }

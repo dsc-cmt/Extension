@@ -1,7 +1,7 @@
-package com.cmt.extension.admin.service
+package com.cmt.extension.admin.repository
 
 import com.cmt.extension.admin.SpiAdminApplication
-import com.cmt.extension.admin.model.dto.AppDTO
+import com.cmt.extension.admin.model.dto.AppView
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.annotation.Rollback
@@ -10,23 +10,22 @@ import spock.lang.Specification
 
 @SpringBootTest(classes = SpiAdminApplication)
 @Transactional
-@Rollback
-class AppServiceSpec extends Specification {
+@Rollback(false)
+class AppEntityRepositorySpec extends Specification {
     @Autowired
-    private AppService appService
+    private AppRepository appRepository
 
-    def "getAllApps"() {
+    def "findAllApps"() {
         when:
-            List<AppDTO> list = appService.getAllApps()
+            List<AppView> list = appRepository.findAllApps()
         then:
             list.size() > 0
     }
 
-    def "addApp"() {
+    def "findAll"() {
         when:
-            Long id = appService.addApp("test-app1", 1L)
+            def list = appRepository.findAll()
         then:
-            println id
-            id > 0
+            list.size() > 0
     }
 }

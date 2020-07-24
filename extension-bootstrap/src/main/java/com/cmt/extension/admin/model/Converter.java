@@ -3,8 +3,10 @@ package com.cmt.extension.admin.model;
 import com.cmt.extension.admin.model.dto.AppDTO;
 import com.cmt.extension.admin.model.dto.AppView;
 import com.cmt.extension.admin.model.dto.SpiDTO;
-import com.cmt.extension.admin.model.entity.Extension;
-import com.cmt.extension.admin.model.entity.Spi;
+import com.cmt.extension.admin.model.entity.ExtensionEntity;
+import com.cmt.extension.admin.model.entity.SpiEntity;
+import com.cmt.extension.core.configcenter.model.Extension;
+import com.cmt.extension.core.configcenter.model.Spi;
 import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -18,12 +20,17 @@ public interface Converter {
 
     List<AppDTO> map(List<AppView> list);
 
-    List<SpiDTO> map2dto(List<Spi> spis);
+    List<SpiDTO> map2dto(List<SpiEntity> spis);
 
-    SpiDTO map2dto(Spi spi);
+    SpiDTO map2dto(SpiEntity spi);
 
-    List<SpiConfigDTO> mapConfigs(List<Extension> extensions);
+    List<SpiConfigDTO> mapConfigs(List<ExtensionEntity> extensions);
 
     @Mapping(target = "extensionId",source = "id")
-    SpiConfigDTO mapConfig(Extension extension);
+    SpiConfigDTO mapConfig(ExtensionEntity extension);
+
+    Spi mapSpi(SpiEntity spiEntity);
+
+    @Mapping(target = "isDefault",expression = "java(com.cmt.extension.admin.model.type.YesOrNoEnum.getBooleanByCode(entity.getIsDefault()))")
+    Extension mapExtension(ExtensionEntity entity);
 }

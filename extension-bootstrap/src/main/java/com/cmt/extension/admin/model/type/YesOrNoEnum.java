@@ -27,4 +27,8 @@ public enum YesOrNoEnum {
         }
         return null;
     }
+
+    public static boolean getBooleanByCode(Integer code){
+        return Integer.valueOf(1).equals(code);
+    }
 }

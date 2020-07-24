@@ -9,6 +9,7 @@ public class Extension {
     private String invokeMethod;
     private Integer expireTime;
     private boolean isDefault;
+    private Integer version;
 
     public String getBizCode() {
         return bizCode;
@@ -42,6 +43,14 @@ public class Extension {
         isDefault = aDefault;
     }
 
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
     public SpiConfigDTO build(String appName, String spiInterface) {
         SpiConfigDTO dto = new SpiConfigDTO();
         dto.setBizCode(bizCode);
@@ -50,6 +59,7 @@ public class Extension {
         dto.setExpireTime(expireTime);
         dto.setSpiInterface(spiInterface);
         dto.setAppName(appName);
+        dto.setVersion(version);
         return dto;
     }
 }

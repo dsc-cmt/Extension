@@ -6,8 +6,9 @@ import com.cmt.extension.admin.model.dto.AppDTO;
 import com.cmt.extension.admin.model.dto.AppView;
 import com.cmt.extension.admin.model.dto.NewSpiDTO;
 import com.cmt.extension.admin.model.dto.SpiDTO;
-import com.cmt.extension.admin.model.entity.App;
+import com.cmt.extension.admin.model.entity.AppEntity;
 import com.cmt.extension.admin.repository.AppRepository;
+import com.cmt.extension.core.configcenter.model.Application;
 import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
 
 import java.util.Date;
@@ -26,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AppService {
     @Autowired
     private AppRepository appRepository;
+
     /**
      * 获取应用列表
      *
@@ -45,7 +47,7 @@ public class AppService {
      */
     @Transactional(rollbackFor = Exception.class)
     public Long addApp(String appName, Long creatorId) {
-        App app = new App(appName, creatorId);
+        AppEntity app = new AppEntity(appName, creatorId);
         appRepository.save(app);
 
         return app.getId();
@@ -59,7 +61,7 @@ public class AppService {
      */
     @Transactional(rollbackFor = Exception.class)
     public void addConfig(SpiConfigDTO configDTO) {
-        App app = appRepository.findByAppName(configDTO.getAppName()).orElseThrow(() -> new BusinessException("应用不存在"));
+        AppEntity app = appRepository.findByAppName(configDTO.getAppName()).orElseThrow(() -> new BusinessException("应用不存在"));
         app.addExtension(configDTO);
         appRepository.save(app);
     }
@@ -72,7 +74,7 @@ public class AppService {
      */
     @Transactional(rollbackFor = Exception.class)
     public void updateConfig(SpiConfigDTO configDTO) {
-        App app = appRepository.findByAppName(configDTO.getAppName()).orElseThrow(() -> new BusinessException("应用不存在"));
+        AppEntity app = appRepository.findByAppName(configDTO.getAppName()).orElseThrow(() -> new BusinessException("应用不存在"));
         app.updateExtension(configDTO);
         appRepository.save(app);
     }
@@ -85,36 +87,37 @@ public class AppService {
      */
     @Transactional(rollbackFor = Exception.class)
     public void deleteConfig(SpiConfigDTO configDTO) {
-        App app = appRepository.findByAppName(configDTO.getAppName()).orElseThrow(() -> new BusinessException("应用不存在"));
+        AppEntity app = appRepository.findByAppName(configDTO.getAppName()).orElseThrow(() -> new BusinessException("应用不存在"));
         app.deleteExtension(configDTO);
         appRepository.save(app);
     }
 
     public void addSpi(NewSpiDTO newSpi) {
-        App app = appRepository.findByAppName(newSpi.getAppName()).orElseThrow(() -> new BusinessException("应用不存在"));
+        AppEntity app = appRepository.findByAppName(newSpi.getAppName()).orElseThrow(() -> new BusinessException("应用不存在"));
         app.addSpi(newSpi.getSpiInterface(), newSpi.getDesc());
         app.setDateModified(new Date());
         appRepository.save(app);
     }
 
-    public App getApplication(String appName, Integer version) {
-        App app = appRepository.findByAppName(appName).orElseThrow(() -> new BusinessException("应用不存在"));
+    public Application getApplication(String appName, Integer version) {
+        AppEntity app = appRepository.findByAppName(appName).orElseThrow(() -> new BusinessException("应用不存在"));
         if (app.getVersion() > version) {
-            return app;
+            return app.build();
         }
         return null;
     }
 
     public List<SpiDTO> getSpis(String appName) {
-        App app = appRepository.findByAppName(appName).orElseThrow(() -> new BusinessException("应用不存在"));
+        AppEntity app = appRepository.findByAppName(appName).orElseThrow(() -> new BusinessException("应用不存在"));
         return Converter.INSTANCE.map2dto(app.getSpis());
     }
 
     public List<SpiConfigDTO> getConfigs(String appName, String spiInterface) {
-        App app = appRepository.findByAppName(appName).orElseThrow(() -> new RuntimeException("应用不存在"));
+        AppEntity app = appRepository.findByAppName(appName).orElseThrow(() -> new RuntimeException("应用不存在"));
         return app.getSpis()
                 .stream()
                 .filter(s -> s.getSpiInterface().equals(spiInterface))
+                .filter(s -> s.getExtensions() != null)
                 .flatMap(s -> Converter.INSTANCE.mapConfigs(s.getExtensions()).stream())
                 .collect(Collectors.toList());
     }

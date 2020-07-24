@@ -34,7 +34,7 @@ import org.springframework.util.Assert;
 @Data
 @DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
-public class Spi {
+public class SpiEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -53,10 +53,10 @@ public class Spi {
      * SPI扩展点实现
      **/
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "spi", orphanRemoval = true)
-    private List<Extension> extensions = new ArrayList<>();
+    private List<ExtensionEntity> extensions = new ArrayList<>();
 
     @ManyToOne
-    private App app;
+    private AppEntity app;
 
     @CreatedDate
     private Date dateCreate;
@@ -65,15 +65,15 @@ public class Spi {
     @Version
     private Integer version;
 
-    public static Spi create(String spiInterface, String desc) {
-        Spi spi = new Spi();
+    public static SpiEntity create(String spiInterface, String desc) {
+        SpiEntity spi = new SpiEntity();
         spi.setSpiInterface(spiInterface);
         spi.setDescription(desc);
         return spi;
     }
 
     public void updateExtension(SpiConfigDTO configDTO) {
-        for (Extension e : extensions) {
+        for (ExtensionEntity e : extensions) {
             if (e.getId().equals(configDTO.getExtensionId())) {
                 e.update(configDTO);
                 this.dateModified = new Date();
@@ -84,9 +84,9 @@ public class Spi {
 
     public void deleteExtension(Long extensionId) {
         Assert.notNull(extensionId, "extension id不可为空");
-        Iterator<Extension> iter = extensions.iterator();
+        Iterator<ExtensionEntity> iter = extensions.iterator();
         while (iter.hasNext()) {
-            Extension e = iter.next();
+            ExtensionEntity e = iter.next();
             if (e.getId().equals(extensionId)) {
                 iter.remove();
                 this.dateModified = new Date();
@@ -96,7 +96,7 @@ public class Spi {
     }
 
     public void addExtension(SpiConfigDTO config) {
-        Extension extension = Extension.create(config);
+        ExtensionEntity extension = ExtensionEntity.create(config);
         extension.setSpi(this);
         extensions.add(extension);
         this.dateModified = new Date();

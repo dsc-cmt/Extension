@@ -1,13 +1,12 @@
-applications:
-  - appName: mcgj
-    spis:
-      - spiInterface: com.souche.connector.OrderService
-        extensions:
-          - bizCode: mcgj
-            invokeMethod: orderDetail
-            expireTime: 5000
-            isDefault: false
-          - bizCode: lzzy
-            invokeMethod: orderDetail
-            expireTime: 5000
-            isDefault: true
+appName: mcgj
+spis:
+  - spiInterface: com.souche.connector.OrderService
+    extensions:
+      - bizCode: mcgj
+        invokeMethod: orderDetail
+        expireTime: 5000
+        isDefault: false
+      - bizCode: lzzy
+        invokeMethod: orderDetail
+        expireTime: 5000
+        isDefault: true

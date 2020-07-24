@@ -60,5 +60,23 @@ BEGIN;
 INSERT INTO `extension_user` VALUES (1, 'test,finance-supply-core,demo', '15700718397', 'admin', 'admin', '', '系统管理员', 'admin', 1, now(), now());
 INSERT INTO `extension_user` VALUES (2, 'finance-supply-core,test', '132454305341', '普通用户', 'spi', '', '系统管理员', 'user', 1, now(), now());
 
-INSERT INTO `extension_app` VALUES (1, 'test-app', 1, 0,now(), now());
+INSERT INTO `extension_app` VALUES (1, 'test', 1, 0,now(), now());
+INSERT INTO extension.extension_spi (id, app_id, spi_interface, description, VERSION, date_create, date_modified)
+VALUES (1,
+        1,
+        'com.cmt.extension.spi.IHelloService',
+        NULL,
+        0,
+        now(),
+        now());
+INSERT INTO extension.extension_extension (id, spi_id, biz_code, invoke_method, is_default, expire_time, VERSION, date_create, date_modified)
+VALUES (1,
+        1,
+        'd',
+        'local',
+        0,
+        10000,
+        0,
+        now(),
+        now());
 COMMIT;
