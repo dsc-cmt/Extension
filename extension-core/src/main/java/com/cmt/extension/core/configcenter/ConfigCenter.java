@@ -30,12 +30,12 @@ public class ConfigCenter {
     private ConfigCenter() {
     }
 
-    public Application getCachedApplication(){
-        return application;
-    }
-
     public static ConfigCenter getInstance() {
         return INSTANCE;
+    }
+
+    public Application getCachedApplication() {
+        return application;
     }
 
     public void addListener(SpiConfigChangeListener listener) {
@@ -75,7 +75,7 @@ public class ConfigCenter {
     }
 
     public void changeConfig(SpiConfigChangeEvent event) {
-        List<SpiConfigChangeDTO> configChanges=event.getConfigChanges();
+        List<SpiConfigChangeDTO> configChanges = event.getConfigChanges();
         if (CollectionUtils.isEmpty(configChanges)) {
             return;
         }
@@ -85,7 +85,7 @@ public class ConfigCenter {
 
     public void init(String appName) {
         this.application = configService.init(appName);
+        application.setConsumer(this::changeConfig);
         configService.periodicRefresh();
-        application.addListener(this::changeConfig);
     }
 }

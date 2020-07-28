@@ -3,12 +3,11 @@ package com.cmt.extension.core.configcenter.model;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
-import com.cmt.extension.core.configcenter.ApplicationListener;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * @author tuzhenxian
@@ -19,7 +18,7 @@ public class Application {
     private List<Spi> spis;
     private Integer version;
 
-    private List<ApplicationListener> listeners = new ArrayList<>();
+    private Consumer<SpiConfigChangeEvent> consumer;
 
     public static Application empty() {
         Application application = new Application();
@@ -31,16 +30,10 @@ public class Application {
         return application == null ? empty() : application;
     }
 
-    public void addListener(ApplicationListener listener) {
-        listeners.add(listener);
-    }
-
     public void update(Application newApp) {
         if (newApp == null || newApp.getVersion() <= this.version) return;
         SpiConfigChangeEvent event = SpiConfigChangeEvent.generateEvent(this, newApp);
-        for (ApplicationListener listener : listeners) {
-            listener.onChange(event);
-        }
+        consumer.accept(event);
         this.spis = newApp.getSpis();
         this.version = newApp.getVersion();
     }
@@ -84,5 +77,9 @@ public class Application {
         return buildConfigs()
                 .stream()
                 .collect(toMap(SpiConfigDTO::buildKey, c -> c));
+    }
+
+    public void setConsumer(Consumer<SpiConfigChangeEvent> consumer) {
+        this.consumer = consumer;
     }
 }

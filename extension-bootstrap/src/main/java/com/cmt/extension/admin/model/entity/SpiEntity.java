@@ -11,6 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import com.cmt.extension.admin.model.BusinessException;
 import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
 
 import java.util.ArrayList;
@@ -97,8 +98,15 @@ public class SpiEntity {
 
     public void addExtension(SpiConfigDTO config) {
         ExtensionEntity extension = ExtensionEntity.create(config);
+        multiDefaultNotAllowed(extension);
         extension.setSpi(this);
         extensions.add(extension);
         this.dateModified = new Date();
+    }
+
+    private void multiDefaultNotAllowed(ExtensionEntity extension) {
+        if (extensions.stream().anyMatch(e -> e.getIsDefault() == 1) && extension.getIsDefault() == 1) {
+            throw BusinessException.fail("不可设置多个默认实现");
+        }
     }
 }
