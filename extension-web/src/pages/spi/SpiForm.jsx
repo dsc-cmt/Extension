@@ -33,7 +33,7 @@ const SpiForm = ({visible, onCancel, onCreate,appName}) => {
         }}
       >
         <Form.Item
-          label="SPI接口(接口类全限定名，如:com.souche.finance.OrderService)"
+          label="SPI接口(接口类全限定名，如:com.cmt.finance.OrderService)"
           name="spiInterface"
           rules={[{required: true, message: '请输入接口类'},
             {
