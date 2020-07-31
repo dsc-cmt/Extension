@@ -1,6 +1,6 @@
 package com.cmt.extension.core.annotation;
 
-import com.cmt.extension.core.common.SpiTypeEnum;
+import com.cmt.extension.core.common.ExtesionTypeEnum;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.ElementType;
@@ -26,6 +26,6 @@ public @interface Extension {
      * 调用方式
      * 目前支持 本地、dubbo
      */
-    SpiTypeEnum invokeMethod() default SpiTypeEnum.LOCAL;
+    ExtesionTypeEnum invokeMethod() default ExtesionTypeEnum.LOCAL;
     
 }

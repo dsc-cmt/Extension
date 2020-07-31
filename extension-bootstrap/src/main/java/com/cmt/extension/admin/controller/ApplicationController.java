@@ -1,10 +1,20 @@
 package com.cmt.extension.admin.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
+import com.cmt.extension.admin.model.Constants;
 import com.cmt.extension.admin.model.Result;
-import com.cmt.extension.admin.service.SpiConfigService;
+import com.cmt.extension.admin.model.vo.UserInfoVO;
+import com.cmt.extension.admin.service.AppService;
+import com.cmt.extension.core.configcenter.model.Application;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author xieyong
@@ -16,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class ApplicationController {
     @Autowired
-    private SpiConfigService spiConfigService;
+    private AppService appService;
 
     /**
      * 已创建应用信息
@@ -25,20 +35,30 @@ public class ApplicationController {
      * @return
      */
     @GetMapping("/applications")
-    public Result getNamespacesDetail() {
-        return Result.success(spiConfigService.getNamespacesDetail());
+    public Result getApplications() {
+        return Result.success(appService.getAllApps());
     }
 
     /**
      * 新增一个namespace(应用)
      *
-     * @param namespace
+     * @param appName
      * @return
      */
     @PostMapping("/applications")
-    public Result addNamespace(@RequestBody String namespace) {
-        spiConfigService.addNamespace(namespace);
+    public Result addAppName(@RequestBody String appName, HttpServletRequest request) {
+        UserInfoVO userInfoVO = (UserInfoVO) request.getSession().getAttribute(Constants.USER_IDENTITY);
+        appService.addApp(appName, userInfoVO.getUserId());
         return Result.success();
     }
 
+    @GetMapping("/application")
+    public Application getApplicationVersion(String appName, Integer version) {
+        return appService.getApplication(appName, version);
+    }
+
+    @GetMapping("/spis")
+    public Result getSpis(String appName) {
+        return Result.success(appService.getSpis(appName));
+    }
 }

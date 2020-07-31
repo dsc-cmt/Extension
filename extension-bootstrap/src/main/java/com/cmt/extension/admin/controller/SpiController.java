@@ -1,21 +1,29 @@
 package com.cmt.extension.admin.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.cmt.extension.admin.model.BusinessException;
 import com.cmt.extension.admin.model.Constants;
 import com.cmt.extension.admin.model.Result;
+import com.cmt.extension.admin.model.dto.NewSpiDTO;
 import com.cmt.extension.admin.model.vo.SpiConfigVO;
 import com.cmt.extension.admin.model.vo.UserInfoVO;
-import com.cmt.extension.admin.service.SpiConfigService;
+import com.cmt.extension.admin.service.AppService;
 import com.cmt.extension.admin.service.UserService;
 import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
+
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author tuzhenxian
@@ -26,7 +34,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/api")
 public class SpiController {
     @Autowired
-    private SpiConfigService spiConfigService;
+    private AppService appService;
+
     @Autowired
     private UserService userService;
 
@@ -38,28 +47,34 @@ public class SpiController {
     @GetMapping("/rightfulness_namespaces")
     public Result getValidNamespaces(HttpServletRequest request) {
         UserInfoVO userInfoVO = (UserInfoVO) request.getSession().getAttribute(Constants.USER_IDENTITY);
-        if (userService.isSuperAdmin(userInfoVO.getMobile())) {
+        String mobile = userInfoVO.getMobile();
+        if (userService.isSuperAdmin(mobile)) {
             //获取所有的namespace
-            return Result.success(spiConfigService.getValidOptions(userInfoVO.getMobile()));
+            return Result.success(appService.getAllApps());
         }
-        return Result.success(spiConfigService.getValidNamespaces(userInfoVO.getMobile()));
+        return Result.success(userService.getAuthorizedAppsByMobile(mobile));
     }
 
     @GetMapping("/rightfulness_options")
     public Result getValidOptions(HttpServletRequest request) {
         UserInfoVO userInfoVO = (UserInfoVO) request.getSession().getAttribute(Constants.USER_IDENTITY);
-        return Result.success(spiConfigService.getValidOptions(userInfoVO.getMobile()));
+        String mobile = userInfoVO.getMobile();
+        if (userService.isSuperAdmin(mobile)) {
+            //获取所有的namespace
+            return Result.success(appService.getAllApps());
+        }
+        return Result.success(userService.getAuthorizedAppsByMobile(mobile));
     }
 
     /**
      * 获取一个namespace下所有配置信息
      *
-     * @param namespace
+     * @param appName
      * @return
      */
     @GetMapping("/configs")
-    public Result getConfigs(String namespace) {
-        List<SpiConfigDTO> configList = spiConfigService.getConfigs(namespace);
+    public Result getConfigs(String appName, String spiInterface) {
+        List<SpiConfigDTO> configList = appService.getConfigs(appName, spiInterface);
         return Result.success(configList.stream().map(SpiConfigVO::buildByConfigDTO).collect(Collectors.toList()));
     }
 
@@ -71,10 +86,10 @@ public class SpiController {
      */
     @DeleteMapping("/configs")
     public Result deleteConfig(@Validated(SpiConfigVO.DeleteValidate.class) @RequestBody SpiConfigVO configVO) {
-        if (!userService.hasNamespaceAuth(configVO.getMobile(), configVO.getAppId())) {
+        if (!userService.hasNamespaceAuth(configVO.getMobile(), configVO.getAppName())) {
             throw BusinessException.fail("没有权限，请联系管理员");
         }
-        spiConfigService.deleteConfig(configVO.buildConfigDTO());
+        appService.deleteConfig(configVO.buildConfigDTO());
         return Result.success();
     }
 
@@ -86,10 +101,10 @@ public class SpiController {
      */
     @PostMapping("/configs")
     public Result addConfig(@RequestBody @Validated(SpiConfigVO.AddOrUpdateValidate.class) SpiConfigVO configVO) {
-        if (!userService.hasNamespaceAuth(configVO.getMobile(), configVO.getAppId())) {
+        if (!userService.hasNamespaceAuth(configVO.getMobile(), configVO.getAppName())) {
             throw BusinessException.fail("没有权限，请联系管理员");
         }
-        spiConfigService.addConfig(configVO.buildConfigDTO());
+        appService.addConfig(configVO.buildConfigDTO());
         return Result.success();
     }
 
@@ -101,10 +116,16 @@ public class SpiController {
      */
     @PatchMapping("/configs")
     public Result updateConfig(@RequestBody @Validated(SpiConfigVO.AddOrUpdateValidate.class) SpiConfigVO configVO) {
-        if (!userService.hasNamespaceAuth(configVO.getMobile(), configVO.getAppId())) {
+        if (!userService.hasNamespaceAuth(configVO.getMobile(), configVO.getAppName())) {
             throw BusinessException.fail("没有权限，请联系管理员");
         }
-        spiConfigService.updateConfig(configVO.buildConfigDTO());
+        appService.updateConfig(configVO.buildConfigDTO());
+        return Result.success();
+    }
+
+    @PostMapping("/spis")
+    public Result addSpi(@RequestBody NewSpiDTO newSpi) {
+        appService.addSpi(newSpi);
         return Result.success();
     }
 }

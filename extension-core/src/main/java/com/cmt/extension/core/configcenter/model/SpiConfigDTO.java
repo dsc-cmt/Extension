@@ -1,7 +1,6 @@
 package com.cmt.extension.core.configcenter.model;
 
 import lombok.Data;
-import org.springframework.util.StringUtils;
 
 /**
  * @author tuzhenxian
@@ -24,9 +23,14 @@ public class SpiConfigDTO {
      */
     private String invokeMethod;
     /**
-     * 应用id
+     * 应用名
      */
-    private String appId;
+    private String appName;
+
+    /**
+     * 扩展点id
+     */
+    private Long extensionId;
 
     /**
      * 超时事件 (ms)
@@ -39,25 +43,7 @@ public class SpiConfigDTO {
 
     private String comment;
 
-    public static SpiConfigDTO buildConfigDTO(String key, String value, String appId) {
-        SpiConfigDTO dto = new SpiConfigDTO();
-        if (StringUtils.isEmpty(key) || StringUtils.isEmpty(value)) {
-            return null;
-        }
-        String[] keySplits = key.split(DEFAULT_SPILITOR);
-        String[] valueSplits = value.split(DEFAULT_SPILITOR);
-        if (keySplits.length != 2 || valueSplits.length <2) {
-            return null;
-        }
-        dto.setAppId(appId);
-        dto.setBizCode(keySplits[0]);
-        dto.setSpiInterface(keySplits[1]);
-        dto.setInvokeMethod(valueSplits[0]);
-        dto.setExpireTime(Integer.valueOf(valueSplits[1]));
-        dto.setIsDefault(valueSplits.length<3?0:Integer.valueOf(valueSplits[2]));
-
-        return dto;
-    }
+    private Integer version;
 
     /**
      * 根据参数构建key
@@ -67,15 +53,5 @@ public class SpiConfigDTO {
      */
     public String buildKey() {
         return this.bizCode + DEFAULT_SPILITOR + this.spiInterface;
-    }
-
-    /**
-     * 根据参数构建value
-     *
-     * @param
-     * @return value 格式：invokeMethod_expireTime
-     */
-    public String buildValue() {
-        return this.invokeMethod + DEFAULT_SPILITOR + this.expireTime +DEFAULT_SPILITOR+ this.isDefault;
     }
 }

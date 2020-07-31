@@ -1,5 +1,5 @@
 package com.cmt.extension.core.common;
 
-public enum SpiTypeEnum {
+public enum ExtesionTypeEnum {
     LOCAL, DUBBO
 }

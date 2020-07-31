@@ -1,7 +1,7 @@
 package com.cmt.extension.core.provider;
 
 import com.cmt.extension.core.call.WrapperGeneratorComposite;
-import com.cmt.extension.core.common.SpiTypeEnum;
+import com.cmt.extension.core.common.ExtesionTypeEnum;
 import com.cmt.extension.core.annotation.Extension;
 import com.cmt.extension.core.provider.dubbo.DubboServiceExporter;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,7 @@ public class ExtensionAnnotationPostProcessor implements BeanPostProcessor, Orde
 
         if (AopUtils.getTargetClass(bean).isAnnotationPresent(Extension.class)) {
             Extension extension = AopUtils.getTargetClass(bean).getAnnotation(Extension.class);
-            if (SpiTypeEnum.DUBBO.equals(extension.invokeMethod())) {
+            if (ExtesionTypeEnum.DUBBO.equals(extension.invokeMethod())) {
                 dubboServiceExporter.exportService(bean);
             }
         }
