@@ -1,26 +1,21 @@
 package com.cmt.extension.admin.service;
 
 import com.cmt.extension.admin.model.BusinessException;
-import com.cmt.extension.admin.model.Constants;
 import com.cmt.extension.admin.model.entity.User;
 import com.cmt.extension.admin.model.type.RoleType;
 import com.cmt.extension.admin.model.type.SysFlag;
 import com.cmt.extension.admin.model.vo.UserVO;
 import com.cmt.extension.admin.repository.UserRepository;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
-
-import com.cmt.extension.core.configcenter.ConfigCenter;
-import com.google.common.base.Joiner;
-import com.google.common.base.Splitter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author tuzhenxian
@@ -33,12 +28,12 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public User login(String mobile, String password){
+    public User login(String mobile, String password) {
         User user = userRepository.findByUserMobileAndPassword(mobile, password);
-        if(Objects.isNull(user)){
+        if (Objects.isNull(user)) {
             BusinessException.fail("账号或密码错误");
         }
-        if(SysFlag.INVALID.equals(user.getSysFlag())){
+        if (SysFlag.INVALID.equals(user.getSysFlag())) {
             BusinessException.fail("用户已被冻结");
         }
         return user;
@@ -56,7 +51,7 @@ public class UserService {
     public List<String> getAuthorizedAppsByMobile(String mobile) {
         User users = userRepository.findByUserMobileAndSysFlag(mobile, SysFlag.VALID.getCode());
 
-        return users != null && users.getAuthorizedApps() != null ? Splitter.on(",").omitEmptyStrings().splitToList(users.getAuthorizedApps()) : null;
+        return users != null && users.getAuthorizedApps() != null ? Arrays.asList(users.getAuthorizedApps().split(",")) : null;
     }
 
     /**
@@ -67,46 +62,42 @@ public class UserService {
      * @return
      */
     public boolean hasNamespaceAuth(String mobile, String namespace) {
-        if(StringUtils.isAnyEmpty(mobile,namespace)) {
+        if (StringUtils.isAnyEmpty(mobile, namespace)) {
             throw BusinessException.fail("没有权限");
         }
-        if(isSuperAdmin(mobile)){
+        if (isSuperAdmin(mobile)) {
             return true;
         }
         User users = userRepository.findByUserMobileAndSysFlag(mobile, SysFlag.VALID.getCode());
-        if(users == null || StringUtils.isBlank(users.getAuthorizedApps())){
+        if (users == null || StringUtils.isBlank(users.getAuthorizedApps())) {
             throw BusinessException.fail("没有权限");
         }
-        List<String> authNamespace = Splitter.on(",").trimResults().splitToList(users.getAuthorizedApps());
+        List<String> authNamespace = Arrays.asList(users.getAuthorizedApps().split(","));
         return authNamespace.contains(namespace);
     }
 
     public void deleteAuthorizedUser(Long id) {
-        Optional<User> user=userRepository.findById(id);
-        User u = user.orElseThrow(()->BusinessException.fail("根据ID未找到user,id:"+id));
+        Optional<User> user = userRepository.findById(id);
+        User u = user.orElseThrow(() -> BusinessException.fail("根据ID未找到user,id:" + id));
         u.setSysFlag(SysFlag.INVALID.getCode());
         userRepository.save(u);
     }
 
-    public void checkAuth(String modifierMobile, String app){
+    public void checkAuth(String modifierMobile, String app) {
         //判断是否是超级管理员
-        if(isSuperAdmin(modifierMobile)){
+        if (isSuperAdmin(modifierMobile)) {
             return;
         }
-        throw BusinessException.fail("您没有应用管理权限,应用："+app);
+        throw BusinessException.fail("您没有应用管理权限,应用：" + app);
     }
 
-    public boolean isSuperAdmin(String mobile){
-        User user =  userRepository.findByUserMobileAndSysFlag(mobile,SysFlag.VALID.getCode());
+    public boolean isSuperAdmin(String mobile) {
+        User user = userRepository.findByUserMobileAndSysFlag(mobile, SysFlag.VALID.getCode());
         return RoleType.ADMIN.getDesc().equals(user.getRole());
 
     }
-    public User getValidUserByMobile(String mobile){
-        return userRepository.findByUserMobileAndSysFlag(mobile, SysFlag.VALID.getCode());
-    }
 
-    public static void main(String args[]){
-        ConfigCenter configCenter=ConfigCenter.getInstance();
-        configCenter.init("mcgj");
+    public User getValidUserByMobile(String mobile) {
+        return userRepository.findByUserMobileAndSysFlag(mobile, SysFlag.VALID.getCode());
     }
 }
