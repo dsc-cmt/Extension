@@ -20,7 +20,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
      * @param password
      * @return
      */
-    User findByUserMobileAndPassword(String mobile, String password);
+    User findByUserNameAndPassword(String mobile, String password);
 
     /**
      * @param sysFlag

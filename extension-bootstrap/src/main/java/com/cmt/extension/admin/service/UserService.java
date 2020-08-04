@@ -29,7 +29,7 @@ public class UserService {
     UserRepository userRepository;
 
     public User login(String mobile, String password) {
-        User user = userRepository.findByUserMobileAndPassword(mobile, password);
+        User user = userRepository.findByUserNameAndPassword(mobile, password);
         if (Objects.isNull(user)) {
             BusinessException.fail("账号或密码错误");
         }

@@ -47,12 +47,6 @@ public class AppEntity {
      * 应用名
      **/
     private String appName;
-
-    /**
-     * 创建人ID
-     **/
-    private Long creatorId;
-
     @CreatedDate
     private Date dateCreate;
     @LastModifiedDate
@@ -63,9 +57,8 @@ public class AppEntity {
     @Version
     private Integer version;
 
-    public AppEntity(String appName, Long creatorId) {
+    public AppEntity(String appName) {
         this.appName = appName;
-        this.creatorId = creatorId;
     }
 
     public void addSpi(String spiInterface, String desc) {
@@ -114,5 +107,14 @@ public class AppEntity {
                 .collect(Collectors.toList());
         app.setSpis(spis);
         return app;
+    }
+
+    public boolean isSpiExist(String spiInterface) {
+        for (SpiEntity spi : spis) {
+            if (spi.getSpiInterface().equals(spiInterface)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

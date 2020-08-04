@@ -46,9 +46,8 @@ public class ApplicationController {
      * @return
      */
     @PostMapping("/applications")
-    public Result addAppName(@RequestBody String appName, HttpServletRequest request) {
-        UserInfoVO userInfoVO = (UserInfoVO) request.getSession().getAttribute(Constants.USER_IDENTITY);
-        appService.addApp(appName, userInfoVO.getUserId());
+    public Result addAppName(String appName) {
+        appService.addApp(appName);
         return Result.success();
     }
 

@@ -1,13 +1,9 @@
 package com.cmt.extension.admin.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.cmt.extension.admin.model.BusinessException;
-import com.cmt.extension.admin.model.Constants;
 import com.cmt.extension.admin.model.Result;
 import com.cmt.extension.admin.model.dto.NewSpiDTO;
 import com.cmt.extension.admin.model.vo.SpiConfigVO;
-import com.cmt.extension.admin.model.vo.UserInfoVO;
 import com.cmt.extension.admin.service.AppService;
 import com.cmt.extension.admin.service.UserService;
 import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
@@ -38,33 +34,6 @@ public class SpiController {
 
     @Autowired
     private UserService userService;
-
-    /**
-     * 获取用户拥有admin权限的所有namespace(应用)名称
-     *
-     * @return
-     */
-    @GetMapping("/rightfulness_namespaces")
-    public Result getValidNamespaces(HttpServletRequest request) {
-        UserInfoVO userInfoVO = (UserInfoVO) request.getSession().getAttribute(Constants.USER_IDENTITY);
-        String mobile = userInfoVO.getMobile();
-        if (userService.isSuperAdmin(mobile)) {
-            //获取所有的namespace
-            return Result.success(appService.getAllApps());
-        }
-        return Result.success(userService.getAuthorizedAppsByMobile(mobile));
-    }
-
-    @GetMapping("/rightfulness_options")
-    public Result getValidOptions(HttpServletRequest request) {
-        UserInfoVO userInfoVO = (UserInfoVO) request.getSession().getAttribute(Constants.USER_IDENTITY);
-        String mobile = userInfoVO.getMobile();
-        if (userService.isSuperAdmin(mobile)) {
-            //获取所有的namespace
-            return Result.success(appService.getAllApps());
-        }
-        return Result.success(userService.getAuthorizedAppsByMobile(mobile));
-    }
 
     /**
      * 获取一个namespace下所有配置信息
@@ -100,10 +69,7 @@ public class SpiController {
      * @return
      */
     @PostMapping("/configs")
-    public Result addConfig(@RequestBody @Validated(SpiConfigVO.AddOrUpdateValidate.class) SpiConfigVO configVO) {
-        if (!userService.hasNamespaceAuth(configVO.getMobile(), configVO.getAppName())) {
-            throw BusinessException.fail("没有权限，请联系管理员");
-        }
+    public Result addConfig(SpiConfigVO configVO) {
         appService.addConfig(configVO.buildConfigDTO());
         return Result.success();
     }
@@ -124,7 +90,7 @@ public class SpiController {
     }
 
     @PostMapping("/spis")
-    public Result addSpi(@RequestBody NewSpiDTO newSpi) {
+    public Result addSpi(@Validated NewSpiDTO newSpi) {
         appService.addSpi(newSpi);
         return Result.success();
     }

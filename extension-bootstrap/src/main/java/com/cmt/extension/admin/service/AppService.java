@@ -1,5 +1,7 @@
 package com.cmt.extension.admin.service;
 
+import static java.util.stream.Collectors.toList;
+
 import com.cmt.extension.admin.model.BusinessException;
 import com.cmt.extension.admin.model.Converter;
 import com.cmt.extension.admin.model.dto.AppDTO;
@@ -14,6 +16,7 @@ import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,23 +36,24 @@ public class AppService {
      *
      * @return
      */
-    public List<AppDTO> getAllApps() {
-        List<AppView> list = appRepository.findAllApps();
-        return Converter.INSTANCE.map(list);
+    public List<String> getAllApps() {
+        return appRepository.findAll().stream().map(AppEntity::getAppName).collect(toList());
     }
 
     /**
      * 新增应用
      *
      * @param appName
-     * @param creatorId
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
-    public Long addApp(String appName, Long creatorId) {
-        AppEntity app = new AppEntity(appName, creatorId);
+    public Long addApp(String appName) {
+        if(StringUtils.isEmpty(appName)){
+            throw BusinessException.fail("应用名称不可为空");
+        }
+        appRepository.findByAppName(appName).ifPresent(a->{throw BusinessException.fail("应用已存在");});
+        AppEntity app = new AppEntity(appName);
         appRepository.save(app);
-
         return app.getId();
     }
 
@@ -94,6 +98,9 @@ public class AppService {
 
     public void addSpi(NewSpiDTO newSpi) {
         AppEntity app = appRepository.findByAppName(newSpi.getAppName()).orElseThrow(() -> new BusinessException("应用不存在"));
+        if(app.isSpiExist(newSpi.getSpiInterface())){
+            throw BusinessException.fail("扩展点已存在");
+        }
         app.addSpi(newSpi.getSpiInterface(), newSpi.getDesc());
         app.setDateModified(new Date());
         appRepository.save(app);
@@ -119,6 +126,6 @@ public class AppService {
                 .filter(s -> s.getSpiInterface().equals(spiInterface))
                 .filter(s -> s.getExtensions() != null)
                 .flatMap(s -> Converter.INSTANCE.mapConfigs(s.getExtensions()).stream())
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 }
