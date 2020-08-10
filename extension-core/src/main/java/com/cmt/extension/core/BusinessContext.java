@@ -3,6 +3,7 @@ package com.cmt.extension.core;
 public class BusinessContext {
     private static ThreadLocal<String> bizCode = new ThreadLocal<>();
     private static String globalBizCode;
+    public static final String BIZ_CODE_KEY = "BIZCODE";
 
     public static void setBizCode(String bizCode) {
         BusinessContext.bizCode.set(bizCode);
