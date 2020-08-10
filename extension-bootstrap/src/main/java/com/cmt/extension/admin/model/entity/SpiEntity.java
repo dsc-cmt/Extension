@@ -80,7 +80,7 @@ public class SpiEntity implements Serializable {
 
     public void updateExtension(SpiConfigDTO configDTO) {
         for (ExtensionEntity e : extensions) {
-            if (e.getId().equals(configDTO.getExtensionId())) {
+            if (e.getBizCode().equals(configDTO.getBizCode())) {
                 e.update(configDTO);
                 this.dateModified = new Date();
                 break;
@@ -88,12 +88,12 @@ public class SpiEntity implements Serializable {
         }
     }
 
-    public void deleteExtension(Long extensionId) {
-        Assert.notNull(extensionId, "extension id不可为空");
+    public void deleteExtension(String bizCode) {
+        Assert.notNull(bizCode, "bizCode不可为空");
         Iterator<ExtensionEntity> iter = extensions.iterator();
         while (iter.hasNext()) {
             ExtensionEntity e = iter.next();
-            if (e.getId().equals(extensionId)) {
+            if (e.getBizCode().equals(bizCode)) {
                 iter.remove();
                 this.dateModified = new Date();
                 break;

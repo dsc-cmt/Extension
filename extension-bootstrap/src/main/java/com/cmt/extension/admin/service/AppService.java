@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 /**
  * 配置服务
@@ -38,6 +39,13 @@ public class AppService {
      */
     public List<AppEntity> getAllApps() {
         return appRepository.findAll();
+    }
+
+    public AppEntity getApplication(String appName){
+        if(StringUtils.isEmpty(appName)){
+            throw BusinessException.fail("应用名称不可为空");
+        }
+        return appRepository.findByAppName(appName).orElse(null);
     }
 
     /**
@@ -120,6 +128,8 @@ public class AppService {
     }
 
     public List<SpiConfigDTO> getConfigs(String appName, String spiInterface) {
+        Assert.notNull(appName,"appName不可为空");
+        Assert.notNull(spiInterface,"spiInterface不可为空");
         AppEntity app = appRepository.findByAppName(appName).orElseThrow(() -> new RuntimeException("应用不存在"));
         return app.getSpis()
                 .stream()
@@ -127,5 +137,13 @@ public class AppService {
                 .filter(s -> s.getExtensions() != null)
                 .flatMap(s -> Converter.INSTANCE.mapConfigs(s.getExtensions()).stream())
                 .collect(toList());
+    }
+
+    public SpiConfigDTO getConfig(String appName, String spiInterface, String bizCode) {
+        Assert.notNull(bizCode,"bizCode不可为空");
+        return getConfigs(appName,spiInterface).stream()
+                .filter(c->bizCode.equals(c.getBizCode()))
+                .findAny()
+                .orElseGet(null);
     }
 }

@@ -1,10 +1,6 @@
 package com.cmt.extension.admin.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
-import com.cmt.extension.admin.model.Constants;
 import com.cmt.extension.admin.model.Result;
-import com.cmt.extension.admin.model.vo.UserInfoVO;
 import com.cmt.extension.admin.service.AppService;
 import com.cmt.extension.core.configcenter.model.Application;
 
@@ -12,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -54,6 +49,11 @@ public class ApplicationController {
     @GetMapping("/application")
     public Application getApplicationVersion(String appName, Integer version) {
         return appService.getApplication(appName, version);
+    }
+
+    @GetMapping("/app")
+    public Result getApplication(String appName) {
+        return Result.success(appService.getApplication(appName));
     }
 
     @GetMapping("/spis")

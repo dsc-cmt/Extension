@@ -88,7 +88,7 @@ public class AppEntity implements Serializable {
 
     public void deleteExtension(SpiConfigDTO configDTO) {
         SpiEntity spi = getSpi(configDTO.getSpiInterface());
-        spi.deleteExtension(configDTO.getExtensionId());
+        spi.deleteExtension(configDTO.getBizCode());
         this.dateModified = new Date();
     }
 

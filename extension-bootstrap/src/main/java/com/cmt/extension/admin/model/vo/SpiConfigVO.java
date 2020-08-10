@@ -52,9 +52,6 @@ public class SpiConfigVO {
      */
     private String comment;
 
-    private String mobile;
-
-    @NotNull(message = "extensionId不可为空", groups = DeleteValidate.class)
     private Long extensionId;
 
     public static SpiConfigVO buildByConfigDTO(SpiConfigDTO dto) {
@@ -67,6 +64,7 @@ public class SpiConfigVO {
         vo.setIsDefaultDesc(YesOrNoEnum.getDescByCode(dto.getIsDefault()));
         vo.setAppName(dto.getAppName());
         vo.setExtensionId(dto.getExtensionId());
+        vo.setComment(dto.getComment());
         return vo;
     }
 
