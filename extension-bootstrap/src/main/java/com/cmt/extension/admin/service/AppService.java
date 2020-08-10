@@ -36,8 +36,8 @@ public class AppService {
      *
      * @return
      */
-    public List<String> getAllApps() {
-        return appRepository.findAll().stream().map(AppEntity::getAppName).collect(toList());
+    public List<AppEntity> getAllApps() {
+        return appRepository.findAll();
     }
 
     /**

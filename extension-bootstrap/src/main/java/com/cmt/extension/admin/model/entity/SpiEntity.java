@@ -13,12 +13,15 @@ import javax.persistence.Version;
 
 import com.cmt.extension.admin.model.BusinessException;
 import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import lombok.Data;
+import lombok.ToString;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -35,7 +38,8 @@ import org.springframework.util.Assert;
 @Data
 @DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
-public class SpiEntity {
+@ToString(exclude = {"extensions","app"})
+public class SpiEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -57,6 +61,7 @@ public class SpiEntity {
     private List<ExtensionEntity> extensions = new ArrayList<>();
 
     @ManyToOne
+    @JsonIgnore
     private AppEntity app;
 
     @CreatedDate

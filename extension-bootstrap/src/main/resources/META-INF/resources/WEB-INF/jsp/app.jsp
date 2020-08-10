@@ -115,9 +115,17 @@
         var appName='<%=(String)request.getAttribute("appName") %>';
         var html = "";
         for (var i = 0; i < spis.length; i++) {
-            html+="<tr><td><a href='app?appName=" +spis[i]+"'> " + spis[i].spiInterface+ "</a></td><td><a>详情</a>&nbsp;<a>编辑</a></td></tr>"
+            html+="<tr><td><a href='app?appName=" +spis[i]+"'> " + spis[i].spiInterface+ "</a></td><td><a>详情</a>&nbsp;<a onclick='deleteSpi("+spis[i].spiInterface+")'>删除</a></td></tr>"
         }
         $("#tb_data").html(html)
+    }
+
+    function deleteSpi(spi){
+        $.delete(
+            '/api/spis',{spiInterface:spi},function (res) {
+                getSpis()
+            }
+        )
     }
 </script>
 </body>

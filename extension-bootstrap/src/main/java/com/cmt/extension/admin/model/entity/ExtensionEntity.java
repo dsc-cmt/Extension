@@ -10,9 +10,12 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -26,7 +29,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Table(name = "extension_extension")
 @Data
 @EntityListeners(AuditingEntityListener.class)
-public class ExtensionEntity {
+@ToString(exclude = "spi")
+public class ExtensionEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -58,6 +62,7 @@ public class ExtensionEntity {
     private Date dateModified;
 
     @ManyToOne
+    @JsonIgnore
     private SpiEntity spi;
     @Version
     private Integer version;

@@ -1,5 +1,7 @@
 package com.cmt.extension.admin.controller;
 
+import javax.servlet.http.HttpServletResponse;
+
 import com.cmt.extension.admin.model.BusinessException;
 import com.cmt.extension.admin.model.Result;
 import com.cmt.extension.admin.model.dto.NewSpiDTO;
@@ -8,6 +10,7 @@ import com.cmt.extension.admin.service.AppService;
 import com.cmt.extension.admin.service.UserService;
 import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -90,8 +93,13 @@ public class SpiController {
     }
 
     @PostMapping("/spis")
-    public Result addSpi(@Validated NewSpiDTO newSpi) {
-        appService.addSpi(newSpi);
+    public Result addSpi(@Validated NewSpiDTO newSpi, HttpServletResponse response) throws IOException {
+        try {
+            appService.addSpi(newSpi);
+        }catch (Exception e){
+            throw BusinessException.fail(e.getMessage());
+        }
+        response.sendRedirect("/app?&appName="+newSpi.getAppName());
         return Result.success();
     }
 }

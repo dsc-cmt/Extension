@@ -5,7 +5,6 @@
 <head>
     <script type="text/javascript" src="/js/jquery-3.5.1.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/js/bootstrap-treeview.min.js"></script>
 
     <link rel="stylesheet" href="/css/bootstrap.css">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -27,13 +26,18 @@
     </nav>
 </div>
 <div>
-
+    <table class="table table-striped">
+        <caption><b> 扩展点列表</b></caption>
+        <thead>
+        <td class="col-sm-2">bizCode</td><td class="col-sm-2">调用方式</td><td class="col-sm-2">是否默认</td><td class="col-sm-2">操作</td>
+        </thead>
+        <tbody id="tb_data"></tbody>
+    </table>
     <div style="margin-left: 20px;margin-top: 20px">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
             新增应用
         </button>
     </div>
-    <div id="tree"></div>
     <!-- Modal -->
     <div id="myModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -60,54 +64,11 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        getApps();
+        getConfigs();
     });
 
-    function getTree(apps){
-        if (apps.length <= 0) {
-            return
-        }
-        for(var i=0;){
-
-        }
-        var tree = [
-            {
-                text: "Parent 1",
-                nodes: [
-                    {
-                        text: "Child 1",
-                        nodes: [
-                            {
-                                text: "Grandchild 1"
-                            },
-                            {
-                                text: "Grandchild 2"
-                            }
-                        ]
-                    },
-                    {
-                        text: "Child 2"
-                    }
-                ]
-            },
-            {
-                text: "Parent 2"
-            },
-            {
-                text: "Parent 3"
-            },
-            {
-                text: "Parent 4"
-            },
-            {
-                text: "Parent 5"
-            }
-        ];
-        return tree;
-    }
-
-    function getApps() {
-        $.get('/api/applications', {}, function (res) {
+    function getConfigs() {
+        $.get('/api/configs', {}, function (res) {
             if (res.success) {
                 renderData(res.data)
             }
@@ -118,7 +79,12 @@
         if (apps.length <= 0) {
             return
         }
-        $('#tree').treeview({data: getTree(apps)});
+
+        var html = "";
+        for (var i = 0; i < apps.length; i++) {
+            html += "<tr><td width='200px'><a href='app?appName=" +apps[i]+"'> " + apps[i]+ "</a></div></td></tr>"
+        }
+        $("#tb_data").html(html)
     }
 
     function submit() {

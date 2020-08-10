@@ -16,12 +16,14 @@ import com.cmt.extension.core.configcenter.model.Application;
 import com.cmt.extension.core.configcenter.model.Spi;
 import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -38,7 +40,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
-public class AppEntity {
+@ToString(exclude = "spis")
+public class AppEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
