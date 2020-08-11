@@ -23,7 +23,10 @@ public class SpiContainer extends ConcurrentHashMap<String, Map<String, Object>>
         if (impls == null) {
             return null;
         }
-        return Optional.ofNullable(impls.get(bizCode)).orElse(impls.get(Extension.DEFAULT_BIZ_CODE));
+        if(bizCode==null||impls.get(bizCode)==null){
+            return impls.get(Extension.DEFAULT_BIZ_CODE);
+        }
+        return impls.get(bizCode);
     }
 
     /**
