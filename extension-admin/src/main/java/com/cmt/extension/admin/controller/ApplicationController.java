@@ -46,11 +46,6 @@ public class ApplicationController {
         return Result.success();
     }
 
-    @GetMapping("/application")
-    public Application getApplicationVersion(String appName, Integer version) {
-        return appService.getApplication(appName, version);
-    }
-
     @GetMapping("/app")
     public Result getApplication(String appName) {
         return Result.success(appService.getApplication(appName));

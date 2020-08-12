@@ -6,6 +6,7 @@ import com.cmt.extension.admin.model.BusinessException;
 import com.cmt.extension.admin.model.Converter;
 import com.cmt.extension.admin.model.dto.AppDTO;
 import com.cmt.extension.admin.model.dto.AppView;
+import com.cmt.extension.admin.model.dto.DeleteSpiDTO;
 import com.cmt.extension.admin.model.dto.NewSpiDTO;
 import com.cmt.extension.admin.model.dto.SpiDTO;
 import com.cmt.extension.admin.model.entity.AppEntity;
@@ -110,7 +111,6 @@ public class AppService {
             throw BusinessException.fail("扩展点已存在");
         }
         app.addSpi(newSpi.getSpiInterface(), newSpi.getDesc());
-        app.setDateModified(new Date());
         appRepository.save(app);
     }
 
@@ -145,5 +145,11 @@ public class AppService {
                 .filter(c->bizCode.equals(c.getBizCode()))
                 .findAny()
                 .orElseGet(null);
+    }
+
+    public void deleteSpi(DeleteSpiDTO deleteSpi) {
+        AppEntity app = appRepository.findByAppName(deleteSpi.getAppName()).orElseThrow(() -> new BusinessException("应用不存在"));
+        app.deleteSpi(deleteSpi.getSpiInterface());
+        appRepository.save(app);
     }
 }

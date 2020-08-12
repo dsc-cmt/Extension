@@ -27,23 +27,25 @@
     </nav>
 </div>
 <div>
-    <div style="padding: 50px 200px 10px;">
-        <form class="bs-example bs-example-form" role="form">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="请输入应用名称" id="searchApp">
-                        <span class="input-group-btn">
+    <div>
+        <div style="padding: 50px 200px 10px 200px;">
+            <form class="bs-example bs-example-form" role="form">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="请输入应用名称" id="searchApp">
+                            <span class="input-group-btn">
 						<button class="btn btn-default" type="button" onclick="getApp()">
 							Go!
 						</button>
 					</span>
-                    </div><!-- /input-group -->
-                </div><!-- /.col-lg-6 -->
-            </div><!-- /.row -->
-        </form>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="tree"></div>
     </div>
-    <div id="tree"></div>
     <!--app Modal -->
     <div id="appModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -229,6 +231,39 @@
 
         </div>
     </div>
+    <!--spi Delete Modal -->
+    <div id="spiDeleteModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">删除spi</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="d-appName" class="col-sm-2 control-label">应用名</label>
+                        <div class="col-sm-6">
+                            <input id="d-appName" type="text" name="appName" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="form-group">
+                        <label for="d-spiInterface" class="col-sm-2 control-label">接口名</label>
+                        <div class="col-sm-6">
+                            <input id="d-spiInterface" type="text" name="spiInterface" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <br/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="deleteSpiConfirm()">删除</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
 </div>
 
@@ -284,24 +319,24 @@
         for(var i=0;i<apps.length;i++){
             var app=apps[i];
             var appNode={text:app.appName,
-                nodes:[],dataType:"app"};
+                nodes:[],dataType:"app",backColor: "#DCDCDC"};
             if(app.spis.length>0){
                 for(var j=0;j<app.spis.length;j++){
                     var spi=app.spis[j];
-                    var spiNode={text:spi.spiInterface,nodes:[],dataType:"spi"}
+                    var spiNode={text:spi.spiInterface,nodes:[],dataType:"spi",backColor: "#E1FFFF"}
                     if(spi.extensions.length>0){
                         for(var k=0;k<spi.extensions.length;k++){
-                            spiNode.nodes.push({text:spi.extensions[k].bizCode,dataType:"extension"})
+                            spiNode.nodes.push({text:spi.extensions[k].bizCode,dataType:"extension",backColor: "#ADD8E6"})
                         }
                     }
-                    spiNode.nodes.push({text:"新增extension",dataType:"newExtension"})
+                    spiNode.nodes.push({text:"新增extension",dataType:"newExtension",backColor: "#ADD8E6"})
                     appNode.nodes.push(spiNode)
                 }
             }
-            appNode.nodes.push({text:"新增spi",dataType:"newSpi"})
+            appNode.nodes.push({text:"新增spi接口",dataType:"newSpi",backColor: "#E1FFFF"})
             tree.push(appNode)
         }
-        tree.push({text:'新增应用',dataType:"newApp"})
+        tree.push({text:'新增应用',dataType:"newApp",backColor: "#DCDCDC"})
         return tree;
     }
 
@@ -344,6 +379,14 @@
         })
     };
 
+    function spiDeleteModal(node) {
+        var appNode=$('#tree').treeview('getParent', node);
+
+        $(".modal-body #d-spiInterface").val( node.text );
+        $(".modal-body #d-appName").val( appNode.text );
+        $('#spiDeleteModal').modal('show');
+    }
+
     function renderData(apps) {
         if (apps.length <= 0) {
             return
@@ -368,6 +411,9 @@
             }
             if(node.dataType==="extension"){
                 showEditModal(node);
+            }
+            if(node.dataType==="spi"){
+                spiDeleteModal(node)
             }
         })
     }
@@ -420,6 +466,25 @@
                 window.location.href='appList'
             }
         })
+    }
+
+    function deleteSpiConfirm() {
+        var spiInterface=$('#d-spiInterface').val()
+        var appName=$('#d-appName').val()
+        var r=confirm("删除spi将同时删除其下extension配置,确认删除?");
+        if(r===true){
+            $.get('/api/deleteSpi', {
+                appName:appName,
+                spiInterface:spiInterface,
+            }, function (res) {
+                if (res.success) {
+                    window.location.href='appList'
+                }else{
+                    alert(res.msg)
+                    window.location.href='appList'
+                }
+            })
+        }
     }
 
     function show_confirm() {

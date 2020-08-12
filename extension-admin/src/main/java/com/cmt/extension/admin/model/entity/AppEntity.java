@@ -72,6 +72,7 @@ public class AppEntity implements Serializable {
         SpiEntity newSpi = SpiEntity.create(spiInterface, desc);
         newSpi.setApp(this);
         spis.add(newSpi);
+        this.dateModified = new Date();
     }
 
     public void addExtension(SpiConfigDTO config) {
@@ -119,5 +120,12 @@ public class AppEntity implements Serializable {
             }
         }
         return false;
+    }
+
+    public void deleteSpi(String spiInterface) {
+        boolean removed = spis.removeIf(s -> s.getSpiInterface().equals(spiInterface));
+        if (removed) {
+            this.dateModified = new Date();
+        }
     }
 }

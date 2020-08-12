@@ -8,9 +8,9 @@
         <version>1.2-SNAPSHOT</version>
     </parent>
     <groupId>com.cmt</groupId>
-    <artifactId>extension-bootstrap</artifactId>
+    <artifactId>extension-admin</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <name>extension-bootstrap</name>
+    <name>extension-admin</name>
     <packaging>war</packaging>
     <description>admin</description>
 

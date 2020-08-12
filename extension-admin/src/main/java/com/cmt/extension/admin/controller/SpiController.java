@@ -3,6 +3,7 @@ package com.cmt.extension.admin.controller;
 import javax.servlet.http.HttpServletResponse;
 
 import com.cmt.extension.admin.model.Result;
+import com.cmt.extension.admin.model.dto.DeleteSpiDTO;
 import com.cmt.extension.admin.model.dto.NewSpiDTO;
 import com.cmt.extension.admin.model.vo.SpiConfigVO;
 import com.cmt.extension.admin.service.AppService;
@@ -89,6 +90,12 @@ public class SpiController {
     @PostMapping("/spis")
     public Result addSpi(@Validated NewSpiDTO newSpi) {
         appService.addSpi(newSpi);
+        return Result.success();
+    }
+
+    @GetMapping("/deleteSpi")
+    public Result deleteSpi(@Validated DeleteSpiDTO deleteSpi){
+        appService.deleteSpi(deleteSpi);
         return Result.success();
     }
 }

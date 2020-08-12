@@ -19,7 +19,7 @@
 
     <modules>
         <module>extension-core</module>
-        <module>extension-bootstrap</module>
+        <module>extension-admin</module>
         <module>extension-demo</module>
         <module>release-note</module>
     </modules>
