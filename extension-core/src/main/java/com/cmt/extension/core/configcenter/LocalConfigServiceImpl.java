@@ -3,10 +3,10 @@ package com.cmt.extension.core.configcenter;
 import com.cmt.extension.core.configcenter.model.Application;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.InputStream;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * LocalConfigServiceImpl读取本地配置
@@ -25,9 +25,13 @@ public class LocalConfigServiceImpl implements ConfigService {
         try (InputStream in = this.getClass().getClassLoader().getResourceAsStream(CONFIG_FILE)) {
             application = mapper.readValue(in, Application.class);
         } catch (IOException e) {
-            log.error("Load local config file error: ", e);
+            log.error("Load local config file error,please check spi.yml ", e);
             throw new RuntimeException(e);
         }
-        return Application.emptyIfNull(application);
+        if (application == null) {
+            return Application.empty();
+        }
+        application.setVersion(0);
+        return application;
     }
 }

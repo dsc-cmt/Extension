@@ -8,11 +8,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author tuzhenxian
  * @date 20-7-20
  */
+@Slf4j
 public class Application {
     private String appName;
     private List<Spi> spis;
@@ -33,7 +35,12 @@ public class Application {
     public void update(Application newApp) {
         if (newApp == null || newApp.getVersion() <= this.version) return;
         SpiConfigChangeEvent event = SpiConfigChangeEvent.generateEvent(this, newApp);
-        consumer.accept(event);
+        try{
+            consumer.accept(event);
+        }
+        catch (Exception e){
+            log.error("发布spi配置变更事件失败",e);
+        }
         this.spis = newApp.getSpis();
         this.version = newApp.getVersion();
     }

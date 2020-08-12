@@ -56,6 +56,8 @@ public class ExtensionEntity implements Serializable {
      **/
     private Integer isDefault;
 
+    private String remark;
+
     @CreatedDate
     private Date dateCreate;
     @LastModifiedDate
@@ -73,7 +75,7 @@ public class ExtensionEntity implements Serializable {
         extension.setInvokeMethod(configDTO.getInvokeMethod());
         extension.setExpireTime(configDTO.getExpireTime());
         extension.setIsDefault(configDTO.getIsDefault());
-
+        extension.setRemark(configDTO.getRemark());
         return extension;
     }
 
@@ -82,6 +84,7 @@ public class ExtensionEntity implements Serializable {
         this.setInvokeMethod(configDTO.getInvokeMethod());
         this.setExpireTime(configDTO.getExpireTime());
         this.setIsDefault(configDTO.getIsDefault());
+        this.setRemark(configDTO.getRemark());
         this.dateModified = new Date();
     }
 }

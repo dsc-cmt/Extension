@@ -27,7 +27,6 @@ public interface Converter {
     List<SpiConfigDTO> mapConfigs(List<ExtensionEntity> extensions);
 
     @Mapping(target = "extensionId",source = "id")
-    @Mapping(target = "comment",source = "id")
     SpiConfigDTO mapConfig(ExtensionEntity extension);
 
     Spi mapSpi(SpiEntity spiEntity);

@@ -2,6 +2,7 @@ package com.cmt.extension.core.configcenter;
 
 import com.alibaba.fastjson.JSONObject;
 import com.cmt.extension.core.configcenter.model.Application;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,8 +43,8 @@ public class RemoteConfigServiceImpl implements ConfigService {
             portal = props.getProperty(PORTAL_KEY);
         }
         Assert.notNull(portal, "spi portal不可为空");
-        portalUrl = portal + "/api/application";
-        EXECUTOR = Executors.newScheduledThreadPool(1);
+        portalUrl = portal + "/openApi/application";
+        EXECUTOR = Executors.newScheduledThreadPool(1,new ThreadFactoryBuilder().setNameFormat("spi-sync-thread-%d").build());
     }
 
     @Override

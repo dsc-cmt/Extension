@@ -41,7 +41,7 @@ public class SpiConfigDTO {
      */
     private Integer isDefault;
 
-    private String comment;
+    private String remark;
 
     private Integer version;
 

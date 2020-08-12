@@ -69,6 +69,7 @@ public class WrapperGeneratorComposite implements WrapperGenerator {
         for (WrapperGenerator generator : generators) {
             if (generator != null && generator.support(configDTO)) {
                 generator.destroyWrapper(configDTO);
+                return;
             }
         }
         throw new SpiException("不支持的协议: " + configDTO.getInvokeMethod());

@@ -50,7 +50,7 @@ public class SpiConfigVO {
     /**
      * 描述
      */
-    private String comment;
+    private String remark;
 
     private Long extensionId;
 
@@ -64,7 +64,7 @@ public class SpiConfigVO {
         vo.setIsDefaultDesc(YesOrNoEnum.getDescByCode(dto.getIsDefault()));
         vo.setAppName(dto.getAppName());
         vo.setExtensionId(dto.getExtensionId());
-        vo.setComment(dto.getComment());
+        vo.setRemark(dto.getRemark());
         return vo;
     }
 
@@ -76,7 +76,7 @@ public class SpiConfigVO {
         dto.setSpiInterface(this.spiInterface);
         dto.setAppName(this.appName);
         dto.setIsDefault(this.isDefault);
-        dto.setComment(this.comment);
+        dto.setRemark(this.remark);
         dto.setExtensionId(this.extensionId);
         return dto;
     }

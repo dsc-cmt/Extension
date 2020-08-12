@@ -26,7 +26,7 @@
         </div>
     </nav>
 </div>
-<div>
+<div id="body">
     <div>
         <div style="padding: 50px 200px 10px 200px;">
             <form class="bs-example bs-example-form" role="form">
@@ -78,7 +78,8 @@
                     <h4 class="modal-title">新增spi接口</h4>
                 </div>
                 <div class="modal-body">
-                    spi接口: <input id="spiInterface" type="text" name="spiInterface" class="form-control" placeholder="请输入接口全限定名">
+                    spi接口: <input id="spiInterface" type="text" name="spiInterface" class="form-control"
+                                  placeholder="请输入接口全限定名">
                     <input name="spi-appName" id="spi-appName" hidden>
                 </div>
                 <div class="modal-footer">
@@ -100,23 +101,27 @@
                 </div>
                 <div class="modal-body">
                     <div>
-                        <form id="spiForm" class="form-horizontal" role="form" style="margin-top: 20px" action="/api/configs" method="post">
+                        <form id="spiForm" class="form-horizontal" role="form" style="margin-top: 20px"
+                              action="/api/configs" method="post">
                             <div class="form-group required">
                                 <label for="appName" class="col-sm-2 control-label">应用名称</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="c-appName" name="appName" required readonly value='<%=(String)request.getAttribute("appName") %>'>
+                                    <input type="text" class="form-control" id="c-appName" name="appName" required
+                                           readonly value='<%=(String)request.getAttribute("appName") %>'>
                                 </div>
                             </div>
                             <div class="form-group required">
                                 <label for="spiInterface" class="col-sm-2 control-label">spiInterface</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="c-spiInterface" name="spiInterface" readonly required>
+                                    <input type="text" class="form-control" id="c-spiInterface" name="spiInterface"
+                                           readonly required>
                                 </div>
                             </div>
                             <div class="form-group required">
                                 <label for="bizCode" class="col-sm-2 control-label">bizCode</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="bizCode" name="bizCode" placeholder="请输入bizCode" required>
+                                    <input type="text" class="form-control" id="bizCode" name="bizCode"
+                                           placeholder="请输入bizCode" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -131,7 +136,8 @@
                             <div class="form-group">
                                 <label for="expireTime" class="col-sm-2 control-label">超时时间</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="expireTime" name="expireTime" placeholder="默认为10s">
+                                    <input type="text" class="form-control" id="expireTime" name="expireTime"
+                                           placeholder="默认为10s">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -170,23 +176,27 @@
                 </div>
                 <div class="modal-body">
                     <div>
-                        <form id="spiEditForm" class="form-horizontal" role="form" style="margin-top: 20px" action="/api/updateConfigs" method="post">
+                        <form id="spiEditForm" class="form-horizontal" role="form" style="margin-top: 20px"
+                              action="/api/updateConfigs" method="post">
                             <div class="form-group required">
                                 <label for="appName" class="col-sm-2 control-label">应用名称</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="s-appName" name="appName" required readonly>
+                                    <input type="text" class="form-control" id="s-appName" name="appName" required
+                                           readonly>
                                 </div>
                             </div>
                             <div class="form-group required">
                                 <label for="spiInterface" class="col-sm-2 control-label">spiInterface</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="s-spiInterface" name="spiInterface" readonly required>
+                                    <input type="text" class="form-control" id="s-spiInterface" name="spiInterface"
+                                           readonly required>
                                 </div>
                             </div>
                             <div class="form-group required">
                                 <label for="bizCode" class="col-sm-2 control-label">bizCode</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="s-bizCode" name="bizCode" placeholder="请输入bizCode" required readonly >
+                                    <input type="text" class="form-control" id="s-bizCode" name="bizCode"
+                                           placeholder="请输入bizCode" required readonly>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -201,7 +211,8 @@
                             <div class="form-group">
                                 <label for="expireTime" class="col-sm-2 control-label">超时时间</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="s-expireTime" name="expireTime" placeholder="默认为10s">
+                                    <input type="text" class="form-control" id="s-expireTime" name="expireTime"
+                                           placeholder="默认为10s">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -221,7 +232,9 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary">提交</button>
-                                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="show_confirm()">删除</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal"
+                                        onclick="show_confirm()">删除
+                                </button>
                                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                             </div>
                         </form>
@@ -257,7 +270,8 @@
                     <br/>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="deleteSpiConfirm()">删除</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="deleteSpiConfirm()">删除
+                    </button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div>
@@ -272,14 +286,14 @@
         getApps();
     });
 
-    (function() {
+    (function () {
         'use strict';
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             // Fetch all the forms we want to apply custom Bootstrap validation styles to
             var forms = document.getElementsByClassName('form-horizontal');
             // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function(form) {
-                form.addEventListener('submit', function(event) {
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
                     if (form.checkValidity() === false) {
                         event.preventDefault();
                         event.stopPropagation();
@@ -294,16 +308,15 @@
         var form = new FormData(e.target);
         var appName = form.get("appName")
         $.ajax({
-            type:'post',
-            url:'/api/configs',
-            data:{
-                appName:appName
+            type: 'post',
+            url: '/api/configs',
+            data: {
+                appName: appName
             },
-            success:function (res) {
-                if(res.success){
+            success: function (res) {
+                if (res.success) {
                     debugger
-                }
-                else{
+                } else {
                     alert(res.msg)
                     debugger
                 }
@@ -311,32 +324,35 @@
         })
     }
 
-    function getTree(apps){
-        if (apps.length <= 0) {
-            return
-        }
-        var tree=[]
-        for(var i=0;i<apps.length;i++){
-            var app=apps[i];
-            var appNode={text:app.appName,
-                nodes:[],dataType:"app",backColor: "#DCDCDC"};
-            if(app.spis.length>0){
-                for(var j=0;j<app.spis.length;j++){
-                    var spi=app.spis[j];
-                    var spiNode={text:spi.spiInterface,nodes:[],dataType:"spi",backColor: "#E1FFFF"}
-                    if(spi.extensions.length>0){
-                        for(var k=0;k<spi.extensions.length;k++){
-                            spiNode.nodes.push({text:spi.extensions[k].bizCode,dataType:"extension",backColor: "#ADD8E6"})
+    function getTree(apps) {
+        var tree = []
+        for (var i = 0; i < apps.length; i++) {
+            var app = apps[i];
+            var appNode = {
+                text: app.appName,
+                nodes: [], dataType: "app", backColor: "#DCDCDC"
+            };
+            if (app.spis.length > 0) {
+                for (var j = 0; j < app.spis.length; j++) {
+                    var spi = app.spis[j];
+                    var spiNode = {text: spi.spiInterface, nodes: [], dataType: "spi", backColor: "#E1FFFF"}
+                    if (spi.extensions.length > 0) {
+                        for (var k = 0; k < spi.extensions.length; k++) {
+                            spiNode.nodes.push({
+                                text: spi.extensions[k].bizCode,
+                                dataType: "extension",
+                                backColor: "#ADD8E6"
+                            })
                         }
                     }
-                    spiNode.nodes.push({text:"新增extension",dataType:"newExtension",backColor: "#ADD8E6"})
+                    spiNode.nodes.push({text: "新增extension", dataType: "newExtension", backColor: "#ADD8E6"})
                     appNode.nodes.push(spiNode)
                 }
             }
-            appNode.nodes.push({text:"新增spi接口",dataType:"newSpi",backColor: "#E1FFFF"})
+            appNode.nodes.push({text: "新增spi接口", dataType: "newSpi", backColor: "#E1FFFF"})
             tree.push(appNode)
         }
-        tree.push({text:'新增应用',dataType:"newApp",backColor: "#DCDCDC"})
+        tree.push({text: '新增应用', dataType: "newApp", backColor: "#DCDCDC"})
         return tree;
     }
 
@@ -344,165 +360,162 @@
         $.get('/api/applications', {}, function (res) {
             if (res.success) {
                 renderData(res.data)
+            } else if (!res.msg) {
+                var newWin = window.open('', '_blank');
+                newWin.document.write(res);
             }
         })
     }
 
     var showEditModal = function (node) {
-        var spiNode=$('#tree').treeview('getParent', node);
-        var appNode=$('#tree').treeview('getParent', spiNode);
+        var spiNode = $('#tree').treeview('getParent', node);
+        var appNode = $('#tree').treeview('getParent', spiNode);
         $.ajax({
-            type:'get',
-            url:'/api/config',
-            data:{
-                appName:appNode.text,
-                spiInterface:spiNode.text,
-                bizCode:node.text
+            type: 'get',
+            url: '/api/config',
+            data: {
+                appName: appNode.text,
+                spiInterface: spiNode.text,
+                bizCode: node.text
             },
-            success:function (res) {
-                if(res.success){
-                    $(".modal-body #s-appName").val( appNode.text );
-                    $(".modal-body #s-spiInterface").val( spiNode.text );
-                    $(".modal-body #s-bizCode").val( node.text );
-                    $(".modal-body #s-invokeMethod").val( res.data.invokeMethod );
-                    $(".modal-body #s-expireTime").val( res.data.expireTime );
-                    $(".modal-body #s-remark").val( res.data.comment );
-                    $(".modal-body #s-isDefault").val( res.data.isDefault );
+            success: function (res) {
+                if (res.success) {
+                    $(".modal-body #s-appName").val(appNode.text);
+                    $(".modal-body #s-spiInterface").val(spiNode.text);
+                    $(".modal-body #s-bizCode").val(node.text);
+                    $(".modal-body #s-invokeMethod").val(res.data.invokeMethod);
+                    $(".modal-body #s-expireTime").val(res.data.expireTime);
+                    $(".modal-body #s-remark").val(res.data.remark);
+                    $(".modal-body #s-isDefault").val(res.data.isDefault);
 
                     $('#configEditModal').modal('show');
-                }
-                else{
+                } else {
                     alert(res.msg)
-                    window.location.href='appList'
+                    window.location.href = 'appList'
                 }
             }
         })
     };
 
     function spiDeleteModal(node) {
-        var appNode=$('#tree').treeview('getParent', node);
+        var appNode = $('#tree').treeview('getParent', node);
 
-        $(".modal-body #d-spiInterface").val( node.text );
-        $(".modal-body #d-appName").val( appNode.text );
+        $(".modal-body #d-spiInterface").val(node.text);
+        $(".modal-body #d-appName").val(appNode.text);
         $('#spiDeleteModal').modal('show');
     }
 
     function renderData(apps) {
-        if (apps.length <= 0) {
-            return
-        }
         $('#tree').treeview({data: getTree(apps)});
-        $('#tree').on('nodeSelected',function(e, node){
-            if(node.dataType==="newApp"){
+        $('#tree').on('nodeSelected', function (e, node) {
+            if (node.dataType === "newApp") {
                 $('#appModal').modal('show');
             }
-            if(node.dataType==="newSpi"){
-                var appNode=$('#tree').treeview('getParent', node);
-                var appName=appNode.text;
-                $(".modal-body #spi-appName").val( appName );
+            if (node.dataType === "newSpi") {
+                var appNode = $('#tree').treeview('getParent', node);
+                var appName = appNode.text;
+                $(".modal-body #spi-appName").val(appName);
                 $('#spiModal').modal('show');
             }
-            if(node.dataType==="newExtension"){
-                var spiNode=$('#tree').treeview('getParent', node);
-                var appNode=$('#tree').treeview('getParent', spiNode);
-                $(".modal-body #c-appName").val( appNode.text );
-                $(".modal-body #c-spiInterface").val( spiNode.text );
+            if (node.dataType === "newExtension") {
+                var spiNode = $('#tree').treeview('getParent', node);
+                var appNode = $('#tree').treeview('getParent', spiNode);
+                $(".modal-body #c-appName").val(appNode.text);
+                $(".modal-body #c-spiInterface").val(spiNode.text);
                 $('#configModal').modal('show');
             }
-            if(node.dataType==="extension"){
+            if (node.dataType === "extension") {
                 showEditModal(node);
             }
-            if(node.dataType==="spi"){
+            if (node.dataType === "spi") {
                 spiDeleteModal(node)
             }
         })
     }
 
     function submitNewApp() {
-        var appName =document.getElementById('appName').value
+        var appName = document.getElementById('appName').value
         $.ajax({
-            type:'post',
-            url:'/api/applications',
-            data:'appName='+appName,
-            success:function (res) {
-                if(res.success){
-                    window.location.href='appList'
-                }
-                else{
+            type: 'post',
+            url: '/api/applications',
+            data: 'appName=' + appName,
+            success: function (res) {
+                if (res.success) {
+                    window.location.href = 'appList'
+                } else {
                     alert(res.msg)
-                    window.location.href='appList'
+                    window.location.href = 'appList'
                 }
             }
         })
     }
 
     function submitNewSpi() {
-        var appName=document.getElementById('spi-appName').value
-        var spiInterface =document.getElementById('spiInterface').value
+        var appName = document.getElementById('spi-appName').value
+        var spiInterface = document.getElementById('spiInterface').value
         $.ajax({
-            type:'post',
-            url:'/api/spis',
-            data:{appName:appName,spiInterface:spiInterface},
-            success:function (res) {
-                if(res.success){
-                    window.location.href='appList'
-                }
-                else{
+            type: 'post',
+            url: '/api/spis',
+            data: {appName: appName, spiInterface: spiInterface},
+            success: function (res) {
+                if (res.success) {
+                    window.location.href = 'appList'
+                } else {
                     alert(res.msg)
-                    window.location.href='appList'
+                    window.location.href = 'appList'
                 }
             }
         })
     }
 
     function getApp() {
-        var appName=document.getElementById('searchApp').value
+        var appName = document.getElementById('searchApp').value
 
-        $.get('/api/app', {appName:appName}, function (res) {
+        $.get('/api/app', {appName: appName}, function (res) {
             if (res.success) {
                 renderData([res.data])
-            }else{
+            } else {
                 alert(res.msg)
-                window.location.href='appList'
+                window.location.href = 'appList'
             }
         })
     }
 
     function deleteSpiConfirm() {
-        var spiInterface=$('#d-spiInterface').val()
-        var appName=$('#d-appName').val()
-        var r=confirm("删除spi将同时删除其下extension配置,确认删除?");
-        if(r===true){
+        var spiInterface = $('#d-spiInterface').val()
+        var appName = $('#d-appName').val()
+        var r = confirm("删除spi将同时删除其下extension配置,确认删除?");
+        if (r === true) {
             $.get('/api/deleteSpi', {
-                appName:appName,
-                spiInterface:spiInterface,
+                appName: appName,
+                spiInterface: spiInterface,
             }, function (res) {
                 if (res.success) {
-                    window.location.href='appList'
-                }else{
+                    window.location.href = 'appList'
+                } else {
                     alert(res.msg)
-                    window.location.href='appList'
+                    window.location.href = 'appList'
                 }
             })
         }
     }
 
     function show_confirm() {
-        var appName=$('#s-appName').val()
-        var spiInterface=$('#s-spiInterface').val()
-        var bizCode=$('#s-bizCode').val()
-        var r=confirm("确认删除?");
-        if (r===true) {
+        var appName = $('#s-appName').val()
+        var spiInterface = $('#s-spiInterface').val()
+        var bizCode = $('#s-bizCode').val()
+        var r = confirm("确认删除?");
+        if (r === true) {
             $.get('/api/deleteConfig', {
-                appName:appName,
-                spiInterface:spiInterface,
-                bizCode:bizCode
+                appName: appName,
+                spiInterface: spiInterface,
+                bizCode: bizCode
             }, function (res) {
                 if (res.success) {
-                    window.location.href='appList'
-                }else{
+                    window.location.href = 'appList'
+                } else {
                     alert(res.msg)
-                    window.location.href='appList'
+                    window.location.href = 'appList'
                 }
             })
         }

@@ -104,9 +104,16 @@ public class SpiEntity implements Serializable {
     public void addExtension(SpiConfigDTO config) {
         ExtensionEntity extension = ExtensionEntity.create(config);
         multiDefaultNotAllowed(extension);
+        sameBizCodeNotAllowed(extension);
         extension.setSpi(this);
         extensions.add(extension);
         this.dateModified = new Date();
+    }
+
+    private void sameBizCodeNotAllowed(ExtensionEntity extension) {
+        if (extensions.stream().anyMatch(e -> e.getBizCode().equals(extension.getBizCode()))) {
+            throw BusinessException.fail("该bizCode已存在");
+        }
     }
 
     private void multiDefaultNotAllowed(ExtensionEntity extension) {

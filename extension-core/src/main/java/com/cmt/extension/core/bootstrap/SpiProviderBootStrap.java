@@ -14,6 +14,10 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
  **/
 public class SpiProviderBootStrap implements BeanDefinitionRegistryPostProcessor {
 
+    public static SpiProviderBootStrap create(){
+        return new SpiProviderBootStrap();
+    }
+
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
         registry.registerBeanDefinition("SpringContextHolder",new RootBeanDefinition(ApplicationContextHolder.class));
