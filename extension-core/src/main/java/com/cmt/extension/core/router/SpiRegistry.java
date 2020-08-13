@@ -53,12 +53,15 @@ public class SpiRegistry implements SpiConfigChangeListener {
         }
         registry.composite.destroyWrapper(configDTO);
         SpiContainer.remove(configDTO.getSpiInterface(), configDTO.getBizCode());
+        if(configDTO.getIsDefault()==1){
+            SpiContainer.remove(configDTO.getSpiInterface(), DEFAULT_BIZ_CODE);
+        }
     }
 
     @Override
     public void onChange(SpiConfigChangeEvent event) {
         if (!CollectionUtils.isEmpty(event.getConfigChanges())) {
-            event.getConfigChanges().stream().forEach(e -> {
+            event.getConfigChanges().forEach(e -> {
                 if (SpiChangeType.ADDED.equals(e.getChangeType()) || SpiChangeType.INIT.equals(e.getChangeType()) || SpiChangeType.MODIFIED.equals(e.getChangeType())) {
                     register(e.getConfig());
                 } else if (SpiChangeType.DELETED.equals(e.getChangeType())) {

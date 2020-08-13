@@ -25,7 +25,7 @@ public class LocalWrapperGenerator implements WrapperGenerator {
 
     @Override
     public boolean support(SpiConfigDTO configDTO) {
-        return ExtesionTypeEnum.LOCAL.toString().equalsIgnoreCase(configDTO.getInvokeMethod());
+        return ExtesionTypeEnum.LOCAL.name().equalsIgnoreCase(configDTO.getInvokeMethod());
     }
 
     /**

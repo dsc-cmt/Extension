@@ -1,5 +1,8 @@
 package com.cmt.extension.core.configcenter;
 
+import static com.cmt.extension.core.common.ConfigMode.REMOTE;
+
+import com.cmt.extension.core.common.ConfigMode;
 import com.cmt.extension.core.configcenter.model.Application;
 import com.cmt.extension.core.configcenter.model.SpiChangeType;
 import com.cmt.extension.core.configcenter.model.SpiConfigChangeEvent;
@@ -19,13 +22,12 @@ import org.springframework.util.CollectionUtils;
 @Slf4j
 public class ConfigCenter {
     private static final ConfigCenter INSTANCE = new ConfigCenter();
-
-    private final ConfigService configService = new LocalConfigServiceImpl();
     private final List<SpiConfigChangeListener> listeners = new ArrayList<>();
+    private ConfigService configService;
     /**
      * 应用配置缓存
      */
-    private Application application;
+    private final Application application=Application.empty();
 
     private ConfigCenter() {
     }
@@ -83,9 +85,14 @@ public class ConfigCenter {
         fireConfigChangeEvent(new SpiConfigChangeEvent(configChanges));
     }
 
-    public void init(String appName) {
-        this.application = configService.init(appName);
+    public void init(String appName, ConfigMode configMode) {
+        if (configMode == REMOTE) {
+            configService = new RemoteConfigServiceImpl();
+        } else {
+            configService = new LocalConfigServiceImpl();
+        }
         application.setConsumer(this::changeConfig);
+        this.application.update(configService.init(appName));
         configService.periodicRefresh();
     }
 }

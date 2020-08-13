@@ -15,6 +15,6 @@ public class BootstrapConfig {
 
     @Bean
     public  SpiProviderBootStrap businessBootStrap() {
-        return new SpiProviderBootStrap();
+        return SpiProviderBootStrap.create();
     }
 }

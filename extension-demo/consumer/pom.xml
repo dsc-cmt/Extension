@@ -11,6 +11,18 @@
 
     <groupId>com.cmt</groupId>
     <artifactId>consumer</artifactId>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
@@ -77,7 +89,7 @@
         <dependency>
             <groupId>com.cmt</groupId>
             <artifactId>extension-core</artifactId>
-            <version>1.1.0-SNAPSHOT</version>
+            <version>1.2.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
