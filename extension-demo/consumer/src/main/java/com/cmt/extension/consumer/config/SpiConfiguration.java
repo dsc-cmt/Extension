@@ -1,5 +1,6 @@
 package com.cmt.extension.consumer.config;
 
+import com.cmt.extension.core.annotation.EnableExtensionConsumer;
 import io.github.cmt.extension.common.BusinessContext;
 import com.cmt.extension.core.bootstrap.SpiConsumerBootStrap;
 import com.cmt.extension.core.common.ConfigMode;
@@ -20,15 +21,16 @@ import org.springframework.context.annotation.Configuration;
  * @date 2019-10-21
  **/
 @Configuration
+@EnableExtensionConsumer(appName = "test",configMode = ConfigMode.LOCAL )
 public class SpiConfiguration {
 
-    @Bean
-    public SpiConsumerBootStrap spiBootStrap() {
-        return SpiConsumerBootStrap.create()
-                .appName("test")
-                .configMode(ConfigMode.LOCAL);
-//                .configMode(ConfigMode.REMOTE);
-    }
+//    @Bean
+//    public SpiConsumerBootStrap spiBootStrap() {
+//        return SpiConsumerBootStrap.create()
+//                .appName("test")
+//                .configMode(ConfigMode.LOCAL);
+////                .configMode(ConfigMode.REMOTE);
+//    }
 
     @Bean
     public ApplicationRunner applicationRunner() {

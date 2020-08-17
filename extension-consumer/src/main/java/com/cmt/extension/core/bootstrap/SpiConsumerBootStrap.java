@@ -25,6 +25,7 @@ import org.springframework.util.ClassUtils;
  * @author shengchaojie
  * @date 2019-10-22
  **/
+@Deprecated
 public class SpiConsumerBootStrap implements ApplicationListener<ApplicationEvent>, BeanFactoryPostProcessor, ApplicationContextAware {
 
     private static ApplicationContext applicationContext;

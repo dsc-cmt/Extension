@@ -18,7 +18,7 @@
 
 
     <modules>
-        <module>extension-core</module>
+        <module>extension-consumer</module>
         <module>extension-admin</module>
         <module>extension-demo</module>
         <module>release-note</module>

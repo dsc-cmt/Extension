@@ -1,4 +1,4 @@
-package com.cmt.extension.core.config;
+package com.cmt.extension.core.filter;
 
 import static io.github.cmt.extension.common.BusinessContext.BIZ_CODE_KEY;
 
