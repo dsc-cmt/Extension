@@ -39,6 +39,8 @@ import java.util.Optional;
 @Slf4j
 public class DubboWrapperGenerator implements WrapperGenerator {
 
+    private ReferenceConfigCache referenceConfigCache = ReferenceConfigCache.getCache();
+
     @Override
     public void preCheck() {
         if (ApplicationContextHolder.getApplicationContext() == null) {
@@ -60,8 +62,6 @@ public class DubboWrapperGenerator implements WrapperGenerator {
     public Object generateWrapper(SpiConfigDTO configDTO) {
         ReferenceConfig reference = buildReferenceConfig(configDTO);
 
-        ReferenceConfigCache referenceConfigCache = ReferenceConfigCache.getCache();
-
         Object wrapper;
 
         try {
@@ -81,23 +81,19 @@ public class DubboWrapperGenerator implements WrapperGenerator {
 
     @Override
     public void destroyWrapper( final SpiConfigDTO configDTO) {
-        ReferenceConfig<GenericService> reference = buildReferenceConfig(configDTO);
-
-        ReferenceConfigCache referenceConfigCache = ReferenceConfigCache.getCache();
-
+        ReferenceConfig reference = buildReferenceConfig(configDTO);
         referenceConfigCache.destroy(reference);
     }
 
 
     private ReferenceConfig buildReferenceConfig(final SpiConfigDTO configDTO) {
         ReferenceConfig referenceConfig = new ReferenceConfig();
-
         referenceConfig.setConsumer(DubboConfigUtils.getConsumerConfig());
         referenceConfig.setApplication(DubboConfigUtils.getApplicationConfig());
         referenceConfig.setRegistries(DubboConfigUtils.getRegestries());
         referenceConfig.setInterface(configDTO.getSpiInterface());
         referenceConfig.setGroup(configDTO.getBizCode());
-
+        referenceConfig.setCheck(false);
         Optional.ofNullable(configDTO.getExpireTime()).ifPresent(referenceConfig::setTimeout);
 
         return referenceConfig;
