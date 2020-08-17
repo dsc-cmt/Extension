@@ -86,6 +86,12 @@
             <artifactId>httpclient</artifactId>
             <version>4.5.10</version>
         </dependency>
+
+        <dependency>
+            <groupId>io.github.cmt</groupId>
+            <artifactId>extension-common</artifactId>
+            <version>1.2-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>

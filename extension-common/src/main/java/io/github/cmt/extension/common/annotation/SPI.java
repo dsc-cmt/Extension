@@ -1,4 +1,4 @@
-package com.cmt.extension.core.annotation;
+package io.github.cmt.extension.common.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

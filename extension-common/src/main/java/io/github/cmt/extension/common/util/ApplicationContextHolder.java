@@ -1,4 +1,4 @@
-package com.cmt.extension.core.utils;
+package io.github.cmt.extension.common.util;
 
 import lombok.Getter;
 import org.springframework.beans.BeansException;

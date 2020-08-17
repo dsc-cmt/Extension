@@ -1,6 +1,6 @@
 package com.cmt.extension.spi;
 
-import com.cmt.extension.core.annotation.SPI;
+import io.github.cmt.extension.common.annotation.SPI;
 
 /**
  * @author shengchaojie

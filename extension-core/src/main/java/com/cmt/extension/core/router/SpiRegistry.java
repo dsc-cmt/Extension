@@ -1,6 +1,6 @@
 package com.cmt.extension.core.router;
 
-import static com.cmt.extension.core.annotation.Extension.DEFAULT_BIZ_CODE;
+import static io.github.cmt.extension.common.annotation.Extension.DEFAULT_BIZ_CODE;
 
 import com.cmt.extension.core.call.WrapperGeneratorComposite;
 import com.cmt.extension.core.configcenter.SpiConfigChangeListener;

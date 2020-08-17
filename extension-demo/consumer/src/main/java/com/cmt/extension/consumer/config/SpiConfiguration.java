@@ -3,12 +3,13 @@ package com.cmt.extension.consumer.config;
 import com.cmt.extension.core.BusinessContext;
 import com.cmt.extension.core.bootstrap.SpiConsumerBootStrap;
 import com.cmt.extension.core.common.ConfigMode;
-import com.cmt.extension.core.utils.ApplicationContextHolder;
 import com.cmt.extension.consumer.service.TestService;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import io.github.cmt.extension.common.util.ApplicationContextHolder;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;

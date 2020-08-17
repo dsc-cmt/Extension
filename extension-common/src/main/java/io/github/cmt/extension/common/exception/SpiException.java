@@ -1,4 +1,4 @@
-package com.cmt.extension.core.common;
+package io.github.cmt.extension.common.exception;
 
 /**
  * @author tuzhenxian

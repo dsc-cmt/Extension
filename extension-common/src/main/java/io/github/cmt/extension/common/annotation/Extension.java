@@ -1,6 +1,6 @@
-package com.cmt.extension.core.annotation;
+package io.github.cmt.extension.common.annotation;
 
-import com.cmt.extension.core.common.ExtesionTypeEnum;
+import io.github.cmt.extension.common.ExtensionTypeEnum;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.ElementType;
@@ -26,6 +26,6 @@ public @interface Extension {
      * 调用方式
      * 目前支持 本地、dubbo
      */
-    ExtesionTypeEnum invokeMethod() default ExtesionTypeEnum.LOCAL;
+    ExtensionTypeEnum invokeMethod() default ExtensionTypeEnum.LOCAL;
     
 }

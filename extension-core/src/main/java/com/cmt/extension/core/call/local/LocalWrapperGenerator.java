@@ -1,11 +1,11 @@
 package com.cmt.extension.core.call.local;
 
 import com.cmt.extension.core.call.WrapperGenerator;
-import com.cmt.extension.core.common.SpiException;
-import com.cmt.extension.core.common.ExtesionTypeEnum;
-import com.cmt.extension.core.utils.ApplicationContextHolder;
-import com.cmt.extension.core.annotation.Extension;
+import io.github.cmt.extension.common.exception.SpiException;
+import io.github.cmt.extension.common.ExtensionTypeEnum;
+import io.github.cmt.extension.common.annotation.Extension;
 import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
+import io.github.cmt.extension.common.util.ApplicationContextHolder;
 import org.apache.commons.lang3.ClassUtils;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.context.ApplicationContext;
@@ -25,7 +25,7 @@ public class LocalWrapperGenerator implements WrapperGenerator {
 
     @Override
     public boolean support(SpiConfigDTO configDTO) {
-        return ExtesionTypeEnum.LOCAL.name().equalsIgnoreCase(configDTO.getInvokeMethod());
+        return ExtensionTypeEnum.LOCAL.name().equalsIgnoreCase(configDTO.getInvokeMethod());
     }
 
     /**

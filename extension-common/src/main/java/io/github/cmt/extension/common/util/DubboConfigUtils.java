@@ -1,7 +1,7 @@
-package com.cmt.extension.core.utils;
+package io.github.cmt.extension.common.util;
 
 import com.alibaba.dubbo.config.*;
-import com.cmt.extension.core.common.SpiException;
+import io.github.cmt.extension.common.exception.SpiException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.context.ApplicationContext;

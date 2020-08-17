@@ -1,6 +1,6 @@
 package com.cmt.extension.core.call;
 
-import com.cmt.extension.core.common.SpiException;
+import io.github.cmt.extension.common.exception.SpiException;
 import com.cmt.extension.core.call.dubbo.DubboWrapperGenerator;
 import com.cmt.extension.core.call.local.LocalWrapperGenerator;
 import com.cmt.extension.core.configcenter.model.SpiConfigDTO;

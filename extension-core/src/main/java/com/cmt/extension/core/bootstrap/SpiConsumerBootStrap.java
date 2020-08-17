@@ -1,12 +1,12 @@
 package com.cmt.extension.core.bootstrap;
 
 import com.cmt.extension.core.common.ConfigMode;
-import com.cmt.extension.core.common.SpiException;
+import io.github.cmt.extension.common.exception.SpiException;
 import com.cmt.extension.core.configcenter.ConfigCenter;
 import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
 import com.cmt.extension.core.router.SpiRouter;
-import com.cmt.extension.core.utils.ApplicationContextHolder;
 
+import io.github.cmt.extension.common.util.ApplicationContextHolder;
 import lombok.Setter;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;

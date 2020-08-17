@@ -22,6 +22,8 @@
         <module>extension-admin</module>
         <module>extension-demo</module>
         <module>release-note</module>
+        <module>extension-provider</module>
+        <module>extension-common</module>
     </modules>
 
     <properties>

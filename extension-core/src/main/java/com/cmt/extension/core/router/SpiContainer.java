@@ -1,11 +1,10 @@
 package com.cmt.extension.core.router;
 
-import com.cmt.extension.core.annotation.Extension;
+import io.github.cmt.extension.common.annotation.Extension;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**

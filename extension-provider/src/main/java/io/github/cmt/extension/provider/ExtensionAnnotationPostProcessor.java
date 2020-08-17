@@ -1,9 +1,7 @@
-package com.cmt.extension.core.provider;
+package io.github.cmt.extension.provider;
 
-import com.cmt.extension.core.call.WrapperGeneratorComposite;
-import com.cmt.extension.core.common.ExtesionTypeEnum;
-import com.cmt.extension.core.annotation.Extension;
-import com.cmt.extension.core.provider.dubbo.DubboServiceExporter;
+import io.github.cmt.extension.common.ExtensionTypeEnum;
+import io.github.cmt.extension.common.annotation.Extension;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.BeansException;
@@ -22,7 +20,7 @@ import javax.annotation.PostConstruct;
 @Slf4j
 public class ExtensionAnnotationPostProcessor implements BeanPostProcessor, Ordered {
 
-    private static final boolean DUBBO_PRESENT = ClassUtils.isPresent("com.alibaba.dubbo.common.URL", WrapperGeneratorComposite.class.getClassLoader());
+    private static final boolean DUBBO_PRESENT = ClassUtils.isPresent("com.alibaba.dubbo.common.URL", ExtensionAnnotationPostProcessor.class.getClassLoader());
 
     private DubboServiceExporter dubboServiceExporter;
 
@@ -34,10 +32,9 @@ public class ExtensionAnnotationPostProcessor implements BeanPostProcessor, Orde
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 
-
         if (AopUtils.getTargetClass(bean).isAnnotationPresent(Extension.class)) {
             Extension extension = AopUtils.getTargetClass(bean).getAnnotation(Extension.class);
-            if (ExtesionTypeEnum.DUBBO.equals(extension.invokeMethod())) {
+            if (ExtensionTypeEnum.DUBBO.equals(extension.invokeMethod())) {
                 dubboServiceExporter.exportService(bean);
             }
         }
