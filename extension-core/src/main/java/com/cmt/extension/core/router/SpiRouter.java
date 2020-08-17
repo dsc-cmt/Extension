@@ -1,6 +1,6 @@
 package com.cmt.extension.core.router;
 
-import com.cmt.extension.core.BusinessContext;
+import io.github.cmt.extension.common.BusinessContext;
 import io.github.cmt.extension.common.annotation.Extension;
 import com.cmt.extension.core.configcenter.ConfigCenter;
 import lombok.extern.slf4j.Slf4j;

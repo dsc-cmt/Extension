@@ -1,6 +1,6 @@
 package com.cmt.extension.core.config;
 
-import static com.cmt.extension.core.BusinessContext.BIZ_CODE_KEY;
+import static io.github.cmt.extension.common.BusinessContext.BIZ_CODE_KEY;
 
 import com.alibaba.dubbo.common.Constants;
 import com.alibaba.dubbo.common.extension.Activate;
@@ -10,7 +10,7 @@ import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.Result;
 import com.alibaba.dubbo.rpc.RpcContext;
 import com.alibaba.dubbo.rpc.RpcException;
-import com.cmt.extension.core.BusinessContext;
+import io.github.cmt.extension.common.BusinessContext;
 
 import org.springframework.util.StringUtils;
 

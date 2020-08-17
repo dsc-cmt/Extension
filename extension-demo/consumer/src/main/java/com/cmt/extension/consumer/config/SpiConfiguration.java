@@ -1,6 +1,6 @@
 package com.cmt.extension.consumer.config;
 
-import com.cmt.extension.core.BusinessContext;
+import io.github.cmt.extension.common.BusinessContext;
 import com.cmt.extension.core.bootstrap.SpiConsumerBootStrap;
 import com.cmt.extension.core.common.ConfigMode;
 import com.cmt.extension.consumer.service.TestService;

@@ -2,7 +2,7 @@ package test;
 
 import com.cmt.extension.consumer.service.TestService;
 import com.cmt.extension.consumer.Application;
-import com.cmt.extension.core.BusinessContext;
+import io.github.cmt.extension.common.BusinessContext;
 import io.github.cmt.extension.common.util.ApplicationContextHolder;
 import org.junit.Assert;
 import org.junit.Test;

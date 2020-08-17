@@ -1,2 +1,1 @@
-providerBizCodeFilter=com.cmt.extension.core.config.ProviderBizCodeFilter
 consumerBizCodeFilter=com.cmt.extension.core.config.ConsumerBizCodeFilter

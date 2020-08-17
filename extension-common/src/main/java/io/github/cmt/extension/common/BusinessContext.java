@@ -1,4 +1,4 @@
-package com.cmt.extension.core;
+package io.github.cmt.extension.common;
 
 public class BusinessContext {
     private static ThreadLocal<String> bizCode = new ThreadLocal<>();
