@@ -1,4 +1,4 @@
-package com.cmt.extension.core.configcenter.model;
+package io.github.cmt.extension.common.model;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;

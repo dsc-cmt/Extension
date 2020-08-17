@@ -3,8 +3,8 @@ package com.cmt.extension.admin.model.vo;
 import javax.validation.constraints.NotNull;
 
 import com.cmt.extension.admin.model.type.YesOrNoEnum;
-import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
 
+import io.github.cmt.extension.common.model.SpiConfigDTO;
 import lombok.Data;
 
 /**

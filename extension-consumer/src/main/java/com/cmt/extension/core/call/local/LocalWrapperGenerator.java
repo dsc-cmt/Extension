@@ -4,7 +4,7 @@ import com.cmt.extension.core.call.WrapperGenerator;
 import io.github.cmt.extension.common.exception.SpiException;
 import io.github.cmt.extension.common.ExtensionTypeEnum;
 import io.github.cmt.extension.common.annotation.Extension;
-import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
+import io.github.cmt.extension.common.model.SpiConfigDTO;
 import io.github.cmt.extension.common.util.ApplicationContextHolder;
 import org.apache.commons.lang3.ClassUtils;
 import org.springframework.aop.support.AopUtils;

@@ -1,7 +1,7 @@
 package com.cmt.extension.core.configcenter;
 
 import com.alibaba.fastjson.JSONObject;
-import com.cmt.extension.core.configcenter.model.Application;
+import io.github.cmt.extension.common.model.Application;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import java.io.IOException;

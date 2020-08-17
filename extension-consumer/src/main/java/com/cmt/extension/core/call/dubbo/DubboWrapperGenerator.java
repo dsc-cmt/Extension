@@ -23,7 +23,7 @@ import com.alibaba.dubbo.rpc.service.GenericService;
 import com.cmt.extension.core.call.WrapperGenerator;
 import io.github.cmt.extension.common.exception.SpiException;
 import io.github.cmt.extension.common.ExtensionTypeEnum;
-import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
+import io.github.cmt.extension.common.model.SpiConfigDTO;
 import io.github.cmt.extension.common.util.ApplicationContextHolder;
 import io.github.cmt.extension.common.util.DubboConfigUtils;
 import lombok.extern.slf4j.Slf4j;

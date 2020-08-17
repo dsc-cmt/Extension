@@ -1,17 +1,11 @@
 package com.cmt.extension.admin.controller;
 
-import javax.servlet.http.HttpServletResponse;
-
 import com.cmt.extension.admin.model.Result;
 import com.cmt.extension.admin.model.dto.DeleteSpiDTO;
 import com.cmt.extension.admin.model.dto.NewSpiDTO;
 import com.cmt.extension.admin.model.vo.SpiConfigVO;
 import com.cmt.extension.admin.service.AppService;
-import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
+import io.github.cmt.extension.common.model.SpiConfigDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -19,6 +13,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author tuzhenxian

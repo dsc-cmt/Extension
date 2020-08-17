@@ -12,7 +12,6 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 import com.cmt.extension.admin.model.BusinessException;
-import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
@@ -20,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
+import io.github.cmt.extension.common.model.SpiConfigDTO;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.DynamicUpdate;

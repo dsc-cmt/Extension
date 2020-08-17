@@ -1,6 +1,6 @@
 package com.cmt.extension.core.configcenter;
 
-import com.cmt.extension.core.configcenter.model.Application;
+import io.github.cmt.extension.common.model.Application;
 
 /**
  * @author tuzhenxian

@@ -1,6 +1,6 @@
 package com.cmt.extension.core.configcenter;
 
-import com.cmt.extension.core.configcenter.model.SpiConfigChangeEvent;
+import io.github.cmt.extension.common.model.SpiConfigChangeEvent;
 
 /**
  * spi配置listener

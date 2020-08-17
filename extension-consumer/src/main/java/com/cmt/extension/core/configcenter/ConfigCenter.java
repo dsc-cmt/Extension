@@ -3,11 +3,11 @@ package com.cmt.extension.core.configcenter;
 import static io.github.cmt.extension.common.ConfigMode.REMOTE;
 
 import io.github.cmt.extension.common.ConfigMode;
-import com.cmt.extension.core.configcenter.model.Application;
-import com.cmt.extension.core.configcenter.model.SpiChangeType;
-import com.cmt.extension.core.configcenter.model.SpiConfigChangeEvent;
-import com.cmt.extension.core.configcenter.model.SpiConfigChangeEvent.SpiConfigChangeDTO;
-import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
+import io.github.cmt.extension.common.model.Application;
+import io.github.cmt.extension.common.model.SpiChangeType;
+import io.github.cmt.extension.common.model.SpiConfigChangeEvent;
+import io.github.cmt.extension.common.model.SpiConfigChangeEvent.SpiConfigChangeDTO;
+import io.github.cmt.extension.common.model.SpiConfigDTO;
 
 import java.util.ArrayList;
 import java.util.List;

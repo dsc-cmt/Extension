@@ -1,8 +1,8 @@
 package com.cmt.extension.admin.controller;
 
 import com.cmt.extension.admin.service.AppService;
-import com.cmt.extension.core.configcenter.model.Application;
 
+import io.github.cmt.extension.common.model.Application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

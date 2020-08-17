@@ -3,7 +3,7 @@ package com.cmt.extension.core.bootstrap;
 import io.github.cmt.extension.common.ConfigMode;
 import io.github.cmt.extension.common.exception.SpiException;
 import com.cmt.extension.core.configcenter.ConfigCenter;
-import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
+import io.github.cmt.extension.common.model.SpiConfigDTO;
 import com.cmt.extension.core.router.SpiRouter;
 
 import io.github.cmt.extension.common.util.ApplicationContextHolder;

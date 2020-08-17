@@ -3,7 +3,7 @@ package com.cmt.extension.core.call;
 import io.github.cmt.extension.common.exception.SpiException;
 import com.cmt.extension.core.call.dubbo.DubboWrapperGenerator;
 import com.cmt.extension.core.call.local.LocalWrapperGenerator;
-import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
+import io.github.cmt.extension.common.model.SpiConfigDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ClassUtils;
 

@@ -4,9 +4,9 @@ import static io.github.cmt.extension.common.annotation.Extension.DEFAULT_BIZ_CO
 
 import com.cmt.extension.core.call.WrapperGeneratorComposite;
 import com.cmt.extension.core.configcenter.SpiConfigChangeListener;
-import com.cmt.extension.core.configcenter.model.SpiChangeType;
-import com.cmt.extension.core.configcenter.model.SpiConfigChangeEvent;
-import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
+import io.github.cmt.extension.common.model.SpiChangeType;
+import io.github.cmt.extension.common.model.SpiConfigChangeEvent;
+import io.github.cmt.extension.common.model.SpiConfigDTO;
 
 import java.util.Objects;
 import lombok.AccessLevel;

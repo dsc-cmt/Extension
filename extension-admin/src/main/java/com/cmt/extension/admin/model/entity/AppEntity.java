@@ -12,15 +12,15 @@ import javax.persistence.Version;
 
 import com.cmt.extension.admin.model.BusinessException;
 import com.cmt.extension.admin.model.Converter;
-import com.cmt.extension.core.configcenter.model.Application;
-import com.cmt.extension.core.configcenter.model.Spi;
-import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import io.github.cmt.extension.common.model.Application;
+import io.github.cmt.extension.common.model.Spi;
+import io.github.cmt.extension.common.model.SpiConfigDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;

@@ -1,6 +1,6 @@
 package com.cmt.extension.core.call;
 
-import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
+import io.github.cmt.extension.common.model.SpiConfigDTO;
 
 /**
  *

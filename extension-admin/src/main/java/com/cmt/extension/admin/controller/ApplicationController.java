@@ -2,7 +2,6 @@ package com.cmt.extension.admin.controller;
 
 import com.cmt.extension.admin.model.Result;
 import com.cmt.extension.admin.service.AppService;
-import com.cmt.extension.core.configcenter.model.Application;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
