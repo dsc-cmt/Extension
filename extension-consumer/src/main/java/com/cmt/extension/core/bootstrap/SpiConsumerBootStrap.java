@@ -1,6 +1,6 @@
 package com.cmt.extension.core.bootstrap;
 
-import com.cmt.extension.core.common.ConfigMode;
+import io.github.cmt.extension.common.ConfigMode;
 import io.github.cmt.extension.common.exception.SpiException;
 import com.cmt.extension.core.configcenter.ConfigCenter;
 import com.cmt.extension.core.configcenter.model.SpiConfigDTO;

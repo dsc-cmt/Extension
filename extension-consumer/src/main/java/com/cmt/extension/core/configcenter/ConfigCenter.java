@@ -1,8 +1,8 @@
 package com.cmt.extension.core.configcenter;
 
-import static com.cmt.extension.core.common.ConfigMode.REMOTE;
+import static io.github.cmt.extension.common.ConfigMode.REMOTE;
 
-import com.cmt.extension.core.common.ConfigMode;
+import io.github.cmt.extension.common.ConfigMode;
 import com.cmt.extension.core.configcenter.model.Application;
 import com.cmt.extension.core.configcenter.model.SpiChangeType;
 import com.cmt.extension.core.configcenter.model.SpiConfigChangeEvent;

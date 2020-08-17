@@ -17,6 +17,10 @@ public class BusinessContext {
         }
     }
 
+    public static void clear(){
+        bizCode.remove();
+    }
+
     public static void setGlobalBizCode(String bizCode) {
         BusinessContext.globalBizCode = bizCode;
     }

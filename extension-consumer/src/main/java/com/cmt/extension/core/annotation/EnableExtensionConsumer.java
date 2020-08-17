@@ -1,6 +1,6 @@
 package com.cmt.extension.core.annotation;
 
-import com.cmt.extension.core.common.ConfigMode;
+import io.github.cmt.extension.common.ConfigMode;
 import com.cmt.extension.core.config.ExtensionConfiguration;
 import org.springframework.context.annotation.Import;
 

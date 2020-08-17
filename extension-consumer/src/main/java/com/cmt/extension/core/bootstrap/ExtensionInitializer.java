@@ -1,6 +1,6 @@
 package com.cmt.extension.core.bootstrap;
 
-import com.cmt.extension.core.common.ConfigMode;
+import io.github.cmt.extension.common.ConfigMode;
 import com.cmt.extension.core.configcenter.ConfigCenter;
 import com.cmt.extension.core.configcenter.model.SpiConfigDTO;
 import com.cmt.extension.core.router.SpiRouter;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.util.ClassUtils;

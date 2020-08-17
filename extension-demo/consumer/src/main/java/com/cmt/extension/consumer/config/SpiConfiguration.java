@@ -1,20 +1,19 @@
 package com.cmt.extension.consumer.config;
 
-import com.cmt.extension.core.annotation.EnableExtensionConsumer;
-import io.github.cmt.extension.common.BusinessContext;
-import com.cmt.extension.core.bootstrap.SpiConsumerBootStrap;
-import com.cmt.extension.core.common.ConfigMode;
 import com.cmt.extension.consumer.service.TestService;
-
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
+import com.cmt.extension.core.ExtensionHelper;
+import com.cmt.extension.core.annotation.EnableExtensionConsumer;
+import io.github.cmt.extension.common.ConfigMode;
+import io.github.cmt.extension.common.BusinessContext;
 import io.github.cmt.extension.common.util.ApplicationContextHolder;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author shengchaojie
@@ -52,14 +51,20 @@ public class SpiConfiguration {
                 BusinessContext.setBizCode("e");
                 result = service.hello();
                 System.out.println(result);
-                BusinessContext.setBizCode("f");
-                result = service.hello();
-                System.out.println(result);
+
+                ExtensionHelper.execute("f",()->{
+                    String rst =  service.hello();
+                    System.out.println(rst);
+                    return rst;
+                });
 
                 ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
                 executor.scheduleAtFixedRate(()-> {
-                    BusinessContext.setBizCode("b");
-                    System.out.println(service.hello());
+                    ExtensionHelper.execute("b",()->{
+                        String rst =  service.hello();
+                        System.out.println(rst);
+                        return rst;
+                    });
                 },5,5, TimeUnit.SECONDS);
             }
         };

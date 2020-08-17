@@ -2,11 +2,10 @@ package com.cmt.extension.core.config;
 
 import com.cmt.extension.core.annotation.EnableExtensionConsumer;
 import com.cmt.extension.core.bootstrap.ExtensionInitializer;
-import com.cmt.extension.core.common.ConfigMode;
+import io.github.cmt.extension.common.ConfigMode;
 import io.github.cmt.extension.common.util.ApplicationContextHolder;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.annotation.AnnotationAttributes;

@@ -7,10 +7,10 @@
         <artifactId>extension</artifactId>
         <version>1.2-SNAPSHOT</version>
     </parent>
-    <groupId>com.cmt</groupId>
+
+    <groupId>io.github.cmt</groupId>
     <artifactId>extension-consumer</artifactId>
     <version>1.2.0-SNAPSHOT</version>
-    <name>extension-core</name>
 
     <properties>
         <java.version>1.8</java.version>
