@@ -27,7 +27,7 @@
 </dependency>
 ```
 
-### 平方方-spi接口定义者
+### 平台方-spi接口定义者
 1. 增加spring配置
 ```
 @EnableExtensionConsumer(appName = "test",configMode = ConfigMode.LOCAL )
