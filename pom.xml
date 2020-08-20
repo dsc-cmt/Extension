@@ -16,7 +16,6 @@
     <version>1.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-
     <modules>
         <module>extension-consumer</module>
         <module>extension-admin</module>
