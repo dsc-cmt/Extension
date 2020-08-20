@@ -11,10 +11,11 @@
 ### maven依赖
 ```
 <dependency>
-    <groupId>com.cmt</groupId>
+    <groupId>com.github.dsc-cmt</groupId>
     <artifactId>extension-core</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
+    <version>1.2.0</version>
 </dependency>
+
 ```
 ### spi消费者
 1. 增加spring配置
@@ -90,6 +91,11 @@ BusinessContext.setBizCode("a");
 testService.hello();
 ```
 
+7.当ConfigMode配置为REMOTE时,需在application.properties中配置admin服务地址来加载,同步spi配置
+```
+spi.portal=adminUrl
+```
+
 ### spi提供者
 1. 增加spring配置
 ```
@@ -109,7 +115,7 @@ public class AHelloServiceImpl implements IHelloService{
 ```
 
 ### 配置admin控制台
-为了让spi消费者能够正常消费远程/本地spi，需要在admin控制台注册你的spi实现
+当ConfigMode配置为REMOTE时,为了让spi消费者能够正常消费远程/本地spi，必须在admin控制台注册你的spi实现
 
 ### dubbo filter
 为了在dubbo调用时传递bizCode,框架实现了com.alibaba.dubbo.rpc.Filter接口,
@@ -123,7 +129,7 @@ ProviderBizCodeFilter从RpcContext中获取bizCode并设置回BusinessContext.
 2. 打包Extension项目，命令如下
 ```  mvn clean package -DskipTests=true ```
 3. 启动extension-admin项目
-    2.1 访问本地的http://localhost:8080
+    2.1 访问本地的http://localhost:8088
     2.2 登录系统(默认用户名:admin 密码:admin)
     2.3 打开应用管理界面去创建应用，应用名称设置为test
     2.4 打开spi管理界面，为test应用创建spi,spi的接口名称为spi-interface项目下的IHelloService接口全路径(com.cmt.extension.spi.IHelloService)

@@ -37,7 +37,7 @@
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         <h1 class="page-header">控制台</h1>
         <div id="content">
-            <p>extension1.0 现已发布至maven公库</p>
+            <p>extension-core 1.2.0 现已发布至maven公库</p>
             <a target="_blank" rel="noopener noreferrer" href="https://github.com/dsc-cmt/Extension">
                 欢迎来提PR和issue，更多功能了解请前往GitHub
             </a>

@@ -5,7 +5,7 @@
     <packaging>pom</packaging>
 
 	<artifactId>extension-demo</artifactId>
-	<groupId>io.github.dsc-cmt</groupId>
+	<groupId>com.github.dsc-cmt</groupId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>extension-demo</name>
 
