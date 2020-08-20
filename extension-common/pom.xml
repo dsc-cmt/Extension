@@ -9,6 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <version>${extension.version}</version>
     <artifactId>extension-common</artifactId>
 
     <dependencies>
