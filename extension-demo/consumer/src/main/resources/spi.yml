@@ -1,6 +1,6 @@
 appName: test
 spis:
-  - spiInterface: com.cmt.extension.spi.IHelloService
+  - spiInterface: io.github.cmt.extension.spi.IHelloService
     extensions:
       - bizCode: d
         invokeMethod: local

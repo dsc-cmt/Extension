@@ -4,11 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.github.dsc-cmt</groupId>
-        <artifactId>extension</artifactId>
-        <version>1.2-SNAPSHOT</version>
+        <artifactId>extension-parent</artifactId>
+        <version>1.2.1-SNAPSHOT</version>
     </parent>
+
     <artifactId>extension-admin</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+
     <name>extension-admin</name>
     <packaging>war</packaging>
     <description>admin</description>
@@ -39,8 +40,7 @@
 
         <dependency>
             <groupId>com.github.dsc-cmt</groupId>
-            <artifactId>extension-core</artifactId>
-            <version>1.2.0-SNAPSHOT</version>
+            <artifactId>extension-common</artifactId>
         </dependency>
 
         <dependency>

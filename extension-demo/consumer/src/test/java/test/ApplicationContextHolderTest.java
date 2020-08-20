@@ -1,9 +1,9 @@
 package test;
 
-import com.cmt.extension.consumer.service.TestService;
-import com.cmt.extension.consumer.Application;
-import com.cmt.extension.core.BusinessContext;
-import com.cmt.extension.core.utils.ApplicationContextHolder;
+import io.github.cmt.extension.consumer.service.TestService;
+import io.github.cmt.extension.consumer.Application;
+import io.github.cmt.extension.common.BusinessContext;
+import io.github.cmt.extension.common.util.ApplicationContextHolder;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,11 +53,11 @@ public class ApplicationContextHolderTest {
 
         BusinessContext.setBizCode("default");
         result = testService.hello();
-        Assert.assertTrue("default hello".equals(result));
+        Assert.assertTrue("helloD".equals(result));
 
         BusinessContext.setBizCode("notexist");
         result = testService.hello();
-        Assert.assertTrue("default hello".equals(result));
+        Assert.assertTrue("helloD".equals(result));
     }
 
 

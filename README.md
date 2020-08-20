@@ -9,24 +9,28 @@
 
 ## 如何使用
 ### maven依赖
+平台方增加依赖
 ```
 <dependency>
     <groupId>com.github.dsc-cmt</groupId>
-    <artifactId>extension-core</artifactId>
+    <artifactId>extension-consumer</artifactId>
     <version>1.2.0</version>
 </dependency>
-
 ```
-### spi消费者
+
+业务方增加依赖
+```
+<dependency>
+    <groupId>com.github.dsc-cmt</groupId>
+    <artifactId>extension-provider</artifactId>
+    <version>1.2.0</version>
+</dependency>
+```
+
+### 平方方-spi接口定义者
 1. 增加spring配置
 ```
-@Bean
-public SpiConsumerBootStrap spiBootStrap() {
-    return SpiConsumerBootStrap.create()
-                    .appName("test")
-                    //支持远程和本地配置 默认为LOCAL
-                    .configMode(ConfigMode.REMOTE);
-}
+@EnableExtensionConsumer(appName = "test",configMode = ConfigMode.LOCAL )
 ```
 > configMode默认为LOCAL,需要在classpath配置spi.yml,文件示例
 ```yaml
@@ -91,18 +95,24 @@ BusinessContext.setBizCode("a");
 testService.hello();
 ```
 
+或者(推荐方式)
+```
+ExtensionHelper.execute("f",()->{
+    String rst =  service.hello();
+    System.out.println(rst);
+    return rst;
+});
+```
+
 7.当ConfigMode配置为REMOTE时,需在application.properties中配置admin服务地址来加载,同步spi配置
 ```
 spi.portal=adminUrl
 ```
 
-### spi提供者
+### 业务方-spi接口实现者
 1. 增加spring配置
 ```
-@Bean
-public  SpiProviderBootStrap businessBootStrap() {
-    return SpiProviderBootStrap.create();
-}
+@EnableExtensionProvider
 ```
 2. 提供spi接口远程实现
 ```

@@ -19,10 +19,31 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<dubbo.version>2.6.8</dubbo.version>
+		<extension.version>1.2.1-SNAPSHOT</extension.version>
 	</properties>
 
 	<dependencyManagement>
+
 		<dependencies>
+
+			<dependency>
+				<groupId>com.github.dsc-cmt</groupId>
+				<artifactId>extension-common</artifactId>
+				<version>${extension.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.github.dsc-cmt</groupId>
+				<artifactId>extension-provider</artifactId>
+				<version>${extension.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.github.dsc-cmt</groupId>
+				<artifactId>extension-consumer</artifactId>
+				<version>${extension.version}</version>
+			</dependency>
+
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-parent</artifactId>
