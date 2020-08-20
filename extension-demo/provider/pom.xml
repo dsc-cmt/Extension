@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>extension-demo</artifactId>
-        <groupId>com.cmt</groupId>
+        <groupId>io.github.dsc-cmt</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -26,7 +26,7 @@
 <!--        </dependency>-->
 
         <dependency>
-            <groupId>com.cmt</groupId>
+            <groupId>io.github.dsc-cmt</groupId>
             <artifactId>extension-provider</artifactId>
             <version>1.2-SNAPSHOT</version>
         </dependency>
@@ -37,7 +37,7 @@
             <version>2.2.0.RELEASE</version>
         </dependency>
         <dependency>
-            <groupId>com.cmt</groupId>
+            <groupId>io.github.dsc-cmt</groupId>
             <artifactId>spi-interface</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>

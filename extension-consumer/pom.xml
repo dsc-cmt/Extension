@@ -3,12 +3,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.cmt</groupId>
-        <artifactId>extension</artifactId>
+        <artifactId>extension-parent</artifactId>
+        <groupId>io.github.dsc-cmt</groupId>
         <version>1.2-SNAPSHOT</version>
     </parent>
 
-    <groupId>io.github.cmt</groupId>
     <artifactId>extension-consumer</artifactId>
     <version>1.2.0-SNAPSHOT</version>
 
