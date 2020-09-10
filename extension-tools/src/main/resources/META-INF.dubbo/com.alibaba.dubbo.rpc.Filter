@@ -1,0 +1,2 @@
+providerBizCodeFilter=io.github.cmt.extension.common.filter.ProviderBizCodeFilter
+consumerBizCodeFilter=io.github.cmt.extension.common.filter.ConsumerBizCodeFilter

@@ -19,7 +19,7 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<dubbo.version>2.6.8</dubbo.version>
-		<extension.version>1.2.1-SNAPSHOT</extension.version>
+		<extension.version>1.2.1</extension.version>
 	</properties>
 
 	<dependencyManagement>

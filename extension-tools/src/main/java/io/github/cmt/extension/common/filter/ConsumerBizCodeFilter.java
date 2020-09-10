@@ -1,6 +1,4 @@
-package io.github.cmt.extension.core.filter;
-
-import static io.github.cmt.extension.common.BusinessContext.BIZ_CODE_KEY;
+package io.github.cmt.extension.common.filter;
 
 import com.alibaba.dubbo.common.Constants;
 import com.alibaba.dubbo.common.extension.Activate;
@@ -10,8 +8,8 @@ import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.Result;
 import com.alibaba.dubbo.rpc.RpcContext;
 import com.alibaba.dubbo.rpc.RpcException;
-import io.github.cmt.extension.common.BusinessContext;
 
+import io.github.cmt.extension.common.BusinessContext;
 import org.springframework.util.StringUtils;
 
 /**
@@ -26,7 +24,7 @@ public class ConsumerBizCodeFilter implements Filter {
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         String bizCode = BusinessContext.getBizCode();
         if (!StringUtils.isEmpty(bizCode)) {
-            RpcContext.getContext().getAttachments().put(BIZ_CODE_KEY, bizCode);
+            RpcContext.getContext().getAttachments().put(BusinessContext.BIZ_CODE_KEY, bizCode);
         }
         return invoker.invoke(invocation);
     }

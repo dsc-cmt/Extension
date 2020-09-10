@@ -9,9 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <version>${extension.version}</version>
-    <artifactId>extension-common</artifactId>
-
+    <artifactId>extension-tools</artifactId>
     <dependencies>
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -24,22 +22,9 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
+            <groupId>com.github.dsc-cmt</groupId>
+            <artifactId>extension-common</artifactId>
         </dependency>
     </dependencies>
-
 </project>
